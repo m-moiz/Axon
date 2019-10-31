@@ -1,0 +1,19 @@
+{
+	"name": "bug-tracker",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "concurrently \"cd server && nodemon server.js\" \"cd client && npm start\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"compression": "^1.7.4",
+		"concurrently": "^5.0.0",
+		"dotenv": "^8.2.0",
+		"redis": "^2.8.0"
+	}
+}
