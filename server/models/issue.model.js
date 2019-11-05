@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const UserSchema = require('./user.model').UserSchema;
 
 const IssueSchema = mongoose.Schema({
-	summary: String,
-	reporter: { type: UserSchema, default: '' },
-	description: String,
+	summary: { type: String, required: true },
+	reporter: { type: UserSchema, default: undefined, required: true },
+	description: { type: String, required: true },
 	priorityType: {
 		type: String,
 		enum: [ 'High', 'Medium', 'Low', 'Lowest' ],
 		default: 'High'
 	},
-	dueDate: { type: Date, defalt: Date.now() },
+	dueDate: { type: Date, default: Date.now(), required: true },
 	environment: String,
 	issueType: {
 		type: String,

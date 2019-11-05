@@ -3,16 +3,33 @@ const compression = require('compression');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const cors = require('cors');
 const app = express();
 const routes = require('./routes/routes');
 
+app.use(morgan('dev'));
 app.use(cors());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/api', routes);
+
+app.use((req, res, next) => {
+	const error = new Error('Not Found');
+	error.status = 404;
+	next(error);
+});
+
+app.use((error, req, res, next) => {
+	res.status(err.status || 500);
+	res.json({
+		error: {
+			message: error.message
+		}
+	});
+});
 
 dotenv.config();
 

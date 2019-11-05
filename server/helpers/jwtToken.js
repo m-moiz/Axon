@@ -1,13 +1,20 @@
 const jwt = require('jsonwebtoken');
-const redis = require('redis');
-const redisClient = redis.createClient();
+const redisClient = require('../redis');
 
 const jwtToken = {
-	putTokenInDb(token, username) {
-		return Promise.resolve(redisClient.set((token, username, 0)));
+	async putTokenInDb(token, username) {
+		redisClient.set(token, username, (err, reply) => {
+			return new Promise((resolve, reject) => {
+				if (err) {
+					reject(err);
+				}
+
+				resolve(true);
+			});
+		});
 	},
 
-	createToken(username) {
+	async createToken(username) {
 		const jwtPayload = { username };
 		return jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '1 days' });
 	},
@@ -23,9 +30,9 @@ const jwtToken = {
 		});
 	},
 
-	createSessions(user, res) {
+	async createSessions(user, res) {
 		const { username } = user;
-		const token = this.createToken(username);
+		const token = await this.createToken(username);
 		return this.putTokenInDb(token, username)
 			.then(() => res.json({ success: 'true', username: username, token: token }))
 			.catch((err) => console.log(err));
