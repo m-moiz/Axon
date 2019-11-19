@@ -58,6 +58,14 @@ const userController = {
 
 		validateSignUp(username, password, email, res);
 
+		User.findOne({ username: username }, (err, user) => {
+			if (user) {
+				return res
+					.status(400)
+					.json({ message: `User ${username} already exists`, error: 'User already exists' });
+			}
+		});
+
 		user.username = username;
 		user.email = email;
 		user.password = password;
@@ -95,10 +103,10 @@ const userController = {
 	},
 
 	deleteUser(req, res) {
-		const { username } = req.body;
+		const { userId } = req.params;
 
-		User.deleteOne({ username: username }, (err) => {
-			if (!err) return res.status(200).json({ message: 'success' });
+		User.deleteOne(userId, (err) => {
+			if (!err) return res.status(200).json({ message: 'Deleted user successfully' });
 			if (err) return res.status(404).json({ message: err });
 		});
 	}

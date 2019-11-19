@@ -8,9 +8,13 @@ const FormInput = ({ handleChange, inputName, name, type, placeholder, as, rows,
 	<Form.Group>
 		<Row>
 			<Col>
-				<div className="form-label">
-					<Form.Label>{inputName}</Form.Label>
-				</div>
+				{inputName ? (
+					<div className="form-label">
+						<Form.Label>{inputName}</Form.Label>
+					</div>
+				) : (
+					''
+				)}
 			</Col>
 		</Row>
 		<Row>

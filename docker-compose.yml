@@ -1,0 +1,32 @@
+version: "3"
+services:
+   redis: 
+      image: 'redis:latest'
+   nginx: 
+      restart: always
+      build:
+         dockerfile: Dockerfile.dev
+         context: ./nginx
+      ports:
+       - '3000:80'
+   client: 
+      build:
+         dockerfile: Dockerfile.dev
+         context: ./client
+      volumes: 
+         - /app/node_modules
+         - ./client:/app
+      environment: 
+         - CHOKIDAR_USEPOLLING=true
+   api:
+      build: 
+         dockerfile: Dockerfile.dev
+         context: ./server
+      volumes:
+       - /app/node_modules
+       - ./server:/app
+      environment: 
+       - REDIS_HOST=redis
+       - REDIS_PORT=6379
+      ports:
+       - "4001:80"

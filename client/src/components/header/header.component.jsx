@@ -9,7 +9,7 @@ import './header.styles.scss';
 function Header() {
 	return (
 		<div className="header">
-			<Navbar bg="dark" variant="dark" expand="lg">
+			<Navbar bg="dark" variant="dark" expand="lg" style={{ height: '4rem' }}>
 				<Navbar.Brand href="#home">Axon</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">

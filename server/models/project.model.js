@@ -3,7 +3,7 @@ const IssueSchema = require('./issue.model').IssueSchema;
 
 const ProjectSchema = mongoose.Schema({
 	name: { type: String, required: true },
-	issues: [ { type: Schema.ObjectId, ref: 'Issue', default: undefined } ]
+	issues: [ { type: mongoose.Schema.Types.ObjectId, ref: 'Issue', default: undefined } ]
 });
 
 module.exports = {

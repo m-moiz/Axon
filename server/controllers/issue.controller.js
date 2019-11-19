@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Issue = require('../models/issue.model').Issue;
 const User = require('../models/user.model').User;
 const Project = require('../models/project.model').Project;
@@ -5,9 +6,11 @@ const Project = require('../models/project.model').Project;
 exports.createIssue = async (req, res) => {
 	const issue = new Issue();
 
-	const { username } = req.params;
+	let { userId, projectId } = req.params;
+	userId = mongoose.Types.ObjectId(userId);
+	projectId = mongoose.Types.ObjectId(projectId);
 
-	const { projectName, issueType, summary, reporter, description, priority, dueDate, environment } = req.body;
+	const { issueType, summary, reporter, description, priority, dueDate, environment } = req.body;
 
 	issue.summary = summary;
 	issue.issueType = issueType;
@@ -17,13 +20,63 @@ exports.createIssue = async (req, res) => {
 	issue.dueDate = dueDate;
 	issue.environment = environment;
 
-	User.findOne({ username });
+	User.findOneAndUpdate(
+		{ _id: userId, 'projects._id': projectId },
+		{
+			$push: {
+				'projects.$.issues': issue
+			}
+		},
+		(err, doc) => {
+			if (err) return res.status(404).json({ err: err });
+			return res.status(200).json({ user: doc });
+		}
+	);
 };
 
-exports.getIssue = (req, res) => {
-	const { username, projectName } = req.params;
+exports.getIssues = (req, res) => {
+	let { userId, projectId } = req.params;
+	User.findOne({ _id: userId, 'projects._id': projectId }).populate('Issue').exec((err, doc) => {
+		if (err) return res.status(404).json({ err: err });
+		return res.status(200).json({ issues: doc });
+	});
 };
 
-exports.updateIssue = (req, res) => {};
+exports.updateIssue = (req, res) => {
+	const issue = new Issue();
+	const { userId, projectId, issueId } = req.params;
+	userId = mongoose.Types.ObjectId(userId);
+	projectId = mongoose.Types.ObjectId(projectId);
 
-exports.deleteIssue = (req, res) => {};
+	User.findOneAndUpdate(
+		{ _id: userId, 'projects._id': projectId, 'projects.$.issues._id': issueId },
+		{
+			$set: {
+				'projects.$.issues.$': issue
+			}
+		},
+		(err, doc) => {
+			if (err) return res.status(404).json({ err: err });
+			return res.status(200).json({ user: doc });
+		}
+	);
+};
+
+exports.deleteIssue = (req, res) => {
+	const { userId, projectId, issueId } = req.params;
+	userId = mongoose.Types.ObjectId(userId);
+	projectId = mongoose.Types.ObjectId(projectId);
+
+	User.findOneAndUpdate(
+		{ _id: userId, 'projects._id': projectId },
+		{
+			$pull: {
+				'projects.$.issues._id': issueId
+			}
+		},
+		(err, doc) => {
+			if (err) return res.status(404).json({ err: err });
+			return res.status(200).json({ user: doc });
+		}
+	);
+};

@@ -1,7 +1,84 @@
 .create-issue {
-	padding-top: 20px;
-	padding-left: 40px;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
 }
 
-.date-picker {
+.create-issue-modal {
+	border: 1px solid black;
+	//box-shadow: 1px 1px 6px 3px rgb(195, 195, 195);
+	padding-left: 8rem;
+	padding-right: 8rem;
+	padding-top: 4rem;
+	padding-bottom: 4rem;
+	width: 70%;
+	height: 80%;
+	background-color: rgb(255, 255, 255);
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+	&.open {
+		animation: expand .3s 1 ease-in-out;
+	}
+
+	&.close {
+		animation: contract .3s 1 ease-in-out;
+	}
+}
+
+.create-issue-title {
+	margin-bottom: 2.4rem;
+}
+
+.modal_close {
+	font-size: 3rem;
+	position: fixed;
+	bottom: 31.0rem;
+	left: 63rem;
+
+	&:hover {
+		color: grey;
+		cursor: pointer;
+	}
+}
+
+.due-date {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
+}
+
+.create-button {
+	width: 30rem;
+}
+
+@keyframes expand {
+	0% {
+		transform: scale(0);
+		overflow: hidden;
+	}
+
+	100% {
+		transform: scale(100%);
+		overflow-y: scroll;
+	}
+}
+
+@keyframes contract {
+	0% {
+		transform: scale(100%);
+		overflow: scroll;
+	}
+
+	100% {
+		transform: scale(0);
+		overflow-y: hidden;
+	}
 }

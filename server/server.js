@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 
 app.use('/api', routes);
 
+/*
 app.use((req, res, next) => {
 	const error = new Error('Not Found');
 	error.status = 404;
@@ -23,13 +24,14 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-	res.status(err.status || 500);
+	res.status(error.status || 500);
 	res.json({
 		error: {
 			message: error.message
 		}
 	});
 });
+*/
 
 dotenv.config();
 
@@ -40,6 +42,6 @@ let db = mongoose.connection;
 db.once('open', () => console.log('Connected to MongoDB'));
 db.on('error', () => console.error.bind(console, 'MongoDB connection error'));
 
-app.listen(process.env.PORT || 80, () => {
-	console.log(`Listening to port ${process.env.PORT || 80}`);
+app.listen(process.env.PORT || 4001, () => {
+	console.log(`Listening to port ${process.env.PORT || 4001}`);
 });
