@@ -6,6 +6,7 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import SignLink from '../../components/sign-link/sign-link.component';
 import axios from 'axios';
 import { setUserId, signIn } from '../../redux/user/user.actions';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './sign-in.styles.scss';
@@ -51,7 +52,7 @@ class SignInPage extends Component {
 					this.saveAuthTokenInSession(response.data.token);
 					this.props.signIn();
 					this.props.setUserId(response.data.userId);
-					window.location = `/projects`;
+					this.props.history.push(`/projects`);
 				}
 			})
 			.catch((error) => {
@@ -129,4 +130,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(null, mapDispatchToProps)(SignInPage);
+export default withRouter(connect(null, mapDispatchToProps)(SignInPage));

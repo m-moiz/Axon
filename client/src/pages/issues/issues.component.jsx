@@ -22,10 +22,6 @@ const Title = styled.h3`
 `;
 
 class IssuesPage extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidMount() {
 		axios
 			.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)

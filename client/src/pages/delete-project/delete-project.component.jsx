@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
 import { toggleDeleteProjectModal } from '../../redux/project/project.actions';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import './delete-project.styles.scss';
 
@@ -13,7 +14,8 @@ class DeleteProject extends Component {
 			url: `/api/project/${this.props.userId}&${this.props.projectId}/delete`
 		}).then((res) => {
 			this.props.toggleDeleteProjectModal();
-			window.location.reload();
+			this.props.history.push('/empty');
+			this.props.history.replace('/projects');
 		});
 	};
 
@@ -41,4 +43,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteProject);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DeleteProject));

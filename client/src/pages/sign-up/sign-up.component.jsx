@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
-
 import FormInput from '../../components/form-input/form-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import SignLink from '../../components/sign-link/sign-link.component';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import './sign-up.styles.scss';
@@ -52,7 +52,7 @@ class SignUpPage extends Component {
 				}
 				if (response.data.success === 'true') {
 					this.saveAuthTokenInSession(response.data.token);
-					window.location = `/user/issues`;
+					this.props.history(`/user/issues`);
 				}
 			})
 			.catch((error) => {
@@ -125,4 +125,4 @@ class SignUpPage extends Component {
 	}
 }
 
-export default SignUpPage;
+export default withRouter(SignUpPage);

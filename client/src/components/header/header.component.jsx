@@ -2,21 +2,16 @@ import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import ProfileIcon from '../profile-icon/profile-icon.component';
 import { connect } from 'react-redux';
 import { signOut } from '../../redux/user/user.actions';
+import { withRouter } from 'react-router-dom';
 import logo from './PixelArt.png';
 import './header.styles.scss';
 
 class Header extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	componentDidUpdate() {
 		if (this.props.isSignedIn === false) {
-			window.location = '/sign-in';
+			this.props.history.push('/sign-in');
 		}
 	}
 
@@ -77,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

@@ -25,6 +25,10 @@
 	padding-left: .9rem;
 	font-size: .8rem;
 
+	&.closed {
+		display: none;
+	}
+
 	.sidebar-item {
 		font-size: inherit;
 		&:hover {

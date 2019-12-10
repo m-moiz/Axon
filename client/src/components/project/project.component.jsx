@@ -2,9 +2,10 @@ import React from 'react';
 import './project.styles.scss';
 import CloseButton from '../close-button/close-button.component';
 import { setProjectId, toggleDeleteProjectModal } from '../../redux/project/project.actions';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Project = ({ children, projectDesc, toggleDeleteProject, toggleDeleteProjectModal, setProjectId }) => (
+const Project = ({ children, projectDesc, toggleDeleteProject, toggleDeleteProjectModal, setProjectId, history }) => (
 	<div className="project-container">
 		{toggleDeleteProject ? (
 			<CloseButton
@@ -26,7 +27,7 @@ const Project = ({ children, projectDesc, toggleDeleteProject, toggleDeleteProje
 				value={children}
 				onClick={(e) => {
 					setProjectId(e.currentTarget.getAttribute('value'));
-					window.location = '/user/issues';
+					history.push('/user/issues');
 				}}
 				className="project-name"
 			>
@@ -50,4 +51,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Project));

@@ -3,6 +3,7 @@ import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
 import { toggleCreateProject } from '../../redux/project/project.actions';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import './create-project.styles.scss';
 
@@ -30,7 +31,8 @@ class CreateProject extends Component {
 		})
 			.then((resp) => {
 				this.props.toggleCreateProject();
-				window.location.reload();
+				this.props.history.push('/empty');
+				this.props.history.replace('/projects');
 			})
 			.catch((err) => console.log(err));
 	};
@@ -66,4 +68,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProject);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateProject));
