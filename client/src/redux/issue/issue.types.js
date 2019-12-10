@@ -1,0 +1,4 @@
+export const IssueActionTypes = {
+	TOGGLE_CREATE_ISSUE: 'TOGGLE_CREATE_ISSUE',
+	SET_ISSUES_ARRAY: 'SET_ISSUES_ARRAY'
+};

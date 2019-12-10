@@ -1,0 +1,14 @@
+.sign-link {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.link-to {
+	color: blue;
+	padding-left: .3rem;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

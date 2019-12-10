@@ -1,0 +1,43 @@
+@media screen and (max-width: 1400px) and (min-width: 800px) {
+	.project-list {
+		border: 1px solid rgba(153, 152, 152, 0.445);
+		border-radius: .7rem;
+		height: 80vh;
+		width: 75vw;
+		position: relative;
+		margin-top: 2rem;
+		left: 20%;
+		overflow-y: auto;
+		overflow-x: hidden;
+
+		.project-list-container {
+			padding: 2rem;
+			width: 75vw;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+
+			.project-container {
+				margin-right: 2rem;
+				margin-bottom: 2rem;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.project-list-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		.project-container:first-child {
+			margin-top: 1rem;
+		}
+
+		.project-container {
+			margin-bottom: 1rem;
+		}
+	}
+}

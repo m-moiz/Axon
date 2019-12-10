@@ -3,11 +3,12 @@ import Card from 'react-bootstrap/Card';
 
 import FormInput from '../../components/form-input/form-input.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
+import SignLink from '../../components/sign-link/sign-link.component';
 import axios from 'axios';
 
 import './sign-up.styles.scss';
 
-class SignUp extends Component {
+class SignUpPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -65,60 +66,63 @@ class SignUp extends Component {
 
 	render() {
 		return (
-			<div className="d-flex justify-content-center align-items-center" style={{ marginTop: '2.6rem' }}>
-				<Card style={{ width: '32rem', boxShadow: '1px 1px 10px 2px rgb(217, 214, 208)' }}>
-					<Card.Body
-						style={{
-							backgroundColor: 'rgb(44,44,44)',
-							color: 'white',
-							height: '4.4rem',
-							paddingLeft: '13rem',
-							letterSpacing: '.1rem',
-							display: 'flex'
-						}}
-					>
-						<Card.Title>Sign Up</Card.Title>
-					</Card.Body>
-					<form
-						onSubmit={this.handleSubmit}
-						style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
-					>
-						<div style={{ marginBottom: '2.3rem' }}>
-							<FormInput
-								handleChange={this.handleChange}
-								name="email"
-								type="email"
-								placeholder="Enter Email"
-							/>
-							{this.state.message !== '' ? (
-								<p className={this.state.updateMessage ? 'form_wrong update' : 'form_wrong'}>
-									{this.state.message}
-								</p>
-							) : (
-								''
-							)}
-							<FormInput
-								handleChange={this.handleChange}
-								name="username"
-								type="username"
-								placeholder="Enter Username"
-							/>
-							<FormInput
-								handleChange={this.handleChange}
-								name="password"
-								type="password"
-								placeholder="Enter Password"
-							/>
-						</div>
+			<div>
+				<div className="d-flex justify-content-center align-items-center" style={{ marginTop: '2.6rem' }}>
+					<Card style={{ width: '32rem', boxShadow: '1px 1px 10px 2px rgb(217, 214, 208)' }}>
+						<Card.Body
+							style={{
+								backgroundColor: 'rgb(44,44,44)',
+								color: 'white',
+								height: '4.4rem',
+								paddingLeft: '13rem',
+								letterSpacing: '.1rem',
+								display: 'flex'
+							}}
+						>
+							<Card.Title>Sign Up</Card.Title>
+						</Card.Body>
+						<form
+							onSubmit={this.handleSubmit}
+							style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
+						>
+							<div style={{ marginBottom: '2.3rem' }}>
+								<FormInput
+									handleChange={this.handleChange}
+									name="email"
+									type="email"
+									placeholder="Enter Email"
+								/>
+								{this.state.message !== '' ? (
+									<p className={this.state.updateMessage ? 'form_wrong update' : 'form_wrong'}>
+										{this.state.message}
+									</p>
+								) : (
+									''
+								)}
+								<FormInput
+									handleChange={this.handleChange}
+									name="username"
+									type="username"
+									placeholder="Enter Username"
+								/>
+								<FormInput
+									handleChange={this.handleChange}
+									name="password"
+									type="password"
+									placeholder="Enter Password"
+								/>
+							</div>
 
-						<CustomButton type="submit" handleClick={this.handleClick} width="70%">
-							Sign Up
-						</CustomButton>
-					</form>
-				</Card>
+							<CustomButton type="submit" handleClick={this.handleClick} width="70%">
+								Sign Up
+							</CustomButton>
+						</form>
+					</Card>
+				</div>
+				<SignLink text="Already have an account. Sign in" link="here" linkTo="/sign-in" />
 			</div>
 		);
 	}
 }
 
-export default SignUp;
+export default SignUpPage;

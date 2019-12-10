@@ -2,12 +2,14 @@ import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CreateIssue from './pages/create-issue/create-issue.component';
 import Header from './components/header/header.component';
+import Loading from './components/loading/loading.component';
 import './App.css';
 
-const Issues = React.lazy(() => import('./pages/issues/issues.component'));
-const SignUp = React.lazy(() => import('./pages/sign-up/sign-up.component'));
-const SignIn = React.lazy(() => import('./pages/sign-in/sign-in.component'));
-const KanbanBoard = React.lazy(() => import('./pages/kanban-board/kanban-board'));
+const IssuesPage = React.lazy(() => import('./pages/issues/issues.component'));
+const SignUpPage = React.lazy(() => import('./pages/sign-up/sign-up.component'));
+const SignInPage = React.lazy(() => import('./pages/sign-in/sign-in.component'));
+const KanbanBoardPage = React.lazy(() => import('./pages/kanban-board/kanban-board'));
+const ProjectsPage = React.lazy(() => import('./pages/projects/projects.component'));
 
 class App extends Component {
 	checkAuthAndGoToHomepage() {}
@@ -17,23 +19,28 @@ class App extends Component {
 			<div className="App">
 				<BrowserRouter>
 					<Header />
-					<Suspense fallback={<div>..loading</div>}>
+					<Suspense fallback={<Loading />}>
 						<Switch>
 							<Route exact path="/" component={() => <CreateIssue />} />
 
-							<Route exact path="/user/issues" component={() => <Issues />} />
+							<Route exact path="/user/issues" component={() => <IssuesPage />} />
 
 							<Route
 								exact
 								path="/sign-up"
-								component={() => <SignUp checkAuthAndGoToHomepage={this.checkAuthAndGoToHomepage} />}
+								component={() => (
+									<SignUpPage checkAuthAndGoToHomepage={this.checkAuthAndGoToHomepage} />
+								)}
 							/>
 							<Route
 								exact
 								path="/sign-in"
-								component={() => <SignIn checkAuthAndGoToHomepage={this.checkAuthAndGoToHomepage} />}
+								component={() => (
+									<SignInPage checkAuthAndGoToHomepage={this.checkAuthAndGoToHomepage} />
+								)}
 							/>
-							<Route exact path="/kanban" component={() => <KanbanBoard />} />
+							<Route exact path="/kanban" component={() => <KanbanBoardPage />} />
+							<Route exact path="/projects" component={() => <ProjectsPage />} />
 						</Switch>
 					</Suspense>
 				</BrowserRouter>

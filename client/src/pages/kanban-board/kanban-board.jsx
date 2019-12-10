@@ -6,7 +6,7 @@ import BoardColumn from '../../components/board-column/board-column.component';
 
 const Container = styled.div`display: flex;`;
 
-class KanbanBoard extends Component {
+class KanbanBoardPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = initialData;
@@ -114,4 +114,4 @@ class KanbanBoard extends Component {
 	}
 }
 
-export default KanbanBoard;
+export default KanbanBoardPage;

@@ -36,9 +36,9 @@ exports.createIssue = async (req, res) => {
 
 exports.getIssues = (req, res) => {
 	let { userId, projectId } = req.params;
-	User.findOne({ _id: userId, 'projects._id': projectId }).populate('Issue').exec((err, doc) => {
+	User.findOne({ _id: userId, 'projects._id': projectId }, 'projects.issues').lean().exec((err, doc) => {
 		if (err) return res.status(404).json({ err: err });
-		return res.status(200).json({ issues: doc });
+		return res.status(200).json({ user: doc });
 	});
 };
 

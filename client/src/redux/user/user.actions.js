@@ -5,7 +5,10 @@ export const setUserId = (userId) => ({
 	payload: userId
 });
 
-export const setProjectId = (projectId) => ({
-	type: userActionTypes.SET_PROJECT_ID,
-	payload: projectId
+export const signIn = () => ({
+	type: userActionTypes.SIGN_IN
+});
+
+export const signOut = () => ({
+	type: userActionTypes.SIGN_OUT
 });

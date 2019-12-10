@@ -1,0 +1,35 @@
+.modal-page-container {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
+}
+
+.modal-page {
+	box-shadow: 1px 1px 6px 3px rgb(112, 111, 111);
+	padding-left: 8rem;
+	padding-right: 8rem;
+	padding-top: 4rem;
+	padding-bottom: 4rem;
+	width: 70%;
+	height: 80%;
+	background-color: rgb(255, 254, 254);
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.form-head {
+	display: flex;
+	flex-direction: row;
+}
+
+.modal-page-title {
+	border: 1px solid red;
+	margin-bottom: 2.4rem;
+}
