@@ -66,6 +66,14 @@ const userController = {
 			}
 		});
 
+		User.findOne({ email: email }, (err, user) => {
+			if (user) {
+				return res
+					.status(400)
+					.json({ message: `Email ${email} already exists`, error: 'Email is already being used' });
+			}
+		});
+
 		user.username = username;
 		user.email = email;
 		user.password = password;
@@ -94,9 +102,9 @@ const userController = {
 	},
 
 	updateUser(req, res) {
-		const { username, password } = req.body;
+		const { userId } = req.params;
 
-		User.updateOne({ username: username }, { password: password }, (err, res) => {
+		User.updateOne({ _id: userId }, (err, res) => {
 			if (!err) return res.status(200).json({ message: 'success' });
 			if (err) return res.status(404).json({ message: err });
 		});
@@ -105,7 +113,7 @@ const userController = {
 	deleteUser(req, res) {
 		const { userId } = req.params;
 
-		User.deleteOne(userId, (err) => {
+		User.deleteOne({ _id: userId }, (err) => {
 			if (!err) return res.status(200).json({ message: 'Deleted user successfully' });
 			if (err) return res.status(404).json({ message: err });
 		});
