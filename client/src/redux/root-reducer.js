@@ -7,20 +7,22 @@ import { issueReducer } from './issue/issue.reducer';
 import { userReducer } from './user/user.reducer';
 import { projectReducer } from './project/project.reducer';
 import { sidebarReducer } from './sidebar/sidebar.reducer';
+import { messageReducer } from './message/message.reducer';
 import { userActionTypes } from './user/user.types';
 
 const persistConfig = {
 	key: 'root',
 	storage: storage,
 	stateReconciler: autoMergeLevel2,
-	whitelist: [ 'user', 'project', 'issue' ]
+	whitelist: [ 'user', 'project' ]
 };
 
 const appReducer = combineReducers({
 	issue: issueReducer,
 	user: userReducer,
 	project: projectReducer,
-	sidebar: sidebarReducer
+	sidebar: sidebarReducer,
+	message: messageReducer
 });
 
 const rootReducer = (state, action) => {

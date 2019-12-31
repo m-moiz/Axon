@@ -4,17 +4,30 @@ import { selectSidebarItemHiddenProperty } from '../../redux/sidebar/sidebar.sel
 import { connect } from 'react-redux';
 import './sidebar-item.styles.scss';
 
-const SideBarItem = ({ item, children, show, toggleSidebarItemVisibility, isSidebarItemVisible }) => (
-	<div>
-		<div className="sidebar-item" onClick={() => toggleSidebarItemVisibility(item)}>
-			{show ? <i className="fas fa-caret-right" /> : ''}
+function SideBarItem({ item, children, show, toggleSidebarItemVisibility, isSidebarItemVisible }) {
+	let className = '';
+	if (show && isSidebarItemVisible === false) {
+		className = 'fas fa-caret-right';
+	} else if (show && isSidebarItemVisible === true) {
+		className = 'fas fa-caret-down';
+	} else {
+		className = '';
+	}
 
-			<li>{item}</li>
+	return (
+		<div>
+			<div className="sidebar-item" onClick={() => toggleSidebarItemVisibility(item)}>
+				<i className={className} />
+
+				<li>{item}</li>
+			</div>
+
+			<div className={isSidebarItemVisible ? 'sidebar-recurse-item' : 'sidebar-recurse-item closed'}>
+				{children}
+			</div>
 		</div>
-
-		<div className={isSidebarItemVisible ? 'sidebar-recurse-item' : 'sidebar-recurse-item closed'}>{children}</div>
-	</div>
-);
+	);
+}
 
 const mapStateToProps = (state, ownProps) => {
 	return {

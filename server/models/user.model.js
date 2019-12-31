@@ -6,6 +6,8 @@ const UserSchema = mongoose.Schema({
 	password: { type: String, required: true },
 	email: { type: String, required: true },
 	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+	isAdmin: { type: mongoose.Schema.Types.Boolean, default: false },
+
 	projects: { type: [ ProjectSchema ], default: undefined }
 });
 

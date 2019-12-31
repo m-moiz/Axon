@@ -5,11 +5,9 @@ import BoardTask from '../board-task/board-task.component';
 
 const Container = styled.div`
 	margin: 8px;
-	border: 1px solid lightgrey;
 	background-color: white;
 	border-radius: 2px;
-	width: 220px;
-
+	width: 280px;
 	display: flex;
 	flex-direction: column;
 `;
@@ -19,7 +17,7 @@ const Title = styled.h3`padding: 8px;`;
 const TaskList = styled.div`
 	padding: 8px;
 	transition: background-color .2s ease;
-	background-color: ${(props) => (props.isDraggingOver ? 'skyblue' : 'inherit')};
+	background-color: ${(props) => (props.isDraggingOver ? '#f7f7f7' : 'inherit')};
 	flex-grow: 1;
 	min-height: 100px;
 `;

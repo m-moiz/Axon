@@ -26,18 +26,22 @@
 }
 
 @media screen and (max-width: 800px) {
-	.project-list-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+	.project-list {
+		width: 100vw;
 
-		.project-container:first-child {
-			margin-top: 1rem;
-		}
+		.project-list-container {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
 
-		.project-container {
-			margin-bottom: 1rem;
+			.project-container:first-child {
+				margin-top: 1rem;
+			}
+
+			.project-container {
+				margin-bottom: 1rem;
+			}
 		}
 	}
 }

@@ -15,27 +15,25 @@ class SignUpPage extends Component {
 			email: '',
 			username: '',
 			password: '',
-			message: '',
-			updateMessage: false
+			areFieldsValid: false,
+			isFieldValid: {
+				isUsernameValid: false,
+				isEmailValid: false,
+				isPasswordValid: false
+			},
+			validityErrors: {
+				usernameValidityError: '',
+				passwordValidityError: '',
+				emailValidityError: ''
+			}
 		};
-	}
-
-	componentDidMount() {
-		this.props.checkAuthAndGoToHomepage();
 	}
 
 	saveAuthTokenInSession = (token) => {
 		window.sessionStorage.setItem('token', token);
 	};
 
-	handleClick = () => {
-		if (this.state.message !== '') {
-			this.setState({ updateMessage: true });
-			setTimeout(() => {
-				this.setState({ updateMessage: false });
-			}, 200);
-		}
-	};
+	handleClick = () => {};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -52,7 +50,7 @@ class SignUpPage extends Component {
 				}
 				if (response.data.success === 'true') {
 					this.saveAuthTokenInSession(response.data.token);
-					this.props.history(`/user/issues`);
+					this.props.history.push(`/user/issues`);
 				}
 			})
 			.catch((error) => {
@@ -61,6 +59,84 @@ class SignUpPage extends Component {
 	};
 
 	handleChange = (e) => {
+		//TODO: Form Validation
+		let email = this.state.email;
+		let password = this.state.password;
+		let username = this.state.username;
+		let isUsernameValid = false;
+		let isEmailValid = false;
+		let isPasswordValid = false;
+		let usernameValidityError = '';
+		let passwordValidityError = '';
+		let emailValidityError = '';
+
+		if (email === '') {
+			isEmailValid = false;
+		}
+
+		if (password === '') {
+			isPasswordValid = false;
+		} else if (password) {
+			if (password.length < 10) {
+				passwordValidityError = 'Password must at least be 10 characters';
+			}
+
+			if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]+/)) {
+				passwordValidityError = 'Password must contain at least 1 capital letter, 1 symbol and 1 digit';
+			}
+
+			if (
+				password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]{10,}/)
+			) {
+				passwordValidityError = '';
+				isPasswordValid = true;
+			}
+		}
+
+		if (username === '') {
+			isUsernameValid = false;
+		} else if (username) {
+			if (username.length >= 4) {
+				isUsernameValid = true;
+			}
+		}
+
+		if (email) {
+			if (
+				!email.match(
+					/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/
+				)
+			) {
+				emailValidityError = 'Not a valid email address';
+			} else {
+				isEmailValid = true;
+			}
+		}
+
+		let isFieldValid = {
+			isUsernameValid,
+			isEmailValid,
+			isPasswordValid
+		};
+
+		let validityErrors = {
+			usernameValidityError,
+			emailValidityError,
+			passwordValidityError
+		};
+
+		if (isEmailValid && isPasswordValid && isUsernameValid) {
+			this.setState({ areFieldsValid: true });
+		}
+
+		this.setState((state) => ({
+			isFieldValid: isFieldValid
+		}));
+
+		this.setState((state) => ({
+			validityErrors: validityErrors
+		}));
+
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
@@ -86,16 +162,20 @@ class SignUpPage extends Component {
 							style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
 						>
 							<div style={{ marginBottom: '2.3rem' }}>
+								{this.state.validityErrors.emaildValidityError !== '' ? (
+									<p>{this.state.validityErrors.emailValidityError}</p>
+								) : (
+									''
+								)}
 								<FormInput
 									handleChange={this.handleChange}
 									name="email"
 									type="email"
 									placeholder="Enter Email"
+									isFieldValid={this.state.isFieldValid.isEmailValid}
 								/>
-								{this.state.message !== '' ? (
-									<p className={this.state.updateMessage ? 'form_wrong update' : 'form_wrong'}>
-										{this.state.message}
-									</p>
+								{this.state.validityErrors.usernameValidityError !== '' ? (
+									<p>{this.state.validityErrors.usernameValidityError}</p>
 								) : (
 									''
 								)}
@@ -104,12 +184,19 @@ class SignUpPage extends Component {
 									name="username"
 									type="username"
 									placeholder="Enter Username"
+									isFieldValid={this.state.isFieldValid.isUsernameValid}
 								/>
+								{this.state.validityErrors.passwordValidityError !== '' ? (
+									<p>{this.state.validityErrors.passwordValidityError}</p>
+								) : (
+									''
+								)}
 								<FormInput
 									handleChange={this.handleChange}
 									name="password"
 									type="password"
 									placeholder="Enter Password"
+									isFieldValid={this.state.isFieldValid.isPasswordValid}
 								/>
 							</div>
 

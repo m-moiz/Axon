@@ -2,6 +2,7 @@ import React from 'react';
 import './project.styles.scss';
 import CloseButton from '../close-button/close-button.component';
 import { setProjectId, toggleDeleteProjectModal } from '../../redux/project/project.actions';
+import { selectToggleDeleteProject } from '../../redux/project/project.selectors';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -47,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
 	return {
-		toggleDeleteProject: state.project.toggleDeleteProject
+		toggleDeleteProject: selectToggleDeleteProject(state)
 	};
 };
 

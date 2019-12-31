@@ -8,3 +8,7 @@ export const setIssuesArray = (issues) => ({
 	type: IssueActionTypes.SET_ISSUES_ARRAY,
 	payload: issues
 });
+
+export const emptyIssuesArray = () => ({
+	type: IssueActionTypes.EMPTY_ISSUES_ARRAY
+});

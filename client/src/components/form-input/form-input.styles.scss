@@ -21,6 +21,14 @@
 		padding: .15rem;
 	}
 
+	&.invalid {
+		&:focus {
+			border-color: red;
+			transition: border-color .1s ease-out;
+			box-shadow: none !important;
+		}
+	}
+
 	&:focus {
 		border-color: blue;
 		transition: border-color .2s ease-in-out;

@@ -1,5 +1,16 @@
 import { sideBarActionTypes } from './sidebar.types';
 
+export const toggleSidebar = () => ({
+	type: sideBarActionTypes.TOGGLE_SIDEBAR
+});
+
+export const toggleSidebarIsOpening = () => ({
+	type: sideBarActionTypes.TOGGLE_SIDEBAR_IS_OPENING
+});
+export const toggleSidebarIsClosing = () => ({
+	type: sideBarActionTypes.TOGGLE_SIDEBAR_IS_CLOSING
+});
+
 export const toggleProjectsSubcategory = () => ({
 	type: sideBarActionTypes.TOGGLE_PROJECTS_SUBCATEGORY
 });

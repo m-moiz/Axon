@@ -1,0 +1,27 @@
+.sidebar__right {
+	position: fixed;
+	top: 80px;
+	left: 10px;
+	font-size: 1.1rem;
+	border-radius: 5rem;
+	background-color: black;
+	padding-left: .5rem;
+	padding-right: .5rem;
+	height: fit-content;
+	&:hover {
+		.fas {
+			&.fa-angle-right {
+				color: rgb(207, 207, 207);
+			}
+		}
+
+		cursor: pointer;
+	}
+
+	.fas {
+		&.fa-angle-right {
+			padding-left: .1rem;
+			color: rgb(31, 255, 31);
+		}
+	}
+}

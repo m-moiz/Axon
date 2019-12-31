@@ -4,7 +4,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './form-input.styles.scss';
 
-const FormInput = ({ handleChange, inputName, name, type, placeholder, as, rows, children }) => (
+const FormInput = ({
+	handleChange,
+	handleBlur,
+	inputName,
+	name,
+	type,
+	placeholder,
+	as,
+	rows,
+	children,
+	isFieldValid
+}) => (
 	<Form.Group>
 		<Row>
 			<Col>
@@ -21,9 +32,12 @@ const FormInput = ({ handleChange, inputName, name, type, placeholder, as, rows,
 			<Col>
 				<Form.Control
 					name={name}
+					onBlur={handleBlur}
 					onChange={handleChange}
 					size="md"
-					className={as === 'select' ? 'form-input dropdown' : 'form-input original'}
+					className={`form-input ${as === 'select' ? 'dropdown' : 'original'} ${isFieldValid
+						? ''
+						: 'invalid'}`}
 					type={type}
 					as={as}
 					placeholder={placeholder}

@@ -11,6 +11,8 @@ export const issueReducer = (state = INITIAL_STATE, action = {}) => {
 			return Object.assign({}, state, { toggleCreateIssue: !state.toggleCreateIssue });
 		case IssueActionTypes.SET_ISSUES_ARRAY:
 			return Object.assign({}, state, { issues: action.payload });
+		case IssueActionTypes.EMPTY_ISSUES_ARRAY:
+			return Object.assign({}, state, { issues: [] });
 		default:
 			return state;
 	}

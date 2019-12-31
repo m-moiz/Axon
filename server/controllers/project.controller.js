@@ -47,7 +47,7 @@ exports.updateProject = (req, res) => {
 		{ _id: userId, 'projects._id': projectId },
 		{ $set: { 'projects.$.name': name, 'projects.$.description': description } },
 		(err, doc) => {
-			if (err) return res.status(404).json({ message: err });
+			if (err) return res.status(500).json({ message: err });
 			return res.status(200).json({ message: 'Project updated successfully' });
 		}
 	);

@@ -22,9 +22,10 @@ class DeleteProject extends Component {
 	render() {
 		return (
 			<ModalPage
+				height="40%"
 				handleSubmit={this.handleSubmit}
 				toggleModal={this.props.toggleDeleteProjectModal}
-				title="Delete"
+				title="Are you sure you want to delete ...?"
 			/>
 		);
 	}

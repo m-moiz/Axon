@@ -3,7 +3,14 @@ import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
 import { toggleCreateProject } from '../../redux/project/project.actions';
+import {
+	toggleShouldRenderMessage,
+	toggleIsOpeningMessage,
+	toggleIsClosingMessage,
+	setMessageText
+} from '../../redux/message/message.actions';
 import { withRouter } from 'react-router-dom';
+import { toggleWithOpeningAnimation, toggleWithClosingAnimation } from '../../utils/toggle-with-anim';
 import axios from 'axios';
 import './create-project.styles.scss';
 
@@ -12,7 +19,8 @@ class CreateProject extends Component {
 		super(props);
 		this.state = {
 			name: '',
-			description: ''
+			description: '',
+			showMessage: false
 		};
 	}
 
@@ -31,10 +39,43 @@ class CreateProject extends Component {
 		})
 			.then((resp) => {
 				this.props.toggleCreateProject();
+				this.props.setMessageText('Project created successfully');
+				toggleWithOpeningAnimation(
+					this.props.toggleShouldRenderMessage,
+					this.props.toggleIsOpeningMessage,
+					2000
+				).then((resp) => {
+					toggleWithClosingAnimation(
+						this.props.toggleShouldRenderMessage,
+						this.props.toggleIsClosingMessage,
+						1500
+					);
+				});
+
 				this.props.history.push('/empty');
 				this.props.history.replace('/projects');
 			})
 			.catch((err) => console.log(err));
+	};
+
+	handleBlur = (e) => {
+		if (e.target.name === 'name') {
+			axios({
+				method: 'post',
+				url: `/api/project/${this.props.userId}`,
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					projectName: this.state.name
+				}
+			})
+				.then((resp) => {})
+				.catch((err) => {
+					this.setState({ showMessage: false });
+					console.log(err);
+				});
+		}
 	};
 
 	handleChange = (e) => {
@@ -49,7 +90,14 @@ class CreateProject extends Component {
 				title="New Project"
 				toggleModal={this.props.toggleCreateProject}
 			>
-				<FormInput name="name" handleChange={this.handleChange} type="text" placeholder="Enter Project Name" />
+				{this.state.showMessage ? <span>Name already exists</span> : ''}
+				<FormInput
+					name="name"
+					handleBlur={this.handleBlur}
+					handleChange={this.handleChange}
+					type="text"
+					placeholder="Enter Project Name"
+				/>
 				<FormInput name="description" handleChange={this.handleChange} placeholder="Enter a brief summary" />
 			</ModalPage>
 		);
@@ -58,7 +106,11 @@ class CreateProject extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleCreateProject: () => dispatch(toggleCreateProject())
+		toggleCreateProject: () => dispatch(toggleCreateProject()),
+		toggleShouldRenderMessage: () => dispatch(toggleShouldRenderMessage()),
+		toggleIsOpeningMessage: () => dispatch(toggleIsOpeningMessage()),
+		toggleIsClosingMessage: () => dispatch(toggleIsClosingMessage()),
+		setMessageText: (message) => dispatch(setMessageText(message))
 	};
 };
 

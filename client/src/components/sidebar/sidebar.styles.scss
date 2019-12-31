@@ -1,16 +1,24 @@
 .sidebar {
 	margin-top: 3.5rem;
-	height: 100%; /* Full-height: remove this if you want "auto" height */
-	width: 120px; /* Set the width of the sidebar */
-	position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-	z-index: 1; /* Stay on top */
-	top: 0; /* Stay at the top */
+	height: 100%;
+	width: 120px;
+	position: fixed;
+	z-index: 1;
+	top: 0;
 	left: 0;
 	display: flex;
 	flex-direction: column;
-	//box-shadow: 3px 3px 5px rgba(209, 206, 206, 0.575);
-	background-color: #2b3035; /* Black */
+	transform-origin: top left;
+	background-color: #2b3035;
 	overflow-x: visible;
+
+	&.sidebar-close {
+		animation: closing .5s 1 ease-in-out forwards;
+	}
+
+	&.sidebar-open {
+		animation: opening .5s 1 ease-in-out forwards;
+	}
 
 	.title {
 		padding-top: 1rem;
@@ -21,5 +29,52 @@
 		justify-content: center;
 		flex-direction: row;
 		margin-bottom: 1rem;
+	}
+}
+
+.sidebar__back {
+	position: fixed;
+	top: 70px;
+	left: 90px;
+	margin-left: 18px;
+	font-size: 1rem;
+	border-radius: 2rem;
+	padding-left: .4rem;
+	padding-right: .4rem;
+	background-color: black;
+	&:hover {
+		.fas {
+			&.fa-angle-left {
+				color: rgb(207, 207, 207);
+			}
+		}
+
+		cursor: pointer;
+	}
+
+	.fas {
+		&.fa-angle-left {
+			color: rgb(31, 255, 31);
+		}
+	}
+}
+
+@keyframes closing {
+	0% {
+		transform: translateX(0);
+	}
+
+	100% {
+		transform: translateX(-120px);
+	}
+}
+
+@keyframes opening {
+	0% {
+		transform: translateX(-120px);
+	}
+
+	100% {
+		transform: translateX(0);
 	}
 }

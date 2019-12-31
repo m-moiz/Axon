@@ -6,7 +6,7 @@ import Project from '../project/project.component';
 const ProjectList = ({ projects }) => (
 	<div className="project-list">
 		<div className="project-list-container">
-			{projects.length === 0 ? (
+			{Array.isArray(projects) && projects.length === 0 ? (
 				<div>You don't have any projects. Create one by clicking the add button</div>
 			) : (
 				projects.map((project) => (

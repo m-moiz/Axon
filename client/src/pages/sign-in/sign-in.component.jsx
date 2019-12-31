@@ -22,7 +22,7 @@ class SignInPage extends Component {
 		};
 	}
 
-	//explain this???
+	//improves ux by delaying message
 	handleClick = () => {
 		if (this.state.message !== '') {
 			this.setState({ updateMessage: true });
@@ -31,10 +31,6 @@ class SignInPage extends Component {
 			}, 200);
 		}
 	};
-
-	componentDidMount() {
-		this.props.checkAuthAndGoToHomepage();
-	}
 
 	saveAuthTokenInSession = (token) => {
 		window.sessionStorage.setItem('token', token);

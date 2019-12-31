@@ -5,12 +5,15 @@ import IssueType from '../../components/issue-type/issue-type.component';
 import Dropdown from 'react-bootstrap/Dropdown';
 import AddButton from '../../components/add-button/add-button.component';
 import CreateIssue from '../create-issue/create-issue.component';
-import SideBar from '../../components/sidebar/sidebar.component';
-import Tool from '../../components/tool/tool.component';
+import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import Modal from '../../components/modal/modal.components';
 import styled from 'styled-components';
 import axios from 'axios';
 import { setIssuesArray, toggleCreateIssue } from '../../redux/issue/issue.actions';
+import { selectUserId } from '../../redux/user/user.selectors';
+import { selectIssues, selectToggleCreateIssue } from '../../redux/issue/issue.selectors';
+import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
+import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`
@@ -26,7 +29,8 @@ class IssuesPage extends Component {
 		axios
 			.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
 			.then((resp) => {
-				this.props.setIssuesArray(resp.data.user.projects[0].issues);
+				console.log(resp);
+				this.props.setIssuesArray(resp.data.result.projects[0].issues);
 			})
 			.catch((err) => console.log(err));
 	}
@@ -39,18 +43,17 @@ class IssuesPage extends Component {
 						<CreateIssue />
 					</Modal>
 				)}
-				<SideBar title="Issues">
-					<Tool tooltipText="Delete Issues">
-						<i className="fas fa-trash" />
-					</Tool>
-					<Tool tooltipText="Edit Issues">
-						<i className="far fa-edit" />
-					</Tool>
-					<Tool tooltipText="Create Issue">
-						<i className="fas fa-plus" />
-					</Tool>
-				</SideBar>
-				<Title> Project 0 </Title>
+
+				<SharedSidebar
+					title="Issues"
+					toggleCreate={this.props.toggleCreateIssue}
+					addToolTipText="Create Issue"
+					editToolTipText="Edit Issue"
+					deleteToolTipText="Delete Issue"
+					isSidebarOpen={this.props.isSidebarOpen}
+				/>
+
+				<Title> {this.props.projectName} </Title>
 				<Card style={{ width: '21rem', marginLeft: '10rem', marginTop: '4rem' }}>
 					<Card.Body
 						style={{
@@ -86,9 +89,10 @@ class IssuesPage extends Component {
 						</Dropdown>
 					</Card.Body>
 					<ListGroup variant="flush" style={{ overflowY: 'scroll', maxHeight: '300px' }}>
-						{this.props.issues.map((issue) => (
-							<ListGroup.Item key={issue._id}>{issue.summary}</ListGroup.Item>
-						))}
+						{this.props.issues &&
+							this.props.issues.map((issue) => (
+								<ListGroup.Item key={issue._id}>{issue.summary}</ListGroup.Item>
+							))}
 						<ListGroup.Item active>
 							<p>Couldn't write c++ in javascript please help</p>
 							<IssueType variant="danger" issueType="Bug" />
@@ -109,10 +113,12 @@ class IssuesPage extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		toggleModal: state.issue.toggleCreateIssue,
-		userId: state.user.userId,
-		projectId: state.project.projectId,
-		issues: state.issue.issues
+		toggleModal: selectToggleCreateIssue(state),
+		userId: selectUserId(state),
+		projectId: selectProjectId(state),
+		issues: selectIssues(state),
+		projectName: selectProjectName(state),
+		isSidebarOpen: selectIsSidebarOpen(state)
 	};
 };
 

@@ -5,13 +5,18 @@ import CreateProject from '../create-project/create-project.component';
 import DeleteProject from '../delete-project/delete-project.component';
 import ProjectList from '../../components/project-list/project-list.component';
 import AddButton from '../../components/add-button/add-button.component';
-import SideBar from '../../components/sidebar/sidebar.component';
-import Tool from '../../components/tool/tool.component';
-import SideBarTools from '../../components/sidebar-tools/sidebar-tools.component';
-import SideBarSubCategory from '../../components/sidebar-subcategory/sidebar-subcategory.component';
-import SideBarItemsList from '../../components/sidebar-items-list/sidebar-items-list.component';
+import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
+import TopMessage from '../../components/top-message/top-message.component';
 import { setProjectsArray, toggleCreateProject, toggleDeleteProject } from '../../redux/project/project.actions';
-import { toggleProjectsSubcategory, toggleToolsSubcategory } from '../../redux/sidebar/sidebar.actions';
+import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
+import {
+	selectProjects,
+	selectToggleCreateProject,
+	selectToggleDeleteProject,
+	selectToggleDeleteProjectModal
+} from '../../redux/project/project.selectors';
+import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
+import { selectShouldRenderMessage, selectMessageText } from '../../redux/message/message.selectors';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -21,14 +26,15 @@ class ProjectsPage extends Component {
 			window.location = '/sign-in';
 		}
 		axios
-			.get(`http://localhost:4001/api/project/${this.props.userId}`)
+			.get(`http://localhost:4001/api/projects/${this.props.userId}`)
 			.then((resp) => {
-				this.props.setProjectsArray(resp.data.result[0].projects);
+				if (resp.data.result[0].projects === undefined) {
+				} else {
+					this.props.setProjectsArray(resp.data.result[0].projects);
+				}
 			})
 			.catch((err) => console.log(err));
 	}
-
-	componentDidUpdate() {}
 
 	render() {
 		return (
@@ -44,41 +50,20 @@ class ProjectsPage extends Component {
 						<DeleteProject />
 					</Modal>
 				)}
-				<SideBar title="Projects">
-					<SideBarSubCategory
-						toggleSidebarSubcategory={this.props.toggleProjectsSubcategory}
-						subcategoryName="projects"
-					>
-						<SideBarItemsList
-							isSidebarSubcategoryOpen={this.props.isProjectsSubcategoryOpen}
-							items={this.props.projects}
-						/>
-					</SideBarSubCategory>
 
-					<SideBarSubCategory
-						toggleSidebarSubcategory={this.props.toggleToolsSubcategory}
-						subcategoryName="tools"
-					>
-						<SideBarTools isSidebarSubcategoryOpen={this.props.isToolsSubcategoryOpen}>
-							<Tool
-								toggleTool={this.props.toggleDeleteProjects}
-								tooltipText="Delete Projects"
-								action={this.props.toggleDeleteProject}
-							>
-								<i className="fas fa-trash" />
-							</Tool>
-							<Tool tooltipText="Edit Projects">
-								<i className="far fa-edit" />
-							</Tool>
-							<Tool tooltipText="Create Project" action={this.props.toggleCreateProject}>
-								<i className="fas fa-plus" />
-							</Tool>
-							<Tool tooltipText="Settings">
-								<i className="fas fa-cog" />
-							</Tool>
-						</SideBarTools>
-					</SideBarSubCategory>
-				</SideBar>
+				{this.props.shouldRenderMessage ? <TopMessage messageContent={this.props.messageText} /> : ''}
+
+				<SharedSidebar
+					title="Projects"
+					toggleCreate={this.props.toggleCreateProject}
+					toggleDelete={this.props.toggleDeleteProject}
+					toggleTool={this.props.toggleDeleteProjects}
+					addToolTipText="Create Project"
+					editToolTipText="Edit Project"
+					deleteToolTipText="Delete Projects"
+					isSidebarOpen={this.props.isSidebarOpen}
+				/>
+
 				<ProjectList projects={this.props.projects} />
 				<AddButton toggleModal={this.props.toggleCreateProject} />
 			</div>
@@ -88,14 +73,15 @@ class ProjectsPage extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		userId: state.user.userId,
-		isSignedIn: state.user.isSignedIn,
-		projects: state.project.projects,
-		toggleModal: state.project.toggleCreateProject,
-		toggleDeleteModal: state.project.toggleDeleteProjectModal,
-		toggleDeleteProjects: state.project.toggleDeleteProject,
-		isProjectsSubcategoryOpen: state.sidebar.toggleProjectsSubcategory,
-		isToolsSubcategoryOpen: state.sidebar.toggleToolsSubcategory
+		userId: selectUserId(state),
+		isSignedIn: selectIsUserSignedIn(state),
+		projects: selectProjects(state),
+		toggleModal: selectToggleCreateProject(state),
+		toggleDeleteModal: selectToggleDeleteProjectModal(state),
+		toggleDeleteProjects: selectToggleDeleteProject(state),
+		shouldRenderMessage: selectShouldRenderMessage(state),
+		messageText: selectMessageText(state),
+		isSidebarOpen: selectIsSidebarOpen(state)
 	};
 };
 
@@ -103,9 +89,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setProjectsArray: (projects) => dispatch(setProjectsArray(projects)),
 		toggleCreateProject: () => dispatch(toggleCreateProject()),
-		toggleDeleteProject: () => dispatch(toggleDeleteProject()),
-		toggleProjectsSubcategory: () => dispatch(toggleProjectsSubcategory()),
-		toggleToolsSubcategory: () => dispatch(toggleToolsSubcategory())
+		toggleDeleteProject: () => dispatch(toggleDeleteProject())
 	};
 };
 

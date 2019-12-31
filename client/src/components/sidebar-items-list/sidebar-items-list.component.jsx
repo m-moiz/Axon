@@ -8,34 +8,46 @@ import './sidebar-items-list.styles.scss';
 
 const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisibility, setProjectId, history }) => (
 	<div className={isSidebarSubcategoryOpen ? 'sidebar-items-list' : 'sidebar-items-list closed'}>
-		{items.map((item) => {
-			addSidebarItemVisibility(item.name);
-			return (
-				<SideBarItem key={item._id} item={item.name} show>
-					<div
-						className="sidebar-item"
-						onClick={() => {
-							setProjectId(item.name);
-							history.push('/user/issues');
-						}}
-					>
-						<i className="fas fa-caret-right" />
-						<li>Issues</li>
-					</div>
+		{Array.isArray(items) &&
+			items.map((item) => {
+				addSidebarItemVisibility(item.name);
+				return (
+					<SideBarItem key={item._id} item={item.name} show>
+						<div
+							className="sidebar-item"
+							onClick={() => {
+								setProjectId(item.name);
+								history.push('/user/issues');
+							}}
+						>
+							<i className="fas fa-caret-right" />
+							<li>Issues</li>
+						</div>
 
-					<div
-						className="sidebar-item"
-						onClick={() => {
-							setProjectId(item.name);
-							history.push('/kanban');
-						}}
-					>
-						<i className="fas fa-caret-right" />
-						<li>Board</li>
-					</div>
-				</SideBarItem>
-			);
-		})}
+						<div
+							className="sidebar-item"
+							onClick={() => {
+								setProjectId(item.name);
+								history.push('/kanban');
+							}}
+						>
+							<i className="fas fa-caret-right" />
+							<li>Board</li>
+						</div>
+
+						<div
+							className="sidebar-item"
+							onClick={() => {
+								setProjectId(item.name);
+								history.push('/backlog');
+							}}
+						>
+							<i className="fas fa-caret-right" />
+							<li>Backlog</li>
+						</div>
+					</SideBarItem>
+				);
+			})}
 	</div>
 );
 
