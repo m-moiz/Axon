@@ -1,4 +1,5 @@
 import { sideBarActionTypes } from './sidebar.types';
+import { batch } from 'react-redux';
 
 export const toggleSidebar = () => ({
 	type: sideBarActionTypes.TOGGLE_SIDEBAR
@@ -28,3 +29,27 @@ export const addSidebarItemVisibiliy = (itemName) => ({
 	type: sideBarActionTypes.ADD_SIDEBAR_ITEM_VISIBILITY,
 	payload: itemName
 });
+
+export const openSidebar = () => (dispatch) =>
+	new Promise((resolve, reject) => {
+		batch(() => {
+			dispatch(toggleSidebar());
+			dispatch(toggleSidebarIsOpening());
+		});
+		setTimeout(() => {
+			dispatch(toggleSidebarIsOpening());
+			resolve();
+		}, 500);
+	});
+
+export function closeSidebar() {
+	return (dispatch) => {
+		dispatch(toggleSidebarIsClosing());
+		setTimeout(() => {
+			batch(() => {
+				dispatch(toggleSidebarIsClosing());
+				dispatch(toggleSidebar());
+			});
+		}, 500);
+	};
+}

@@ -1,14 +1,13 @@
 import React from 'react';
 import SidebarOpenButton from '../sidebar-open-button/sidebar-open-button.component';
 import { connect } from 'react-redux';
-import { toggleSidebarIsOpening, toggleSidebar } from '../../redux/sidebar/sidebar.actions';
-import { toggleWithOpeningAnimation } from '../../utils/toggle-with-anim';
+import { openSidebar } from '../../redux/sidebar/sidebar.actions';
 
 const withOpen = (Component) => {
 	const Wrapper = (props) =>
 		class extends React.Component {
 			handleClick = () => {
-				toggleWithOpeningAnimation(this.props.toggleSidebar, this.props.toggleSidebarIsOpening, 500);
+				this.props.openSidebar();
 			};
 			render() {
 				if (this.props.isSidebarOpen) {
@@ -24,8 +23,7 @@ const withOpen = (Component) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleSidebar: () => dispatch(toggleSidebar()),
-		toggleSidebarIsOpening: () => dispatch(toggleSidebarIsOpening())
+		openSidebar: () => dispatch(openSidebar())
 	};
 };
 

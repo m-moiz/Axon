@@ -1,11 +1,10 @@
 import React from 'react';
 import './sidebar.styles.scss';
-import { toggleSidebar, toggleSidebarIsClosing } from '../../redux/sidebar/sidebar.actions';
+import { closeSidebar } from '../../redux/sidebar/sidebar.actions';
 import { selectIsSidebarClosing, selectIsSidebarOpening } from '../../redux/sidebar/sidebar.selectors';
-import { toggleWithClosingAnimation } from '../../utils/toggle-with-anim';
 import { connect } from 'react-redux';
 
-function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, toggleSidebar, toggleSidebarIsClosing }) {
+function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSidebar }) {
 	let className;
 	if (isSidebarClosing) {
 		className = 'sidebar sidebar-close';
@@ -23,7 +22,7 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, toggleSi
 			{!(isSidebarClosing || isSidebarOpening) ? (
 				<div
 					onClick={() => {
-						toggleWithClosingAnimation(toggleSidebar, toggleSidebarIsClosing, 500);
+						closeSidebar();
 					}}
 					className="sidebar__back"
 				>
@@ -47,8 +46,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleSidebar: () => dispatch(toggleSidebar()),
-		toggleSidebarIsClosing: () => dispatch(toggleSidebarIsClosing())
+		closeSidebar: () => dispatch(closeSidebar())
 	};
 };
 
