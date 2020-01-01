@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './top-message.styles.scss';
 import { connect } from 'react-redux';
 import {

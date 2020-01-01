@@ -3,14 +3,8 @@ import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
 import { toggleCreateProject } from '../../redux/project/project.actions';
-import {
-	toggleShouldRenderMessage,
-	toggleIsOpeningMessage,
-	toggleIsClosingMessage,
-	setMessageText
-} from '../../redux/message/message.actions';
+import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
 import { withRouter } from 'react-router-dom';
-import { toggleWithOpeningAnimation, toggleWithClosingAnimation } from '../../utils/toggle-with-anim';
 import axios from 'axios';
 import './create-project.styles.scss';
 
@@ -26,6 +20,7 @@ class CreateProject extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+
 		axios({
 			method: 'post',
 			url: `/api/project/${this.props.userId}/create`,
@@ -40,18 +35,7 @@ class CreateProject extends Component {
 			.then((resp) => {
 				this.props.toggleCreateProject();
 				this.props.setMessageText('Project created successfully');
-				toggleWithOpeningAnimation(
-					this.props.toggleShouldRenderMessage,
-					this.props.toggleIsOpeningMessage,
-					2000
-				).then((resp) => {
-					toggleWithClosingAnimation(
-						this.props.toggleShouldRenderMessage,
-						this.props.toggleIsClosingMessage,
-						1500
-					);
-				});
-
+				this.props.closingMessageAfterOpening();
 				this.props.history.push('/empty');
 				this.props.history.replace('/projects');
 			})
@@ -107,9 +91,7 @@ class CreateProject extends Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleCreateProject: () => dispatch(toggleCreateProject()),
-		toggleShouldRenderMessage: () => dispatch(toggleShouldRenderMessage()),
-		toggleIsOpeningMessage: () => dispatch(toggleIsOpeningMessage()),
-		toggleIsClosingMessage: () => dispatch(toggleIsClosingMessage()),
+		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening()),
 		setMessageText: (message) => dispatch(setMessageText(message))
 	};
 };

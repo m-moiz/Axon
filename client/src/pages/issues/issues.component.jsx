@@ -7,6 +7,7 @@ import AddButton from '../../components/add-button/add-button.component';
 import CreateIssue from '../create-issue/create-issue.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import Modal from '../../components/modal/modal.components';
+import TopMessage from '../../components/top-message/top-message.component';
 import styled from 'styled-components';
 import axios from 'axios';
 import { setIssuesArray, toggleCreateIssue } from '../../redux/issue/issue.actions';
@@ -14,6 +15,7 @@ import { selectUserId } from '../../redux/user/user.selectors';
 import { selectIssues, selectToggleCreateIssue } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
+import { selectMessageText } from '../../redux/message/message.selectors';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`
@@ -43,6 +45,8 @@ class IssuesPage extends Component {
 						<CreateIssue />
 					</Modal>
 				)}
+
+				<TopMessage messageContent={this.props.messageText} />
 
 				<SharedSidebar
 					title="Issues"
@@ -93,7 +97,7 @@ class IssuesPage extends Component {
 							this.props.issues.map((issue) => (
 								<ListGroup.Item key={issue._id}>{issue.summary}</ListGroup.Item>
 							))}
-						<ListGroup.Item active>
+						<ListGroup.Item>
 							<p>Couldn't write c++ in javascript please help</p>
 							<IssueType variant="danger" issueType="Bug" />
 						</ListGroup.Item>
@@ -118,7 +122,8 @@ const mapStateToProps = (state) => {
 		projectId: selectProjectId(state),
 		issues: selectIssues(state),
 		projectName: selectProjectName(state),
-		isSidebarOpen: selectIsSidebarOpen(state)
+		isSidebarOpen: selectIsSidebarOpen(state),
+		messageText: selectMessageText(state)
 	};
 };
 

@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
 import { toggleCreateIssue } from '../../redux/issue/issue.actions';
+import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions.js';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
 import './create-issue.styles.scss';
@@ -12,12 +14,15 @@ class CreateIssue extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			project: '',
 			issueType: '',
+			reporter: '',
 			summary: '',
 			description: '',
 			priority: '',
-			startDate: new Date()
+			startDate: new Date(),
+			enivironment: '',
+			status: '',
+			version: ''
 		};
 	}
 
@@ -30,18 +35,23 @@ class CreateIssue extends Component {
 				'Content-Type': 'application/json'
 			},
 			data: {
-				projectName: this.state.project,
 				issueType: this.state.issueType,
+				reporter: this.state.reporter,
+				status: this.state.status,
 				summary: this.state.summary,
 				description: this.state.description,
 				priority: this.state.priority,
-				dueDate: this.state.startDate
+				dueDate: this.state.startDate,
+				enivironment: this.state.environment,
+				version: this.state.version
 			}
 		})
-			.then((resp) => resp.json())
-			.then((data) => {
-				console.log(data);
+			.then((resp) => {
 				this.props.toggleCreateIssue();
+				this.props.setMessageText('Issue created successfully');
+				this.props.closingMessageAfterOpening();
+				this.props.history.push('/empty');
+				this.props.history.replace('/user/issues');
 			})
 			.catch((err) => console.log(err));
 	};
@@ -64,18 +74,17 @@ class CreateIssue extends Component {
 				title="New Issue"
 				toggleModal={this.props.toggleCreateIssue}
 			>
-				<FormInput
-					name="project"
-					handleChange={this.handleChange}
-					type="text"
-					placeholder="Enter Project Name"
-				/>
 				<FormInput name="issueType" handleChange={this.handleChange} inputName="Issue Type" as="select">
 					<option>Improvement</option>
 					<option>Bug</option>
 					<option>Feature</option>
 					<option>Task</option>
 					<option>Epic</option>
+				</FormInput>
+				<FormInput name="reporter" handleChange={this.handleChange} type="text" placeholder="Reporter name" />
+				<FormInput name="status" handleChange={this.handleChange} inputName="Status" as="select">
+					<option>Open</option>
+					<option>Closed</option>
 				</FormInput>
 				<FormInput name="summary" handleChange={this.handleChange} type="text" placeholder="Enter Summary" />
 				<FormInput
@@ -99,6 +108,14 @@ class CreateIssue extends Component {
 						onChange={this.handleDateChange}
 					/>
 				</div>
+				<FormInput
+					name="enivironment"
+					handleChange={this.handleChange}
+					inputName="Environment"
+					as="textarea"
+					rows="3"
+				/>
+				<FormInput name="version" handleChange={this.handleChange} type="text" placeholder="Enter version" />
 			</ModalPage>
 		);
 	}
@@ -106,7 +123,9 @@ class CreateIssue extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleCreateIssue: () => dispatch(toggleCreateIssue())
+		toggleCreateIssue: () => dispatch(toggleCreateIssue()),
+		setMessageText: (message) => dispatch(setMessageText(message)),
+		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening())
 	};
 };
 
@@ -118,4 +137,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateIssue);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateIssue));

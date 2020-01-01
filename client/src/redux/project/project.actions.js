@@ -4,6 +4,10 @@ export const toggleCreateProject = () => ({
 	type: projectActionTypes.TOGGLE_CREATE_PROJECT
 });
 
+export const toggleEditProjectModal = () => ({
+	type: projectActionTypes.TOGGLE_EDIT_PROJECT_MODAL
+});
+
 export const setProjectsArray = (projects) => ({
 	type: projectActionTypes.SET_PROJECTS_ARRAY,
 	payload: projects

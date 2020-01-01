@@ -51,7 +51,7 @@ class ProjectsPage extends Component {
 					</Modal>
 				)}
 
-				{this.props.shouldRenderMessage ? <TopMessage messageContent={this.props.messageText} /> : ''}
+				<TopMessage messageContent={this.props.messageText} />
 
 				<SharedSidebar
 					title="Projects"

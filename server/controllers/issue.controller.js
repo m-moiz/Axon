@@ -9,10 +9,12 @@ exports.createIssue = async (req, res) => {
 	userId = mongoose.Types.ObjectId(userId);
 	projectId = mongoose.Types.ObjectId(projectId);
 
-	const { issueType, summary, reporter, description, priority, dueDate, environment } = req.body;
+	const { issueType, summary, reporter, description, priority, dueDate, environment, version, status } = req.body;
 
 	issue.summary = summary;
 	issue.issueType = issueType;
+	issue.version = version;
+	issue.status = status;
 	issue.reporter = reporter;
 	issue.description = description;
 	issue.priorityType = priority;
