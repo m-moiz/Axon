@@ -1,7 +1,7 @@
 import { IssueActionTypes } from './issue.types';
 
-export const toggleCreateIssue = () => ({
-	type: IssueActionTypes.TOGGLE_CREATE_ISSUE
+export const toggleCreateIssueModal = () => ({
+	type: IssueActionTypes.TOGGLE_CREATE_ISSUE_MODAL
 });
 
 export const toggleDeleteIssueModal = () => ({

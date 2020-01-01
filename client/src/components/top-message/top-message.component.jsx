@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './top-message.styles.scss';
 import { connect } from 'react-redux';
 import {
@@ -36,6 +37,13 @@ const mapStateToProps = (state) => {
 		isClosingMessage: selectIsClosingMessage(state),
 		shouldRenderMessage: selectShouldRenderMessage(state)
 	};
+};
+
+TopMessage.propTypes = {
+	messageContent: PropTypes.string.isRequired,
+	isOpeningMessage: PropTypes.bool.isRequired,
+	isClosingMessage: PropTypes.bool.isRequired,
+	shouldRenderMessage: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps)(TopMessage);

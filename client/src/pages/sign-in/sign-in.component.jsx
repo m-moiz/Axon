@@ -90,6 +90,7 @@ class SignInPage extends Component {
 									name="username"
 									type="username"
 									placeholder="Enter Username"
+									isFieldValid={true}
 								/>
 								{this.state.message !== '' ? (
 									<p className={this.state.updateMessage ? 'form_wrong update' : 'form_wrong'}>
@@ -103,6 +104,7 @@ class SignInPage extends Component {
 									name="password"
 									type="password"
 									placeholder="Enter Password"
+									isFieldValid={true}
 								/>
 							</div>
 

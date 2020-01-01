@@ -3,7 +3,7 @@ import FormInput from '../../components/form-input/form-input.component';
 import DatePicker from 'react-datepicker';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
-import { toggleCreateIssue } from '../../redux/issue/issue.actions';
+import { toggleCreateIssueModal } from '../../redux/issue/issue.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions.js';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -47,7 +47,7 @@ class CreateIssue extends Component {
 			}
 		})
 			.then((resp) => {
-				this.props.toggleCreateIssue();
+				this.props.toggleCreateIssueModal();
 				this.props.setMessageText('Issue created successfully');
 				this.props.closingMessageAfterOpening();
 				this.props.history.push('/empty');
@@ -72,7 +72,7 @@ class CreateIssue extends Component {
 				typeOfPage="create"
 				handleSubmit={this.handleSubmit}
 				title="New Issue"
-				toggleModal={this.props.toggleCreateIssue}
+				toggleModal={this.props.toggleCreateIssueModal}
 			>
 				<FormInput name="issueType" handleChange={this.handleChange} inputName="Issue Type" as="select">
 					<option>Improvement</option>
@@ -123,7 +123,7 @@ class CreateIssue extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleCreateIssue: () => dispatch(toggleCreateIssue()),
+		toggleCreateIssueModal: () => dispatch(toggleCreateIssueModal()),
 		setMessageText: (message) => dispatch(setMessageText(message)),
 		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening())
 	};
@@ -131,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
 	return {
-		toggleModal: state.issue.toggleCreateIssue,
+		isCreateIssueModalOpen: state.issue.isCreateIssueModalOpen,
 		userId: state.user.userId,
 		projectId: state.project.projectId
 	};

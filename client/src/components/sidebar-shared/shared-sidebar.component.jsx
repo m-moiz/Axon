@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SideBar from '../../components/sidebar/sidebar.component';
 import SideBarTools from '../../components/sidebar-tools/sidebar-tools.component';
 import SideBarSubCategory from '../../components/sidebar-subcategory/sidebar-subcategory.component';
@@ -32,7 +33,7 @@ const SharedSidebar = ({
 
 		<SideBarSubCategory toggleSidebarSubcategory={toggleToolsSubcategory} subcategoryName="tools">
 			<SideBarTools isSidebarSubcategoryOpen={isToolsSubcategoryOpen}>
-				<Tool toggleTool={toggleTool} tooltipText={deleteToolTipText} action={toggleDelete}>
+				<Tool isToolOpen={toggleTool} tooltipText={deleteToolTipText} action={toggleDelete}>
 					<i className="fas fa-trash" />
 				</Tool>
 				<Tool tooltipText={editToolTipText} action={toggleEdit}>
@@ -62,6 +63,22 @@ const mapDispatchToProps = (dispatch) => {
 		toggleProjectsSubcategory: () => dispatch(toggleProjectsSubcategory()),
 		toggleToolsSubcategory: () => dispatch(toggleToolsSubcategory())
 	};
+};
+
+SharedSidebar.propTypes = {
+	toggleProjectsSubcategory: PropTypes.func.isRequired,
+	isProjectsSubcategoryOpen: PropTypes.bool.isRequired,
+	projects: PropTypes.arrayOf(PropTypes.object).isRequired,
+	toggleToolsSubcategory: PropTypes.func.isRequired,
+	isToolsSubcategoryOpen: PropTypes.bool.isRequired,
+	title: PropTypes.string.isRequired,
+	toggleCreate: PropTypes.func.isRequired,
+	toggleDelete: PropTypes.func.isRequired,
+	toggleEdit: PropTypes.func.isRequired,
+	deleteToolTipText: PropTypes.string.isRequired,
+	editToolTipText: PropTypes.string.isRequired,
+	addToolTipText: PropTypes.string.isRequired,
+	toggleTool: PropTypes.func.isRequired
 };
 
 export default withOpen(connect(mapStateToProps, mapDispatchToProps)(SharedSidebar));

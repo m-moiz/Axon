@@ -1,24 +1,24 @@
 import { projectActionTypes } from './project.types';
 
 const INITIAL_STATE = {
-	toggleDeleteProject: false,
-	toggleDeleteProjectModal: false,
-	toggleCreateProject: false,
-	toggleEditProjectModal: false,
+	shouldDeleteProjects: false,
+	isDeleteProjectModalOpen: false,
+	isCreateProjectModalOpen: false,
+	isEditProjectModalOpen: false,
 	projects: [],
 	projectId: ''
 };
 
 export const projectReducer = (state = INITIAL_STATE, action = {}) => {
 	switch (action.type) {
-		case projectActionTypes.TOGGLE_CREATE_PROJECT:
-			return Object.assign({}, state, { toggleCreateProject: !state.toggleCreateProject });
-		case projectActionTypes.TOGGLE_DELETE_PROJECT:
-			return Object.assign({}, state, { toggleDeleteProject: !state.toggleDeleteProject });
+		case projectActionTypes.TOGGLE_CREATE_PROJECT_MODAL:
+			return Object.assign({}, state, { isCreateProjectModalOpen: !state.isCreateProjectModalOpen });
+		case projectActionTypes.TOGGLE_DELETE_PROJECTS:
+			return Object.assign({}, state, { shouldDeleteProjects: !state.shouldDeleteProjects });
 		case projectActionTypes.TOGGLE_DELETE_PROJECT_MODAL:
-			return Object.assign({}, state, { toggleDeleteProjectModal: !state.toggleDeleteProjectModal });
+			return Object.assign({}, state, { isDeleteProjectModalOpen: !state.isDeleteProjectModalOpen });
 		case projectActionTypes.TOGGLE_EDIT_PROJECT_MODAL:
-			return Object.assign({}, state, { toggleEditProjectModal: !state.toggleEditProjectModal });
+			return Object.assign({}, state, { isEditProjectModalOpen: !state.isEditProjectModalOpen });
 		case projectActionTypes.SET_PROJECTS_ARRAY:
 			return Object.assign({}, state, { projects: action.payload });
 		case projectActionTypes.SET_PROJECT_ID:

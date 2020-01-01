@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './sidebar.styles.scss';
 import { closeSidebar } from '../../redux/sidebar/sidebar.actions';
 import { selectIsSidebarClosing, selectIsSidebarOpening } from '../../redux/sidebar/sidebar.selectors';
@@ -48,6 +49,14 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		closeSidebar: () => dispatch(closeSidebar())
 	};
+};
+
+Sidebar.propTypes = {
+	children: PropTypes.node,
+	title: PropTypes.string,
+	isSidebarOpening: PropTypes.bool,
+	isSidebarClosing: PropTypes.bool,
+	closeSidebar: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

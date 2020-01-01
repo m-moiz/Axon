@@ -134,6 +134,7 @@ class SignUpPage extends Component {
 		}));
 
 		this.setState((state) => ({
+			...state,
 			validityErrors: validityErrors
 		}));
 

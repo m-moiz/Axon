@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { toggleSidebarItemVisibility } from '../../redux/sidebar/sidebar.actions';
 import { selectSidebarItemHiddenProperty } from '../../redux/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
@@ -39,6 +40,14 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleSidebarItemVisibility: (itemName) => dispatch(toggleSidebarItemVisibility(itemName))
 	};
+};
+
+SideBarItem.propTypes = {
+	item: PropTypes.node,
+	children: PropTypes.node,
+	show: PropTypes.bool.isRequired,
+	toggleSidebarItemVisibility: PropTypes.func.isRequired,
+	isSidebarItemVisible: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideBarItem);

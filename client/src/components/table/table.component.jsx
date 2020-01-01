@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TableRow from '../table-row/table-row.component';
 import './table.styles.scss';
 
@@ -12,5 +13,10 @@ const Table = ({ title, items }) => (
 		</div>
 	</div>
 );
+
+Table.propTypes = {
+	title: PropTypes.string,
+	items: PropTypes.arrayOf(PropTypes.object)
+};
 
 export default Table;

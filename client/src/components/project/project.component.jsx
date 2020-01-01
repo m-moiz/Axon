@@ -1,14 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './project.styles.scss';
 import CloseButton from '../close-button/close-button.component';
 import { setProjectId, toggleDeleteProjectModal } from '../../redux/project/project.actions';
-import { selectToggleDeleteProject } from '../../redux/project/project.selectors';
+import { selectShouldDeleteProjects } from '../../redux/project/project.selectors';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Project = ({ children, projectDesc, toggleDeleteProject, toggleDeleteProjectModal, setProjectId, history }) => (
+const Project = ({ children, projectDesc, shouldDeleteProjects, toggleDeleteProjectModal, setProjectId, history }) => (
 	<div className="project-container">
-		{toggleDeleteProject ? (
+		{shouldDeleteProjects ? (
 			<CloseButton
 				action={(e) => {
 					e.persist();
@@ -48,8 +49,16 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
 	return {
-		toggleDeleteProject: selectToggleDeleteProject(state)
+		shouldDeleteProjects: selectShouldDeleteProjects(state)
 	};
+};
+
+Project.propTypes = {
+	children: PropTypes.node,
+	projectDesc: PropTypes.string,
+	shouldDeleteProjects: PropTypes.bool,
+	toggleDeleteProjectModal: PropTypes.func,
+	setProjectId: PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Project));

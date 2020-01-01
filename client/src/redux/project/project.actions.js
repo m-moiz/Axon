@@ -1,7 +1,7 @@
 import { projectActionTypes } from './project.types';
 
-export const toggleCreateProject = () => ({
-	type: projectActionTypes.TOGGLE_CREATE_PROJECT
+export const toggleCreateProjectModal = () => ({
+	type: projectActionTypes.TOGGLE_CREATE_PROJECT_MODAL
 });
 
 export const toggleEditProjectModal = () => ({
@@ -13,8 +13,8 @@ export const setProjectsArray = (projects) => ({
 	payload: projects
 });
 
-export const toggleDeleteProject = () => ({
-	type: projectActionTypes.TOGGLE_DELETE_PROJECT
+export const toggleDeleteProjects = () => ({
+	type: projectActionTypes.TOGGLE_DELETE_PROJECTS
 });
 
 export const toggleDeleteProjectModal = () => ({

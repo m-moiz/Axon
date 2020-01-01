@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import IssueType from '../../components/issue-type/issue-type.component';
-import Dropdown from 'react-bootstrap/Dropdown';
 import AddButton from '../../components/add-button/add-button.component';
 import CreateIssue from '../create-issue/create-issue.component';
+import DeleteIssue from '../delete-issue/delete-issue.component';
+import EditIssue from '../edit-issue/edit-issue.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import Modal from '../../components/modal/modal.components';
 import TopMessage from '../../components/top-message/top-message.component';
 import styled from 'styled-components';
 import axios from 'axios';
-import { setIssuesArray, toggleCreateIssue } from '../../redux/issue/issue.actions';
+import {
+	setIssuesArray,
+	toggleCreateIssueModal,
+	toggleDeleteIssueModal,
+	toggleEditIssueModal
+} from '../../redux/issue/issue.actions';
 import { selectUserId } from '../../redux/user/user.selectors';
-import { selectIssues, selectToggleCreateIssue } from '../../redux/issue/issue.selectors';
+import {
+	selectIssues,
+	selectIsCreateIssueModalOpen,
+	selectIsDeleteIssueModalOpen,
+	selectIsEditIssueModalOpen
+} from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../redux/message/message.selectors';
@@ -40,9 +48,21 @@ class IssuesPage extends Component {
 	render() {
 		return (
 			<div className="issues">
-				{this.props.toggleModal && (
+				{this.props.isCreateIssueModalOpen && (
 					<Modal>
 						<CreateIssue />
+					</Modal>
+				)}
+
+				{this.props.isDeleteIssueModalOpen && (
+					<Modal>
+						<DeleteIssue />
+					</Modal>
+				)}
+
+				{this.props.isEditIssueModalOpen && (
+					<Modal>
+						<EditIssue />
 					</Modal>
 				)}
 
@@ -50,7 +70,9 @@ class IssuesPage extends Component {
 
 				<SharedSidebar
 					title="Issues"
-					toggleCreate={this.props.toggleCreateIssue}
+					toggleCreate={this.props.toggleCreateIssueModal}
+					toggleDelete={this.props.toggleDeleteIssueModal}
+					toggleEdit={this.props.toggleEditIssueModal}
 					addToolTipText="Create Issue"
 					editToolTipText="Edit Issue"
 					deleteToolTipText="Delete Issue"
@@ -58,58 +80,8 @@ class IssuesPage extends Component {
 				/>
 
 				<Title> {this.props.projectName} </Title>
-				<Card style={{ width: '21rem', marginLeft: '10rem', marginTop: '4rem' }}>
-					<Card.Body
-						style={{
-							backgroundColor: 'rgb(44,44,44)',
-							color: 'white',
-							height: '4.4rem',
-							paddingLeft: '8rem',
-							letterSpacing: '.1rem',
-							display: 'flex'
-						}}
-					>
-						<Card.Title>Issues</Card.Title>
-						<Dropdown
-							style={{
-								width: '4.4rem',
-								marginLeft: '3rem',
-								marginBottom: '2rem',
-								marginTop: '-.35rem'
-							}}
-						>
-							<Dropdown.Toggle variant="primary" id="dropdown-basic">
-								Sort
-							</Dropdown.Toggle>
 
-							<Dropdown.Menu>
-								<Dropdown.Item>All</Dropdown.Item>
-								<Dropdown.Item>^Priority</Dropdown.Item>
-								<Dropdown.Item>Bugs</Dropdown.Item>
-								<Dropdown.Item>Improvements</Dropdown.Item>
-								<Dropdown.Item>Date Created</Dropdown.Item>
-								<Dropdown.Item>Due Date</Dropdown.Item>
-							</Dropdown.Menu>
-						</Dropdown>
-					</Card.Body>
-					<ListGroup variant="flush" style={{ overflowY: 'scroll', maxHeight: '300px' }}>
-						{this.props.issues &&
-							this.props.issues.map((issue) => (
-								<ListGroup.Item key={issue._id}>{issue.summary}</ListGroup.Item>
-							))}
-						<ListGroup.Item>
-							<p>Couldn't write c++ in javascript please help</p>
-							<IssueType variant="danger" issueType="Bug" />
-						</ListGroup.Item>
-						<ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-						<ListGroup.Item>Vestibulum at eros</ListGroup.Item>
-						<ListGroup.Item>Veselbalefn state transitions</ListGroup.Item>
-						<ListGroup.Item>Veselbalefn state transitions</ListGroup.Item>
-						<ListGroup.Item>Veselbalefn state transitions</ListGroup.Item>
-					</ListGroup>
-				</Card>
-
-				<AddButton toggleModal={this.props.toggleCreateIssue} />
+				<AddButton toggleModal={this.props.toggleCreateIssueModal} />
 			</div>
 		);
 	}
@@ -117,7 +89,9 @@ class IssuesPage extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		toggleModal: selectToggleCreateIssue(state),
+		isCreateIssueModalOpen: selectIsCreateIssueModalOpen(state),
+		isDeleteIssueModalOpen: selectIsDeleteIssueModalOpen(state),
+		isEditIssueModalOpen: selectIsEditIssueModalOpen(state),
 		userId: selectUserId(state),
 		projectId: selectProjectId(state),
 		issues: selectIssues(state),
@@ -130,7 +104,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setIssuesArray: (issues) => dispatch(setIssuesArray(issues)),
-		toggleCreateIssue: () => dispatch(toggleCreateIssue())
+		toggleCreateIssueModal: () => dispatch(toggleCreateIssueModal()),
+		toggleDeleteIssueModal: () => dispatch(toggleDeleteIssueModal()),
+		toggleEditIssueModal: () => dispatch(toggleEditIssueModal())
 	};
 };
 

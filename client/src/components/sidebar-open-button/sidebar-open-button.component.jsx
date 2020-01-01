@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './sidebar-open-button.styles.scss';
 
 const SidebarOpenButton = ({ handleClick }) => (
@@ -6,5 +7,9 @@ const SidebarOpenButton = ({ handleClick }) => (
 		<i className="fas fa-angle-right" />
 	</div>
 );
+
+SidebarOpenButton.propTypes = {
+	handleClick: PropTypes.func
+};
 
 export default SidebarOpenButton;

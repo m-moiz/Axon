@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
+import PropTypes from 'prop-types';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import { signOut } from '../../redux/user/user.actions';
@@ -66,6 +67,11 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		signOut: () => dispatch(signOut())
 	};
+};
+
+Header.propTypes = {
+	isSignedIn: PropTypes.bool,
+	signOut: PropTypes.func
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

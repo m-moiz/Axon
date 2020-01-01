@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './sidebar-subcategory.styles.scss';
 
 const SideBarSubCategory = ({ children, subcategoryName, toggleSidebarSubcategory }) => (
@@ -10,5 +11,11 @@ const SideBarSubCategory = ({ children, subcategoryName, toggleSidebarSubcategor
 		<div className="sidebar-items">{children}</div>
 	</div>
 );
+
+SideBarSubCategory.propTypes = {
+	children: PropTypes.node,
+	subcategoryName: PropTypes.string.isRequired,
+	toggleSidebarSubcategory: PropTypes.func.isRequired
+};
 
 export default SideBarSubCategory;

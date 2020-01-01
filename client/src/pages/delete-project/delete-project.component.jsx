@@ -29,6 +29,9 @@ class DeleteProject extends Component {
 				handleSubmit={this.handleSubmit}
 				toggleModal={this.props.toggleDeleteProjectModal}
 				title="Are you sure you want to delete ...?"
+				closeButtonLeft="16%"
+				closeButtonBottom="2rem"
+				closeButtonFontSize="1.4rem"
 			/>
 		);
 	}

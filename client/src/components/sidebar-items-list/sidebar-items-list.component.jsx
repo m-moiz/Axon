@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SideBarItem from '../sidebar-item/sidebar-item.component';
 import { connect } from 'react-redux';
 import { addSidebarItemVisibiliy } from '../../redux/sidebar/sidebar.actions';
@@ -56,6 +57,13 @@ const mapDispatchToProps = (dispatch) => {
 		addSidebarItemVisibility: (itemName) => dispatch(addSidebarItemVisibiliy(itemName)),
 		setProjectId: (projectName) => dispatch(setProjectId(projectName))
 	};
+};
+
+SideBarItem.propTypes = {
+	items: PropTypes.arrayOf(PropTypes.object).isRequired,
+	isSidebarSubcategoryOpen: PropTypes.bool.isRequired,
+	addSidebarItemVisibility: PropTypes.func.isRequired,
+	setProjectId: PropTypes.func.isRequired
 };
 
 export default withRouter(connect(null, mapDispatchToProps)(SideBarItemsList));

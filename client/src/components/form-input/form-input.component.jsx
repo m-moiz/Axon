@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -49,5 +50,18 @@ const FormInput = ({
 		</Row>
 	</Form.Group>
 );
+
+FormInput.propTypes = {
+	handleChange: PropTypes.func,
+	handleBlur: PropTypes.func,
+	inputName: PropTypes.string,
+	name: PropTypes.string,
+	text: PropTypes.string,
+	placeholder: PropTypes.string,
+	as: PropTypes.string,
+	rows: PropTypes.string,
+	children: PropTypes.elementType,
+	isFieldValid: PropTypes.bool
+};
 
 export default FormInput;

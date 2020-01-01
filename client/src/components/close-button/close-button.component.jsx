@@ -1,10 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './close-button.styles.scss';
 
-const CloseButton = ({ action, top, left, fontSize }) => (
-	<div className="close_button" style={{ top: top, left: left, fontSize: fontSize }} onClick={action}>
+const CloseButton = ({ action, top, left, bottom, fontSize }) => (
+	<div className="close_button" style={{ top: top, left: left, bottom: bottom, fontSize: fontSize }} onClick={action}>
 		<i className="fas fa-times" />
 	</div>
 );
+
+CloseButton.propTypes = {
+	action: PropTypes.func,
+	top: PropTypes.string,
+	left: PropTypes.string,
+	bottom: PropTypes.string,
+	fontSize: PropTypes.string
+};
 
 export default CloseButton;

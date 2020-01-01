@@ -3,17 +3,24 @@ import './projects.styles.scss';
 import Modal from '../../components/modal/modal.components';
 import CreateProject from '../create-project/create-project.component';
 import DeleteProject from '../delete-project/delete-project.component';
+import EditProject from '../edit-project/edit-project.component';
 import ProjectList from '../../components/project-list/project-list.component';
 import AddButton from '../../components/add-button/add-button.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import TopMessage from '../../components/top-message/top-message.component';
-import { setProjectsArray, toggleCreateProject, toggleDeleteProject } from '../../redux/project/project.actions';
+import {
+	setProjectsArray,
+	toggleCreateProjectModal,
+	toggleDeleteProjectModal,
+	toggleDeleteProjects
+} from '../../redux/project/project.actions';
 import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
 import {
 	selectProjects,
-	selectToggleCreateProject,
-	selectToggleDeleteProject,
-	selectToggleDeleteProjectModal
+	selectIsCreateProjectModalOpen,
+	selectIsDeleteProjectModalOpen,
+	selectisEditProjectModalOpen,
+	selectShouldDeleteProjects
 } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectShouldRenderMessage, selectMessageText } from '../../redux/message/message.selectors';
@@ -39,15 +46,21 @@ class ProjectsPage extends Component {
 	render() {
 		return (
 			<div className="project-page">
-				{this.props.toggleModal && (
+				{this.props.isCreateProjectModalOpen && (
 					<Modal>
 						<CreateProject />
 					</Modal>
 				)}
 
-				{this.props.toggleDeleteModal && (
+				{this.props.isDeleteProjectModalOpen && (
 					<Modal>
 						<DeleteProject />
+					</Modal>
+				)}
+
+				{this.props.isEditProjectModalOpen && (
+					<Modal>
+						<EditProject />
 					</Modal>
 				)}
 
@@ -55,9 +68,9 @@ class ProjectsPage extends Component {
 
 				<SharedSidebar
 					title="Projects"
-					toggleCreate={this.props.toggleCreateProject}
-					toggleDelete={this.props.toggleDeleteProject}
-					toggleTool={this.props.toggleDeleteProjects}
+					toggleCreate={this.props.toggleCreateProjectModal}
+					toggleDelete={this.props.toggleDeleteProjects}
+					toggleTool={this.props.shouldDeleteProjects}
 					addToolTipText="Create Project"
 					editToolTipText="Edit Project"
 					deleteToolTipText="Delete Projects"
@@ -65,7 +78,7 @@ class ProjectsPage extends Component {
 				/>
 
 				<ProjectList projects={this.props.projects} />
-				<AddButton toggleModal={this.props.toggleCreateProject} />
+				<AddButton toggleModal={this.props.toggleCreateProjectModal} />
 			</div>
 		);
 	}
@@ -76,9 +89,10 @@ const mapStateToProps = (state) => {
 		userId: selectUserId(state),
 		isSignedIn: selectIsUserSignedIn(state),
 		projects: selectProjects(state),
-		toggleModal: selectToggleCreateProject(state),
-		toggleDeleteModal: selectToggleDeleteProjectModal(state),
-		toggleDeleteProjects: selectToggleDeleteProject(state),
+		isCreateProjectModalOpen: selectIsCreateProjectModalOpen(state),
+		isDeleteProjectModalOpen: selectIsDeleteProjectModalOpen(state),
+		isEditProjectModalOpen: selectisEditProjectModalOpen(state),
+		shouldDeleteProjects: selectShouldDeleteProjects(state),
 		shouldRenderMessage: selectShouldRenderMessage(state),
 		messageText: selectMessageText(state),
 		isSidebarOpen: selectIsSidebarOpen(state)
@@ -88,8 +102,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setProjectsArray: (projects) => dispatch(setProjectsArray(projects)),
-		toggleCreateProject: () => dispatch(toggleCreateProject()),
-		toggleDeleteProject: () => dispatch(toggleDeleteProject())
+		toggleCreateProjectModal: () => dispatch(toggleCreateProjectModal()),
+		toggleDeleteProjectModal: () => dispatch(toggleDeleteProjectModal()),
+		toggleDeleteProjects: () => dispatch(toggleDeleteProjects())
 	};
 };
 

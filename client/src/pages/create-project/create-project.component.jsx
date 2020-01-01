@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
-import { toggleCreateProject } from '../../redux/project/project.actions';
+import { toggleCreateProjectModal } from '../../redux/project/project.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
@@ -33,7 +33,7 @@ class CreateProject extends Component {
 			}
 		})
 			.then((resp) => {
-				this.props.toggleCreateProject();
+				this.props.toggleCreateProjectModal();
 				this.props.setMessageText('Project created successfully');
 				this.props.closingMessageAfterOpening();
 				this.props.history.push('/empty');
@@ -72,7 +72,9 @@ class CreateProject extends Component {
 				typeOfPage="create"
 				handleSubmit={this.handleSubmit}
 				title="New Project"
-				toggleModal={this.props.toggleCreateProject}
+				toggleModal={this.props.toggleCreateProjectModal}
+				closeButtonFontSize="1.4rem"
+				closeButtonBottom=".5rem"
 			>
 				{this.state.showMessage ? <span>Name already exists</span> : ''}
 				<FormInput
@@ -90,7 +92,7 @@ class CreateProject extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		toggleCreateProject: () => dispatch(toggleCreateProject()),
+		toggleCreateProjectModal: () => dispatch(toggleCreateProjectModal()),
 		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening()),
 		setMessageText: (message) => dispatch(setMessageText(message))
 	};

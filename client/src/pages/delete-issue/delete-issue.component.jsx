@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { connect } from 'react-redux';
-import { toggleDeleteIssueModal } from '../../redux/project/project.actions';
+import { toggleDeleteIssueModal } from '../../redux/issue/issue.actions';
 import { withRouter } from 'react-router-dom';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
 import axios from 'axios';
@@ -28,6 +28,9 @@ class DeleteIssue extends Component {
 				handleSubmit={this.handleSubmit}
 				toggleModal={this.props.toggleDeleteIssueModal}
 				title="Are you sure you want to delete ...?"
+				closeButtonLeft="16%"
+				closeButtonBottom="2rem"
+				closeButtonFontSize="1.4rem"
 			/>
 		);
 	}
