@@ -1,13 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './search-bar.styles.scss';
-import FormInput from '../form-input/form-input.component';
+import { connect } from 'react-redux';
+import { setSearchText } from '../../redux/issue/issue.actions';
 
-function SearchBar() {
+function SearchBar({ setSearchText }) {
 	return (
 		<div className="search-bar">
-			<FormInput type="text" placeholder="Search Issues" isFieldValid={true} />
+			<input
+				onChange={(e) => setSearchText(e.target.value)}
+				name="search"
+				type="text"
+				placeholder="Search Issues"
+			/>
 		</div>
 	);
 }
 
-export default SearchBar;
+SearchBar.propTypes = {
+	setSearchText: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setSearchText: (inputText) => dispatch(setSearchText(inputText))
+	};
+};
+
+export default connect(null, mapDispatchToProps)(SearchBar);

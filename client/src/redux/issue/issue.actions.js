@@ -20,3 +20,8 @@ export const setIssuesArray = (issues) => ({
 export const emptyIssuesArray = () => ({
 	type: IssueActionTypes.EMPTY_ISSUES_ARRAY
 });
+
+export const setSearchText = (inputText) => ({
+	type: IssueActionTypes.SET_SEARCH_TEXT,
+	payload: inputText
+});

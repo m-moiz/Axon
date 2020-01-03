@@ -1,1 +1,35 @@
+.search-bar {
+	width: 100vw;
+	display: flex;
+	justify-content: center;
 
+	input {
+		width: 38%;
+		padding: .2rem;
+		border: none;
+		border-bottom: 1px solid rgba(149, 149, 149, 0.972);
+		text-align: center;
+
+		&::-webkit-input-placeholder {
+			text-align: center;
+		}
+
+		&:-moz-placeholder {
+			text-align: center;
+		}
+
+		&::-moz-placeholder {
+			text-align: center;
+		}
+
+		&:-ms-input-placeholder {
+			text-align: center;
+		}
+
+		&:focus {
+			outline: none;
+			border-bottom: none;
+			box-shadow: 0 4px 2px -2px rgb(107, 201, 255);
+		}
+	}
+}

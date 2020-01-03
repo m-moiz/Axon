@@ -1,6 +1,7 @@
 import { IssueActionTypes } from './issue.types';
 
 const INITIAL_STATE = {
+	searchText: '',
 	isCreateIssueModalOpen: false,
 	isDeleteIssueModalOpen: false,
 	isEditIssueModalOpen: false,
@@ -19,6 +20,8 @@ export const issueReducer = (state = INITIAL_STATE, action = {}) => {
 			return Object.assign({}, state, { isEditIssueModalOpen: !state.isEditIssueModalOpen });
 		case IssueActionTypes.EMPTY_ISSUES_ARRAY:
 			return Object.assign({}, state, { issues: [] });
+		case IssueActionTypes.SET_SEARCH_TEXT:
+			return { ...state, searchText: action.payload };
 		default:
 			return state;
 	}

@@ -78,7 +78,7 @@ SharedSidebar.propTypes = {
 	deleteToolTipText: PropTypes.string.isRequired,
 	editToolTipText: PropTypes.string.isRequired,
 	addToolTipText: PropTypes.string.isRequired,
-	toggleTool: PropTypes.func.isRequired
+	toggleTool: PropTypes.bool.isRequired
 };
 
 export default withOpen(connect(mapStateToProps, mapDispatchToProps)(SharedSidebar));

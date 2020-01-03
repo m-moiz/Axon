@@ -6,6 +6,8 @@ import EditIssue from '../edit-issue/edit-issue.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import Modal from '../../components/modal/modal.components';
 import TopMessage from '../../components/top-message/top-message.component';
+import SearchBar from '../../components/search-bar/search-bar.component';
+import Table from '../../components/table/table.component';
 import styled from 'styled-components';
 import axios from 'axios';
 import {
@@ -16,10 +18,10 @@ import {
 } from '../../redux/issue/issue.actions';
 import { selectUserId } from '../../redux/user/user.selectors';
 import {
-	selectIssues,
 	selectIsCreateIssueModalOpen,
 	selectIsDeleteIssueModalOpen,
-	selectIsEditIssueModalOpen
+	selectIsEditIssueModalOpen,
+	selectFilteredIssues
 } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
@@ -30,7 +32,8 @@ const Title = styled.h3`
 	margin: 0;
 	padding: 0;
 	position: relative;
-	left: 47%;
+	width: fit-content;
+	left: 17%;
 	top: 1.97rem;
 `;
 
@@ -80,6 +83,9 @@ class IssuesPage extends Component {
 				/>
 
 				<Title> {this.props.projectName} </Title>
+				<SearchBar />
+
+				<Table items={this.props.issues} />
 
 				<AddButton toggleModal={this.props.toggleCreateIssueModal} />
 			</div>
@@ -94,7 +100,7 @@ const mapStateToProps = (state) => {
 		isEditIssueModalOpen: selectIsEditIssueModalOpen(state),
 		userId: selectUserId(state),
 		projectId: selectProjectId(state),
-		issues: selectIssues(state),
+		issues: selectFilteredIssues(state),
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state)

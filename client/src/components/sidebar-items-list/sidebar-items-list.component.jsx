@@ -36,6 +36,7 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 							<li>Board</li>
 						</div>
 
+						{/* TODO: Implement Backlog Page
 						<div
 							className="sidebar-item"
 							onClick={() => {
@@ -46,6 +47,8 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 							<i className="fas fa-caret-right" />
 							<li>Backlog</li>
 						</div>
+
+						*/}
 					</SideBarItem>
 				);
 			})}
@@ -60,10 +63,10 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 SideBarItem.propTypes = {
-	items: PropTypes.arrayOf(PropTypes.object).isRequired,
-	isSidebarSubcategoryOpen: PropTypes.bool.isRequired,
-	addSidebarItemVisibility: PropTypes.func.isRequired,
-	setProjectId: PropTypes.func.isRequired
+	items: PropTypes.arrayOf(PropTypes.object),
+	isSidebarSubcategoryOpen: PropTypes.bool,
+	addSidebarItemVisibility: PropTypes.func,
+	setProjectId: PropTypes.func
 };
 
 export default withRouter(connect(null, mapDispatchToProps)(SideBarItemsList));

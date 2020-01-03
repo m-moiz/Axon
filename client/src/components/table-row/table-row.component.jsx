@@ -2,9 +2,11 @@ import React from 'react';
 import './table-row.styles.scss';
 
 const TableRow = ({ desc, endItems }) => (
-	<div class="table__row">
-		<div class="table__item--start">{desc} </div>
-		<div class="table__item--end">{Array.isArray(endItems) && endItems.map((endItem) => <div>{endItem}</div>)}</div>
+	<div className="table__row">
+		<div className="table__item--start">{desc} </div>
+		<div className="table__item--end">
+			{Array.isArray(endItems) && endItems.map((endItem) => <div key={endItem._id}>{endItem}</div>)}
+		</div>
 	</div>
 );
 
