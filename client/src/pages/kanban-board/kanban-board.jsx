@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import initialData from './initial-data';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import styled from 'styled-components';
+import PageContainer from '../../components/page-container/page-container.component';
+import PageContentContainer from '../../components/page-content-container/page-content-container.component';
 import BoardColumn from '../../components/board-column/board-column.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
+import styled from 'styled-components';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
 
-const Container = styled.div`
-	margin-left: 200px;
-	display: flex;
-`;
+const Container = styled.div`display: flex;`;
 
 class KanbanBoardPage extends Component {
 	constructor(props) {
@@ -101,7 +100,7 @@ class KanbanBoardPage extends Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<PageContainer>
 				<SharedSidebar
 					title="Board"
 					addToolTipText="Create Issue"
@@ -109,22 +108,26 @@ class KanbanBoardPage extends Component {
 					deleteToolTipText="Delete Issues"
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
-				<DragDropContext onDragEnd={this.onDragEnd} onDragUpdate={this.onDragUpdate}>
-					<Droppable droppableId="all-columns" direction="horizontal" type="column">
-						{(provided) => (
-							<Container {...provided.droppableProps} ref={provided.innerRef}>
-								{this.state.columnOrder.map((columnId, index) => {
-									const column = this.state.columns[columnId];
-									const tasks = column.taskIds.map((taskId) => this.state.tasks[taskId]);
+				<PageContentContainer>
+					<DragDropContext onDragEnd={this.onDragEnd} onDragUpdate={this.onDragUpdate}>
+						<Droppable droppableId="all-columns" direction="horizontal" type="column">
+							{(provided) => (
+								<Container {...provided.droppableProps} ref={provided.innerRef}>
+									{this.state.columnOrder.map((columnId, index) => {
+										const column = this.state.columns[columnId];
+										const tasks = column.taskIds.map((taskId) => this.state.tasks[taskId]);
 
-									return <BoardColumn key={column.id} column={column} tasks={tasks} index={index} />;
-								})}
-								{provided.placeholder}
-							</Container>
-						)}
-					</Droppable>
-				</DragDropContext>
-			</React.Fragment>
+										return (
+											<BoardColumn key={column.id} column={column} tasks={tasks} index={index} />
+										);
+									})}
+									{provided.placeholder}
+								</Container>
+							)}
+						</Droppable>
+					</DragDropContext>
+				</PageContentContainer>
+			</PageContainer>
 		);
 	}
 }

@@ -19,7 +19,6 @@ function SideBarItem({ item, children, show, toggleSidebarItemVisibility, isSide
 		<div>
 			<div className="sidebar-item" onClick={() => toggleSidebarItemVisibility(item)}>
 				<i className={className} />
-
 				<li>{item}</li>
 			</div>
 

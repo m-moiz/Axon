@@ -11,7 +11,7 @@ const ProjectList = ({ projects }) => (
 				<div>You don't have any projects. Create one by clicking the add button</div>
 			) : (
 				projects.map((project) => (
-					<Project key={project._id} projectDesc={project.description}>
+					<Project key={project._id} projectId={project._id} projectDesc={project.description}>
 						{project.name}
 					</Project>
 				))

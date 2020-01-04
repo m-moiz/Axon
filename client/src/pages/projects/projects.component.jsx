@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './projects.styles.scss';
 import Modal from '../../components/modal/modal.components';
+import PageContainer from '../../components/page-container/page-container.component';
+import PageContentContainer from '../../components/page-content-container/page-content-container.component';
 import CreateProject from '../create-project/create-project.component';
 import DeleteProject from '../delete-project/delete-project.component';
 import EditProject from '../edit-project/edit-project.component';
@@ -45,7 +47,7 @@ class ProjectsPage extends Component {
 
 	render() {
 		return (
-			<div className="project-page">
+			<PageContainer>
 				{this.props.isCreateProjectModalOpen && (
 					<Modal>
 						<CreateProject />
@@ -76,10 +78,11 @@ class ProjectsPage extends Component {
 					deleteToolTipText="Delete Projects"
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
-
-				<ProjectList projects={this.props.projects} />
-				<AddButton toggleModal={this.props.toggleCreateProjectModal} />
-			</div>
+				<PageContentContainer>
+					<ProjectList projects={this.props.projects} />
+					<AddButton toggleModal={this.props.toggleCreateProjectModal} />
+				</PageContentContainer>
+			</PageContainer>
 		);
 	}
 }

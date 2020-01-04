@@ -6,7 +6,7 @@
 		width: 75vw;
 		position: relative;
 		margin-top: 2rem;
-		left: 20%;
+		left: 10%;
 		overflow-y: auto;
 		overflow-x: hidden;
 
@@ -27,7 +27,9 @@
 
 @media screen and (max-width: 800px) {
 	.project-list {
-		width: 100vw;
+		overflow-x: hidden;
+		overflow-y: auto;
+		height: 88vh;
 
 		.project-list-container {
 			display: flex;

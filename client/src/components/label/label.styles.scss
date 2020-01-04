@@ -1,0 +1,44 @@
+.label {
+	display: flex;
+	width: fit-content;
+	justify-content: center;
+	padding-left: .7rem;
+	padding-right: .7rem;
+	padding-top: .2rem;
+	padding-bottom: .2rem;
+	border-radius: .5rem;
+	font-size: .7rem;
+	margin-left: 1.4rem;
+	margin-top: .2rem;
+	margin-bottom: .2rem;
+
+	&.bug {
+		background-color: rgb(231, 14, 14);
+		color: white;
+	}
+
+	&.improvement {
+		background-color: blue;
+		color: white;
+	}
+
+	&.feature {
+		background-color: rgb(10, 206, 10);
+		color: rgb(255, 255, 255);
+	}
+
+	&.epic {
+		background-color: rgb(172, 155, 7);
+		color: rgb(255, 255, 255);
+	}
+
+	&.task {
+		background-color: rgb(195, 1, 92);
+		color: white;
+	}
+
+	&.review {
+		background-color: rgb(184, 62, 255);
+		color: white;
+	}
+}

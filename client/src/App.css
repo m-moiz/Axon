@@ -1,4 +1,7 @@
 .App {
 	overflow-x: hidden;
+	overflow-y: hidden;
 	height: 100vh;
+	margin: 0;
+	padding: 0;
 }

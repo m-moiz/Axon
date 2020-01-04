@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const issueController = require('../controllers/issue.controller');
 const userController = require('../controllers/user.controller');
 const projectController = require('../controllers/project.controller');
@@ -12,6 +13,15 @@ router.put('/issue/:userId&:projectId&:issueId/update', issueController.updateIs
 router.delete('/issue/:userId&:projectId&:issueId/delete', issueController.deleteIssue);
 
 //router.get('/users', userController.getUsers);
+router.get(
+	'/auth/github',
+	passport.authenticate('github', {
+		scope: [ 'profile' ]
+	})
+);
+router.get('/auth/github/redirect', passport.authenticate('github'), (req, res) => {
+	res.status(200).json({ message: 'Signed in successfully' });
+});
 router.post('/user', userController.getUser);
 router.post('/user/create', userController.createUser);
 router.put('/user/:id/update', userController.updateUser);

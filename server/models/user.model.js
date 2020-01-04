@@ -7,7 +7,7 @@ const UserSchema = mongoose.Schema({
 	email: { type: String, required: true },
 	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	isAdmin: { type: mongoose.Schema.Types.Boolean, default: false },
-
+	githubId: { type: String, required: false },
 	projects: { type: [ ProjectSchema ], default: undefined }
 });
 

@@ -1,0 +1,9 @@
+.optionsBoxListItem {
+	display: flex;
+	flex-direction: row;
+
+	&.hover {
+		background-color: rgb(185, 185, 185);
+		cursor: pointer;
+	}
+}

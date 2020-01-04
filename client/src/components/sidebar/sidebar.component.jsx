@@ -19,19 +19,19 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSid
 			<div className="title">
 				<h5>{title}</h5>
 				<p>🔨</p>
+				{!(isSidebarClosing || isSidebarOpening) ? (
+					<div
+						onClick={() => {
+							closeSidebar();
+						}}
+						className="sidebar__back"
+					>
+						<i className="fas fa-angle-left" />
+					</div>
+				) : (
+					''
+				)}
 			</div>
-			{!(isSidebarClosing || isSidebarOpening) ? (
-				<div
-					onClick={() => {
-						closeSidebar();
-					}}
-					className="sidebar__back"
-				>
-					<i className="fas fa-angle-left" />
-				</div>
-			) : (
-				''
-			)}
 
 			{children}
 		</div>

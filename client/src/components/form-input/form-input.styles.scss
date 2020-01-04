@@ -19,6 +19,12 @@
 		padding: .15rem;
 	}
 
+	&.border {
+		width: 70%;
+		border-radius: 2px;
+		border-bottom: .5px solid #c2c2c294;
+	}
+
 	&.invalid {
 		&:focus {
 			border-color: red;

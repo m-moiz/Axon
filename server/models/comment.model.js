@@ -7,7 +7,8 @@ const CommentSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	text: { type: String, required: true }
+	text: { type: String, required: true },
+	likes: { type: mongoose.Schema.Types.Number, default: undefined }
 });
 
 module.exports = {

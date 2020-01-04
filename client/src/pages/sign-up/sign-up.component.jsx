@@ -174,6 +174,7 @@ class SignUpPage extends Component {
 									type="email"
 									placeholder="Enter Email"
 									isFieldValid={this.state.isFieldValid.isEmailValid}
+									bottomStyle
 								/>
 								{this.state.validityErrors.usernameValidityError !== '' ? (
 									<p>{this.state.validityErrors.usernameValidityError}</p>
@@ -186,6 +187,7 @@ class SignUpPage extends Component {
 									type="username"
 									placeholder="Enter Username"
 									isFieldValid={this.state.isFieldValid.isUsernameValid}
+									bottomStyle
 								/>
 								{this.state.validityErrors.passwordValidityError !== '' ? (
 									<p>{this.state.validityErrors.passwordValidityError}</p>
@@ -198,6 +200,7 @@ class SignUpPage extends Component {
 									type="password"
 									placeholder="Enter Password"
 									isFieldValid={this.state.isFieldValid.isPasswordValid}
+									bottomStyle
 								/>
 							</div>
 

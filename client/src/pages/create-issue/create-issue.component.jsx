@@ -14,14 +14,14 @@ class CreateIssue extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			issueType: '',
+			issueType: 'Improvement',
 			reporter: '',
 			summary: '',
 			description: '',
-			priority: '',
+			priority: 'High',
 			startDate: new Date(),
 			enivironment: '',
-			status: '',
+			status: 'Open',
 			version: ''
 		};
 	}
@@ -92,7 +92,7 @@ class CreateIssue extends Component {
 					handleChange={this.handleChange}
 					inputName="Description"
 					as="textarea"
-					rows="6"
+					rows="8"
 				/>
 				<FormInput name="priority" handleChange={this.handleChange} inputName="Priority" as="select">
 					<option>High</option>

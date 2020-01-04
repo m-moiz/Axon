@@ -7,13 +7,21 @@ import { selectShouldDeleteProjects } from '../../redux/project/project.selector
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Project = ({ children, projectDesc, shouldDeleteProjects, toggleDeleteProjectModal, setProjectId, history }) => (
+const Project = ({
+	children,
+	projectDesc,
+	shouldDeleteProjects,
+	toggleDeleteProjectModal,
+	setProjectId,
+	history,
+	projectId
+}) => (
 	<div className="project-container">
 		{shouldDeleteProjects ? (
 			<CloseButton
 				action={(e) => {
 					e.persist();
-					setProjectId(e.nativeEvent.toElement.offsetParent.nextSibling.firstChild.textContent);
+					setProjectId(projectId);
 					toggleDeleteProjectModal();
 				}}
 				top="12%"
@@ -28,7 +36,7 @@ const Project = ({ children, projectDesc, shouldDeleteProjects, toggleDeleteProj
 			<h4
 				value={children}
 				onClick={(e) => {
-					setProjectId(e.currentTarget.getAttribute('value'));
+					setProjectId(projectId);
 					history.push('/user/issues');
 				}}
 				className="project-name"

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import AddButton from '../../components/add-button/add-button.component';
+import PageContainer from '../../components/page-container/page-container.component';
+import PageContentContainer from '../../components/page-content-container/page-content-container.component';
 import CreateIssue from '../create-issue/create-issue.component';
 import DeleteIssue from '../delete-issue/delete-issue.component';
 import EditIssue from '../edit-issue/edit-issue.component';
@@ -8,6 +10,7 @@ import Modal from '../../components/modal/modal.components';
 import TopMessage from '../../components/top-message/top-message.component';
 import SearchBar from '../../components/search-bar/search-bar.component';
 import Table from '../../components/table/table.component';
+import OptionsBox from '../../components/options-box/options-box.component';
 import styled from 'styled-components';
 import axios from 'axios';
 import {
@@ -21,6 +24,7 @@ import {
 	selectIsCreateIssueModalOpen,
 	selectIsDeleteIssueModalOpen,
 	selectIsEditIssueModalOpen,
+	selectIsSortOptionsBoxOpen,
 	selectFilteredIssues
 } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
@@ -33,7 +37,7 @@ const Title = styled.h3`
 	padding: 0;
 	position: relative;
 	width: fit-content;
-	left: 17%;
+	left: 10%;
 	top: 1.97rem;
 `;
 
@@ -42,15 +46,26 @@ class IssuesPage extends Component {
 		axios
 			.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
 			.then((resp) => {
-				console.log(resp);
 				this.props.setIssuesArray(resp.data.result.projects[0].issues);
 			})
 			.catch((err) => console.log(err));
 	}
 
+	componentDidUpdate(prevProps) {
+		console.log(prevProps);
+		if (prevProps.projectName !== this.props.projectName) {
+			axios
+				.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
+				.then((resp) => {
+					this.props.setIssuesArray(resp.data.result.projects[0].issues);
+				})
+				.catch((err) => console.log(err));
+		}
+	}
+
 	render() {
 		return (
-			<div className="issues">
+			<PageContainer>
 				{this.props.isCreateIssueModalOpen && (
 					<Modal>
 						<CreateIssue />
@@ -82,13 +97,16 @@ class IssuesPage extends Component {
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
 
-				<Title> {this.props.projectName} </Title>
-				<SearchBar />
+				<PageContentContainer>
+					{this.props.isSortOptionsBoxOpen ? <OptionsBox /> : ''}
+					<Title> {this.props.projectName} </Title>
+					<SearchBar />
 
-				<Table items={this.props.issues} />
+					<Table items={this.props.issues} />
 
-				<AddButton toggleModal={this.props.toggleCreateIssueModal} />
-			</div>
+					<AddButton toggleModal={this.props.toggleCreateIssueModal} />
+				</PageContentContainer>
+			</PageContainer>
 		);
 	}
 }
@@ -98,6 +116,7 @@ const mapStateToProps = (state) => {
 		isCreateIssueModalOpen: selectIsCreateIssueModalOpen(state),
 		isDeleteIssueModalOpen: selectIsDeleteIssueModalOpen(state),
 		isEditIssueModalOpen: selectIsEditIssueModalOpen(state),
+		isSortOptionsBoxOpen: selectIsSortOptionsBoxOpen(state),
 		userId: selectUserId(state),
 		projectId: selectProjectId(state),
 		issues: selectFilteredIssues(state),

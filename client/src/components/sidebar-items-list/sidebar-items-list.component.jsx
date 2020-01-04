@@ -17,7 +17,7 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 						<div
 							className="sidebar-item"
 							onClick={() => {
-								setProjectId(item.name);
+								setProjectId(item._id);
 								history.push('/user/issues');
 							}}
 						>
@@ -28,7 +28,7 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 						<div
 							className="sidebar-item"
 							onClick={() => {
-								setProjectId(item.name);
+								setProjectId(item._id);
 								history.push('/kanban');
 							}}
 						>
