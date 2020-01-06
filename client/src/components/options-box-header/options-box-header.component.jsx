@@ -1,4 +1,5 @@
 import React from 'react';
+import './options-box-header.styles.scss';
 
 function OptionsBoxHeader({ title }) {
 	return (

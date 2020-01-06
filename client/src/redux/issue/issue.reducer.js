@@ -9,6 +9,8 @@ const INITIAL_STATE = {
 	isSortOptionsBoxOpen: false,
 	isLabelOptionsBoxOpen: false,
 	isStatusOptionsBoxOpen: false,
+	isShowingDeleteButton: false,
+	isShowingEditButton: false,
 	issues: []
 };
 
@@ -34,6 +36,16 @@ export const issueReducer = (state = INITIAL_STATE, action = {}) => {
 			return { ...state, isSortOptionsBoxOpen: !state.isSortOptionsBoxOpen };
 		case IssueActionTypes.TOGGLE_STATUS_OPTIONS_BOX:
 			return { ...state, isStatusOptionsBoxOpen: !state.isStatusOptionsBoxOpen };
+		case IssueActionTypes.CLOSE_LABEL_OPTIONS_BOX:
+			return { ...state, isLabelOptionsBoxOpen: false };
+		case IssueActionTypes.CLOSE_STATUS_OPTIONS_BOX:
+			return { ...state, isStatusOptionsBoxOpen: false };
+		case IssueActionTypes.ClOSE_SORT_OPTIONS_BOX:
+			return { ...state, isSortOptionsBoxOpen: false };
+		case IssueActionTypes.TOGGLE_DELETE_ISSUES:
+			return { ...state, isShowingDeleteButton: !state.isShowingDeleteButton };
+		case IssueActionTypes.TOGGLE_EDIT_ISSUES:
+			return { ...state, isShowingEditButton: !state.isShowingEditButton };
 		default:
 			return state;
 	}

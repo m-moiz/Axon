@@ -5,14 +5,20 @@ import { connect } from 'react-redux';
 import { setSearchText } from '../../redux/issue/issue.actions';
 
 function SearchBar({ setSearchText }) {
+	const handleSubmit = (event) => {
+		event.preventDefault();
+	};
+
 	return (
 		<div className="search-bar">
-			<input
-				onChange={(e) => setSearchText(e.target.value)}
-				name="search"
-				type="text"
-				placeholder="Search Issues"
-			/>
+			<form autoComplete="off" onSubmit={handleSubmit}>
+				<input
+					onChange={(e) => setSearchText(e.target.value)}
+					name="search"
+					type="text"
+					placeholder="Search Issues"
+				/>
+			</form>
 		</div>
 	);
 }

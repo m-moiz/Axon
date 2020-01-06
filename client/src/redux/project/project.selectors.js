@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 const selectProject = (state) => state.project;
 export const selectShouldDeleteProjects = createSelector([ selectProject ], (project) => project.shouldDeleteProjects);
+export const selectShouldEditProjects = createSelector([ selectProject ], (project) => project.shouldEditProjects);
 
 export const selectIsDeleteProjectModalOpen = createSelector(
 	[ selectProject ],
@@ -13,7 +14,7 @@ export const selectIsCreateProjectModalOpen = createSelector(
 	(project) => project.isCreateProjectModalOpen
 );
 
-export const selectisEditProjectModalOpen = createSelector(
+export const selectIsEditProjectModalOpen = createSelector(
 	[ selectProject ],
 	(project) => project.isEditProjectModalOpen
 );

@@ -24,7 +24,8 @@ const SharedSidebar = ({
 	deleteToolTipText,
 	editToolTipText,
 	addToolTipText,
-	toggleTool
+	isDeleting,
+	isEditing
 }) => (
 	<SideBar title={title}>
 		<SideBarSubCategory toggleSidebarSubcategory={toggleProjectsSubcategory} subcategoryName="projects">
@@ -33,10 +34,10 @@ const SharedSidebar = ({
 
 		<SideBarSubCategory toggleSidebarSubcategory={toggleToolsSubcategory} subcategoryName="tools">
 			<SideBarTools isSidebarSubcategoryOpen={isToolsSubcategoryOpen}>
-				<Tool isToolOpen={toggleTool} tooltipText={deleteToolTipText} action={toggleDelete}>
+				<Tool isToolOpen={isDeleting} tooltipText={deleteToolTipText} action={toggleDelete}>
 					<i className="fas fa-trash" />
 				</Tool>
-				<Tool tooltipText={editToolTipText} action={toggleEdit}>
+				<Tool isToolOpen={isEditing} tooltipText={editToolTipText} action={toggleEdit}>
 					<i className="far fa-edit" />
 				</Tool>
 				<Tool tooltipText={addToolTipText} action={toggleCreate}>
@@ -69,8 +70,8 @@ SharedSidebar.propTypes = {
 	toggleProjectsSubcategory: PropTypes.func.isRequired,
 	isProjectsSubcategoryOpen: PropTypes.bool.isRequired,
 	projects: PropTypes.arrayOf(PropTypes.object).isRequired,
-	toggleToolsSubcategory: PropTypes.func.isRequired,
-	isToolsSubcategoryOpen: PropTypes.bool.isRequired,
+	toggleToolsSubcategory: PropTypes.func,
+	isToolsSubcategoryOpen: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 	toggleCreate: PropTypes.func.isRequired,
 	toggleDelete: PropTypes.func.isRequired,
@@ -78,7 +79,8 @@ SharedSidebar.propTypes = {
 	deleteToolTipText: PropTypes.string.isRequired,
 	editToolTipText: PropTypes.string.isRequired,
 	addToolTipText: PropTypes.string.isRequired,
-	toggleTool: PropTypes.bool.isRequired
+	isDeleting: PropTypes.bool,
+	isEditing: PropTypes.bool
 };
 
 export default withOpen(connect(mapStateToProps, mapDispatchToProps)(SharedSidebar));

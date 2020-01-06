@@ -2,6 +2,7 @@ import { projectActionTypes } from './project.types';
 
 const INITIAL_STATE = {
 	shouldDeleteProjects: false,
+	shouldEditProjects: false,
 	isDeleteProjectModalOpen: false,
 	isCreateProjectModalOpen: false,
 	isEditProjectModalOpen: false,
@@ -15,6 +16,8 @@ export const projectReducer = (state = INITIAL_STATE, action = {}) => {
 			return Object.assign({}, state, { isCreateProjectModalOpen: !state.isCreateProjectModalOpen });
 		case projectActionTypes.TOGGLE_DELETE_PROJECTS:
 			return Object.assign({}, state, { shouldDeleteProjects: !state.shouldDeleteProjects });
+		case projectActionTypes.TOGGLE_EDIT_PROJECTS:
+			return Object.assign({}, state, { shouldEditProjects: !state.shouldEditProjects });
 		case projectActionTypes.TOGGLE_DELETE_PROJECT_MODAL:
 			return Object.assign({}, state, { isDeleteProjectModalOpen: !state.isDeleteProjectModalOpen });
 		case projectActionTypes.TOGGLE_EDIT_PROJECT_MODAL:

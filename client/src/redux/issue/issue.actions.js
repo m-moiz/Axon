@@ -1,8 +1,17 @@
 import { IssueActionTypes } from './issue.types';
+import { batch } from 'react-redux';
 
 export const setIssueId = (id) => ({
 	type: IssueActionTypes.SET_ISSUE_ID,
 	payload: id
+});
+
+export const toggleDeleteIssues = () => ({
+	type: IssueActionTypes.TOGGLE_DELETE_ISSUES
+});
+
+export const toggleEditIssues = () => ({
+	type: IssueActionTypes.TOGGLE_EDIT_ISSUES
 });
 
 export const toggleCreateIssueModal = () => ({
@@ -31,14 +40,53 @@ export const setSearchText = (inputText) => ({
 	payload: inputText
 });
 
-export const toggleSortOptionsBox = () => ({
-	type: IssueActionTypes.TOGGLE_SORT_OPTIONS_BOX
+export const closeLabelOptionBox = () => ({
+	type: IssueActionTypes.CLOSE_LABEL_OPTIONS_BOX
 });
 
-export const toggleLabelOptionsBox = () => ({
-	type: IssueActionTypes.TOGGLE_LABEL_OPTIONS_BOX
+export const closeSortOptionBox = () => ({
+	type: IssueActionTypes.ClOSE_SORT_OPTIONS_BOX
 });
 
-export const toggleStatusOptionsBox = () => ({
-	type: IssueActionTypes.TOGGLE_STATUS_OPTIONS_BOX
+export const closeStatusOptionBox = () => ({
+	type: IssueActionTypes.CLOSE_STATUS_OPTIONS_BOX
 });
+
+export const toggleSortOptionsBox = () => {
+	return (dispatch) => {
+		batch(() => {
+			dispatch(closeLabelOptionBox());
+			dispatch(closeStatusOptionBox());
+		});
+
+		return dispatch({
+			type: IssueActionTypes.TOGGLE_SORT_OPTIONS_BOX
+		});
+	};
+};
+
+export const toggleLabelOptionsBox = () => {
+	return (dispatch) => {
+		batch(() => {
+			dispatch(closeSortOptionBox());
+			dispatch(closeStatusOptionBox());
+		});
+
+		return dispatch({
+			type: IssueActionTypes.TOGGLE_LABEL_OPTIONS_BOX
+		});
+	};
+};
+
+export const toggleStatusOptionsBox = () => {
+	return (dispatch) => {
+		batch(() => {
+			dispatch(closeSortOptionBox());
+			dispatch(closeLabelOptionBox());
+		});
+
+		return dispatch({
+			type: IssueActionTypes.TOGGLE_STATUS_OPTIONS_BOX
+		});
+	};
+};

@@ -17,6 +17,10 @@ export const toggleDeleteProjects = () => ({
 	type: projectActionTypes.TOGGLE_DELETE_PROJECTS
 });
 
+export const toggleEditProjects = () => ({
+	type: projectActionTypes.TOGGLE_EDIT_PROJECTS
+});
+
 export const toggleDeleteProjectModal = () => ({
 	type: projectActionTypes.TOGGLE_DELETE_PROJECT_MODAL
 });

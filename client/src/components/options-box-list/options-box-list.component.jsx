@@ -1,15 +1,20 @@
 import React from 'react';
+import OptionsBoxListItem from '../options-box-list-item/options-box-list-item.component';
+import './options-box-list.styles.scss';
 
-function OptionsBoxList() {
+function OptionsBoxList({ listItems }) {
 	return (
 		<div className="optionsBoxList">
 			<menu>
-				<li>
-					<button>
-						<i className="fas fa-check" />
-						<p>Newest</p>
-					</button>
-				</li>
+				{Array.isArray(listItems) && listItems.length > 0 ? (
+					listItems.map((listItem) => (
+						<li>
+							<OptionsBoxListItem item={listItem} />
+						</li>
+					))
+				) : (
+					''
+				)}
 			</menu>
 		</div>
 	);

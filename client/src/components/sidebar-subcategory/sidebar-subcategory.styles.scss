@@ -1,15 +1,11 @@
+@import '../../mixins.scss';
+
 .sidebar-subcategory-title {
 	padding-left: .3rem;
 	color: rgba(206, 204, 204, 0.671);
 	font-size: .8rem;
 	height: 1.5rem;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-tap-highlight-color: transparent;
+	@include remove-select;
 
 	&:hover {
 		color: rgb(255, 255, 255);

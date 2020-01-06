@@ -16,8 +16,8 @@ import axios from 'axios';
 import {
 	setIssuesArray,
 	toggleCreateIssueModal,
-	toggleDeleteIssueModal,
-	toggleEditIssueModal
+	toggleEditIssues,
+	toggleDeleteIssues
 } from '../../redux/issue/issue.actions';
 import { selectUserId } from '../../redux/user/user.selectors';
 import {
@@ -25,7 +25,11 @@ import {
 	selectIsDeleteIssueModalOpen,
 	selectIsEditIssueModalOpen,
 	selectIsSortOptionsBoxOpen,
-	selectFilteredIssues
+	selectIsLabelOptionsBoxOpen,
+	selectIsStatusOptionsBoxOpen,
+	selectFilteredIssues,
+	selectIsShowingDeleteButton,
+	selectIsShowingEditButton
 } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
@@ -38,10 +42,19 @@ const Title = styled.h3`
 	position: relative;
 	width: fit-content;
 	left: 10%;
-	top: 1.97rem;
+	top: 1.47rem;
 `;
 
 class IssuesPage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			sortOptions: [ 'Newest', 'Oldest', 'Highest Priority', 'Lowest Priority', 'Most votes', 'Least votes' ],
+			statusOptions: [ 'Open', 'Closed' ],
+			labelOptions: [ 'Improvement', 'Feature', 'Bug', 'Task', 'Epic' ]
+		};
+	}
+
 	componentDidMount() {
 		axios
 			.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
@@ -88,9 +101,11 @@ class IssuesPage extends Component {
 
 				<SharedSidebar
 					title="Issues"
+					isDeleting={this.props.isShowingDeleteButton}
+					isEditing={this.props.isShowingEditButton}
+					toggleDelete={this.props.toggleDeleteIssues}
 					toggleCreate={this.props.toggleCreateIssueModal}
-					toggleDelete={this.props.toggleDeleteIssueModal}
-					toggleEdit={this.props.toggleEditIssueModal}
+					toggleEdit={this.props.toggleEditIssues}
 					addToolTipText="Create Issue"
 					editToolTipText="Edit Issue"
 					deleteToolTipText="Delete Issue"
@@ -98,13 +113,46 @@ class IssuesPage extends Component {
 				/>
 
 				<PageContentContainer>
-					{this.props.isSortOptionsBoxOpen ? <OptionsBox /> : ''}
+					{this.props.isSortOptionsBoxOpen ? (
+						<OptionsBox
+							listItems={this.state.sortOptions}
+							headerTitle="Sort By"
+							right="28vw"
+							bottom="20vh"
+						/>
+					) : (
+						''
+					)}
+					{this.props.isStatusOptionsBoxOpen ? (
+						<OptionsBox
+							listItems={this.state.statusOptions}
+							headerTitle="Filter By"
+							right="20vw"
+							bottom="49vh"
+						/>
+					) : (
+						''
+					)}
+					{this.props.isLabelOptionsBoxOpen ? (
+						<OptionsBox
+							listItems={this.state.labelOptions}
+							headerTitle="Filter By"
+							right="10vw"
+							bottom="27vh"
+						/>
+					) : (
+						''
+					)}
 					<Title> {this.props.projectName} </Title>
 					<SearchBar />
 
 					<Table items={this.props.issues} />
 
-					<AddButton toggleModal={this.props.toggleCreateIssueModal} />
+					{!this.props.isShowingDeleteButton ? (
+						<AddButton toggleModal={this.props.toggleCreateIssueModal} />
+					) : (
+						''
+					)}
 				</PageContentContainer>
 			</PageContainer>
 		);
@@ -113,10 +161,14 @@ class IssuesPage extends Component {
 
 const mapStateToProps = (state) => {
 	return {
+		isShowingDeleteButton: selectIsShowingDeleteButton(state),
+		isShowingEditButton: selectIsShowingEditButton(state),
 		isCreateIssueModalOpen: selectIsCreateIssueModalOpen(state),
 		isDeleteIssueModalOpen: selectIsDeleteIssueModalOpen(state),
 		isEditIssueModalOpen: selectIsEditIssueModalOpen(state),
 		isSortOptionsBoxOpen: selectIsSortOptionsBoxOpen(state),
+		isLabelOptionsBoxOpen: selectIsLabelOptionsBoxOpen(state),
+		isStatusOptionsBoxOpen: selectIsStatusOptionsBoxOpen(state),
 		userId: selectUserId(state),
 		projectId: selectProjectId(state),
 		issues: selectFilteredIssues(state),
@@ -130,8 +182,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setIssuesArray: (issues) => dispatch(setIssuesArray(issues)),
 		toggleCreateIssueModal: () => dispatch(toggleCreateIssueModal()),
-		toggleDeleteIssueModal: () => dispatch(toggleDeleteIssueModal()),
-		toggleEditIssueModal: () => dispatch(toggleEditIssueModal())
+		toggleEditIssues: () => dispatch(toggleEditIssues()),
+		toggleDeleteIssues: () => dispatch(toggleDeleteIssues())
 	};
 };
 

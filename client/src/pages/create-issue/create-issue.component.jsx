@@ -7,6 +7,7 @@ import { toggleCreateIssueModal } from '../../redux/issue/issue.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions.js';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import RichTextEditor from 'react-rte';
 import 'react-datepicker/dist/react-datepicker.css';
 import './create-issue.styles.scss';
 
@@ -22,9 +23,20 @@ class CreateIssue extends Component {
 			startDate: new Date(),
 			enivironment: '',
 			status: 'Open',
-			version: ''
+			version: '',
+			value: RichTextEditor.createEmptyValue()
 		};
 	}
+
+	onChange = (value) => {
+		this.setState({ value });
+		if (this.props.onChange) {
+			// Send the changes up to the parent component as an HTML string.
+			// This is here to demonstrate using `.toString()` but in a real app it
+			// would be better to avoid generating a string on each change.
+			this.props.onChange(value.toString('html'));
+		}
+	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -87,13 +99,7 @@ class CreateIssue extends Component {
 					<option>Closed</option>
 				</FormInput>
 				<FormInput name="summary" handleChange={this.handleChange} type="text" placeholder="Enter Summary" />
-				<FormInput
-					name="description"
-					handleChange={this.handleChange}
-					inputName="Description"
-					as="textarea"
-					rows="8"
-				/>
+				<RichTextEditor value={this.state.value} onChange={this.onChange} />
 				<FormInput name="priority" handleChange={this.handleChange} inputName="Priority" as="select">
 					<option>High</option>
 					<option>Medium</option>

@@ -26,9 +26,15 @@ function Label({ labelType }) {
 	}
 
 	return (
-		<div className={className}>
-			<div>{content}</div>
-		</div>
+		<React.Fragment>
+			{labelType ? (
+				<div className={className}>
+					<div>{content}</div>
+				</div>
+			) : (
+				''
+			)}
+		</React.Fragment>
 	);
 }
 

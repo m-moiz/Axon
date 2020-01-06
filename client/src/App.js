@@ -2,7 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './components/header/header.component';
 import Loading from './components/loading/loading.component';
-import './App.css';
+import './App.scss';
 
 const IssuePage = React.lazy(() => import('./pages/issue/issue.component'));
 const IssuesPage = React.lazy(() => import('./pages/issues/issues.component'));

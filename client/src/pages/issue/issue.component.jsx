@@ -8,7 +8,7 @@ import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.compon
 import Modal from '../../components/modal/modal.components';
 import TopMessage from '../../components/top-message/top-message.component';
 import styled from 'styled-components';
-import { toggleDeleteIssueModal, toggleEditIssueModal } from '../../redux/issue/issue.actions';
+import { toggleDeleteIssueModal, toggleEditIssues } from '../../redux/issue/issue.actions';
 import { selectIsDeleteIssueModalOpen, selectIsEditIssueModalOpen } from '../../redux/issue/issue.selectors';
 import { selectProjectName } from '../../redux/project/project.selectors';
 import { selectIssueId } from '../../redux/issue/issue.selectors';
@@ -45,8 +45,8 @@ class IssuePage extends Component {
 
 				<SharedSidebar
 					title="Issues"
-					toggleDelete={this.props.toggleDeleteIssueModal}
-					toggleEdit={this.props.toggleEditIssueModal}
+					toggleDelete={this.props.toggleDeleteIssuesl}
+					toggleEdit={this.props.toggleEditIssues}
 					editToolTipText="Edit Issue"
 					deleteToolTipText="Delete Issue"
 					isSidebarOpen={this.props.isSidebarOpen}
@@ -75,7 +75,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleDeleteIssueModal: () => dispatch(toggleDeleteIssueModal()),
-		toggleEditIssueModal: () => dispatch(toggleEditIssueModal())
+		toggleEditIssues: () => dispatch(toggleEditIssues())
 	};
 };
 

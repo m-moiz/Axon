@@ -5,30 +5,33 @@
 	position: relative;
 	bottom: .4rem;
 
-	input {
-		width: 38%;
-		padding: .2rem;
-		border: 1px solid rgba(216, 216, 216, 0.972);
-		text-align: center;
-		border-radius: .3rem;
-
-		&::-webkit-input-placeholder {
+	form {
+		input {
+			width: 38vw;
+			padding: .2rem;
+			border: 1px solid rgba(216, 216, 216, 0.972);
 			text-align: center;
-		}
+			border-radius: .3rem;
 
-		&:-moz-placeholder {
-			text-align: center;
-		}
+			&::-webkit-input-placeholder {
+				text-align: center;
+			}
 
-		&::-moz-placeholder {
-			text-align: center;
-		}
+			&:-moz-placeholder {
+				text-align: center;
+			}
 
-		&:-ms-input-placeholder {
-			text-align: center;
-		}
+			&::-moz-placeholder {
+				text-align: center;
+			}
 
-		&:focus {
+			&:-ms-input-placeholder {
+				text-align: center;
+			}
+
+			&:focus {
+				outline: none;
+			}
 		}
 	}
 }

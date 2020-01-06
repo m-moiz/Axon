@@ -2,8 +2,8 @@
 	display: flex;
 	flex-direction: row;
 	border: none;
-	border-bottom: 1px solid #c7c7c7;
 	align-items: center;
+	width: 100%;
 
 	&:hover {
 		background-color: #f5f2f2;
@@ -11,7 +11,7 @@
 		cursor: pointer;
 
 		.table__border {
-			background-color: rgb(102, 102, 102);
+			background-color: rgb(58, 58, 58);
 		}
 
 		.table__item--content {
@@ -19,8 +19,25 @@
 		}
 	}
 
+	.table__items {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		border-bottom: 1px solid rgb(223, 223, 223);
+	}
+
 	.table__item--summary {
+		font-size: 1.1rem;
 		padding: .5rem;
+	}
+
+	.table__row--end {
+		display: flex;
+		flex-direction: row;
+		margin-left: auto;
+		margin-right: 2rem;
+		color: rgb(149, 149, 149);
+		align-items: center;
 	}
 }
 
@@ -36,12 +53,33 @@
 .table__border {
 	width: 10px;
 	align-self: stretch;
-	background-color: rgb(0, 225, 255);
+	background-color: rgb(59, 209, 255);
 	transition: background-color .1s ease-in-out;
+}
+
+.table__row--delete {
+	color: rgb(149, 149, 149);
+	align-self: center;
+	margin-right: 1rem;
+	padding-left: 1rem;
+
+	&:hover {
+		color: black;
+		cursor: pointer;
+	}
 }
 
 .table__item--content {
 	font-weight: 500;
+	margin-bottom: .15rem;
+
+	&.margin {
+		margin-bottom: .4rem;
+	}
+}
+
+.table__item {
+	margin-bottom: .4rem;
 }
 
 .table__row:last-child {

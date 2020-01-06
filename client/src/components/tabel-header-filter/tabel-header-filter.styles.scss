@@ -1,4 +1,8 @@
+@import '../../mixins.scss';
+
 .tabel-header-filter {
+	@include remove-select;
+
 	&:hover {
 		color: rgb(111, 214, 255);
 		cursor: pointer;

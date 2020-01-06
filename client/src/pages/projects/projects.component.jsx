@@ -14,15 +14,17 @@ import {
 	setProjectsArray,
 	toggleCreateProjectModal,
 	toggleDeleteProjectModal,
-	toggleDeleteProjects
+	toggleDeleteProjects,
+	toggleEditProjects
 } from '../../redux/project/project.actions';
 import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
 import {
 	selectProjects,
 	selectIsCreateProjectModalOpen,
 	selectIsDeleteProjectModalOpen,
-	selectisEditProjectModalOpen,
-	selectShouldDeleteProjects
+	selectIsEditProjectModalOpen,
+	selectShouldDeleteProjects,
+	selectShouldEditProjects
 } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectShouldRenderMessage, selectMessageText } from '../../redux/message/message.selectors';
@@ -72,7 +74,9 @@ class ProjectsPage extends Component {
 					title="Projects"
 					toggleCreate={this.props.toggleCreateProjectModal}
 					toggleDelete={this.props.toggleDeleteProjects}
-					toggleTool={this.props.shouldDeleteProjects}
+					toggleEdit={this.props.toggleEditProjects}
+					isDeleting={this.props.shouldDeleteProjects}
+					isEditing={this.props.shouldEditProjects}
 					addToolTipText="Create Project"
 					editToolTipText="Edit Project"
 					deleteToolTipText="Delete Projects"
@@ -94,8 +98,9 @@ const mapStateToProps = (state) => {
 		projects: selectProjects(state),
 		isCreateProjectModalOpen: selectIsCreateProjectModalOpen(state),
 		isDeleteProjectModalOpen: selectIsDeleteProjectModalOpen(state),
-		isEditProjectModalOpen: selectisEditProjectModalOpen(state),
+		isEditProjectModalOpen: selectIsEditProjectModalOpen(state),
 		shouldDeleteProjects: selectShouldDeleteProjects(state),
+		shouldEditProjects: selectShouldEditProjects(state),
 		shouldRenderMessage: selectShouldRenderMessage(state),
 		messageText: selectMessageText(state),
 		isSidebarOpen: selectIsSidebarOpen(state)
@@ -107,7 +112,8 @@ const mapDispatchToProps = (dispatch) => {
 		setProjectsArray: (projects) => dispatch(setProjectsArray(projects)),
 		toggleCreateProjectModal: () => dispatch(toggleCreateProjectModal()),
 		toggleDeleteProjectModal: () => dispatch(toggleDeleteProjectModal()),
-		toggleDeleteProjects: () => dispatch(toggleDeleteProjects())
+		toggleDeleteProjects: () => dispatch(toggleDeleteProjects()),
+		toggleEditProjects: () => dispatch(toggleEditProjects())
 	};
 };
 

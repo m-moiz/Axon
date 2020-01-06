@@ -1,2 +1,12 @@
 .optionsBoxList {
+	flex-grow: 1;
+
+	li {
+		list-style-type: none;
+	}
+
+	menu {
+		padding: 0;
+		margin: 0;
+	}
 }

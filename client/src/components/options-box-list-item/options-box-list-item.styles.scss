@@ -1,9 +1,21 @@
 .optionsBoxListItem {
 	display: flex;
 	flex-direction: row;
+	width: 100%;
+	border: none;
+	background-color: white;
+	padding-left: 2rem;
+	padding-top: .7rem;
+	border-bottom: 1px solid rgb(223, 223, 223);
+	font-size: .8rem;
+	color: rgb(107, 107, 107);
 
-	&.hover {
-		background-color: rgb(185, 185, 185);
+	&:hover {
+		background-color: rgb(235, 235, 235);
 		cursor: pointer;
+	}
+
+	&.active {
+		color: black;
 	}
 }
