@@ -17,26 +17,27 @@ const Title = styled.h3`padding: 8px;`;
 const TaskList = styled.div`
 	padding: 8px;
 	transition: background-color .2s ease;
-	background-color: ${(props) => (props.isDraggingOver ? '#f7f7f7' : 'inherit')};
+	background-color: ${(props: any) => (props.isDraggingOver ? '#f7f7f7' : 'inherit')};
 	flex-grow: 1;
 	min-height: 100px;
 `;
 
 class BoardColumn extends Component {
 	render() {
+		const props: any = this.props;
 		return (
-			<Draggable draggableId={this.props.column.id} index={this.props.index}>
+			<Draggable draggableId={props.column.id} index={props.index}>
 				{(provided) => (
 					<Container {...provided.draggableProps} ref={provided.innerRef}>
-						<Title {...provided.dragHandleProps}>{this.props.column.title}</Title>
-						<Droppable droppableId={this.props.column.id} type="task">
+						<Title {...provided.dragHandleProps}>{props.column.title}</Title>
+						<Droppable droppableId={props.column.id} type="task">
 							{(provided, snapshot) => (
 								<TaskList
 									ref={provided.innerRef}
 									{...provided.droppableProps}
 									isDraggingOver={snapshot.isDraggingOver}
 								>
-									{this.props.tasks.map((task, index) => (
+									{props.tasks.map((task, index) => (
 										<BoardTask key={task.id} task={task} index={index} />
 									))}
 									{provided.placeholder}

@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SideBar from '../../components/sidebar/sidebar.component';
-import SideBarTools from '../../components/sidebar-tools/sidebar-tools.component';
-import SideBarSubCategory from '../../components/sidebar-subcategory/sidebar-subcategory.component';
-import SideBarItemsList from '../../components/sidebar-items-list/sidebar-items-list.component';
+import React, { ReactEventHandler, ReactNodeArray } from 'react';
+import SideBar from '../sidebar/sidebar.component';
+import SideBarTools from '../sidebar-tools/sidebar-tools.component';
+import SideBarSubCategory from '../sidebar-subcategory/sidebar-subcategory.component';
+import SideBarItemsList from '../sidebar-items-list/sidebar-items-list.component';
 import Tool from '../tool/tool.component';
 import withOpen from '../with-open/with-open.component';
 import { toggleProjectsSubcategory, toggleToolsSubcategory } from '../../redux/sidebar/sidebar.actions';
@@ -33,7 +32,7 @@ const SharedSidebar = ({
 	isEditing,
 	showGoBack,
 	history
-}) => (
+}: SharedSidebar) => (
 	<SideBar title={title}>
 		{showGoBack ? (
 			<div
@@ -98,25 +97,26 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-SharedSidebar.propTypes = {
-	showGoBack: PropTypes.bool,
-	toggleProjectsSubcategory: PropTypes.func.isRequired,
-	isProjectsSubcategoryOpen: PropTypes.bool.isRequired,
-	projects: PropTypes.arrayOf(PropTypes.object).isRequired,
-	toggleToolsSubcategory: PropTypes.func,
-	isToolsSubcategoryOpen: PropTypes.bool,
-	title: PropTypes.string.isRequired,
-	toggleCreate: PropTypes.func,
-	toggleDelete: PropTypes.func,
-	toggleEdit: PropTypes.func,
-	showEditTool: PropTypes.bool.isRequired,
-	showDeleteTool: PropTypes.bool.isRequired,
-	showAddTool: PropTypes.bool.isRequired,
-	deleteToolTipText: PropTypes.string,
-	editToolTipText: PropTypes.string,
-	addToolTipText: PropTypes.string,
-	isDeleting: PropTypes.bool,
-	isEditing: PropTypes.bool
+type SharedSidebar = {
+	showGoBack: boolean;
+	toggleProjectsSubcategory: ReactEventHandler;
+	isProjectsSubcategoryOpen: boolean;
+	projects: ReactNodeArray;
+	toggleToolsSubcategory: ReactEventHandler;
+	isToolsSubcategoryOpen: boolean;
+	title: string;
+	toggleCreate: ReactEventHandler;
+	toggleDelete: ReactEventHandler;
+	toggleEdit: ReactEventHandler;
+	showEditTool: boolean;
+	showDeleteTool: boolean;
+	showAddTool: boolean;
+	deleteToolTipText: string;
+	editToolTipText: string;
+	addToolTipText: string;
+	isDeleting: boolean;
+	isEditing: boolean;
+	history: History;
 };
 
 export default withRouter(withOpen(connect(mapStateToProps, mapDispatchToProps)(SharedSidebar)));

@@ -11,9 +11,9 @@ import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
 import FroalaEditor from 'react-froala-wysiwyg';
 // Require Editor JS files.
-import '../../../node_modules/froala-editor/js/froala_editor.pkgd.min.js';
-import '../../../node_modules/froala-editor/js/plugins.pkgd.min.js';
-import '../../../node_modules/froala-editor/js/third_party/embedly.min.js';
+import 'froala-editor/js/froala_editor.pkgd.min';
+import 'froala-editor/js/plugins.pkgd.min';
+import 'froala-editor/js/third_party/embedly.min';
 // import "froala-editor/js/plugins/fullscreen.min.js"
 
 // Require Editor CSS files.
