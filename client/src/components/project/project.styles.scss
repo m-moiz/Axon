@@ -1,10 +1,11 @@
 .project-container {
 	display: flex;
 	flex-direction: row;
-	border: 1px solid rgba(119, 119, 119, 0.561);
 	width: 24rem;
 	height: 7.6rem;
 	border-radius: .5rem;
+	box-shadow: 0px 0px 6px 2px #252424;
+	background: #333333;
 
 	.project-edit {
 		position: relative;
@@ -19,13 +20,13 @@
 	flex-direction: column;
 
 	.project-name {
-		color: rgba(43, 184, 250, 0.822);
+		color: rgb(0, 255, 137);
 		font-size: 1.3rem;
 		width: fit-content;
 		margin-bottom: 1rem;
 
 		&:hover {
-			color: rgb(0, 129, 189);
+			color: rgb(0, 255, 137);
 			text-decoration: underline;
 			cursor: pointer;
 		}
@@ -33,7 +34,8 @@
 
 	.project-desc {
 		font-size: .8rem;
-		font-weight: 300;
+		font-weight: 500;
+		color: white;
 	}
 }
 

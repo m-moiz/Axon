@@ -74,6 +74,7 @@ class CreateProject extends Component {
 				title="New Project"
 				toggleModal={this.props.toggleCreateProjectModal}
 				closeButtonFontSize="1.4rem"
+				closeButtonLeft="56%"
 				closeButtonBottom=".5rem"
 			>
 				{this.state.showMessage ? <span>Name already exists</span> : ''}

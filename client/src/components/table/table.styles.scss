@@ -7,7 +7,10 @@
 	height: 65%;
 
 	.table-wrapper {
-		border: 1px solid #e6e6e6;
+		border: none;
+		-webkit-box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
+		-moz-box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
+		box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
 		height: 100%;
 	}
 

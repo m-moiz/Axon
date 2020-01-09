@@ -40,6 +40,21 @@ export const setSearchText = (inputText) => ({
 	payload: inputText
 });
 
+export const setSortType = (sortType) => ({
+	type: IssueActionTypes.SET_SORT_TYPE,
+	payload: sortType
+});
+
+export const setLabelFilter = (labelFilter) => ({
+	type: IssueActionTypes.SET_LABEL_FILTER,
+	payload: labelFilter
+});
+
+export const setStatusFilter = (statusFilter) => ({
+	type: IssueActionTypes.SET_STATUS_FILTER,
+	payload: statusFilter
+});
+
 export const closeLabelOptionBox = () => ({
 	type: IssueActionTypes.CLOSE_LABEL_OPTIONS_BOX
 });
@@ -50,6 +65,18 @@ export const closeSortOptionBox = () => ({
 
 export const closeStatusOptionBox = () => ({
 	type: IssueActionTypes.CLOSE_STATUS_OPTIONS_BOX
+});
+
+export const toggleSortOptionsBoxItem = () => ({
+	type: IssueActionTypes.TOGGLE_SORT_OPTIONS_BOX_ITEM
+});
+
+export const toggleLabelOptionsBoxItem = () => ({
+	type: IssueActionTypes.TOGGLE_LABEL_OPTIONS_BOX_ITEM
+});
+
+export const toggleStatusOptionsBoxItem = () => ({
+	type: IssueActionTypes.TOGGLE_STATUS_OPTIONS_BOX_ITEM
 });
 
 export const toggleSortOptionsBox = () => {

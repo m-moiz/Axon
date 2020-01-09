@@ -2,10 +2,9 @@
 	width: 300px;
 	height: fit-content;
 	background-color: white;
-	border: 1px solid rgb(200, 200, 200);
 	z-index: 4;
 	position: absolute;
-	box-shadow: 1px 3px 9px -3px #e9e9e9;
+	box-shadow: 1px 3px 9px -3px #1f1f1f;
 	animation: appear .1s 1 ease-in-out forwards;
 	display: flex;
 	flex-direction: column;

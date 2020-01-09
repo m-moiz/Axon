@@ -9,8 +9,15 @@ const INITIAL_STATE = {
 	isSortOptionsBoxOpen: false,
 	isLabelOptionsBoxOpen: false,
 	isStatusOptionsBoxOpen: false,
+	isSortOptionBoxItemActive: false,
+	isLabelOptionsBoxItemActive: false,
+	isStatusOptionsBoxItemActive: false,
 	isShowingDeleteButton: false,
 	isShowingEditButton: false,
+	statusFilter: '',
+	labelFilter: '',
+	isSorting: false,
+	sortType: '',
 	issues: []
 };
 
@@ -42,10 +49,22 @@ export const issueReducer = (state = INITIAL_STATE, action = {}) => {
 			return { ...state, isStatusOptionsBoxOpen: false };
 		case IssueActionTypes.ClOSE_SORT_OPTIONS_BOX:
 			return { ...state, isSortOptionsBoxOpen: false };
+		case IssueActionTypes.TOGGLE_LABEL_OPTIONS_BOX_ITEM:
+			return { ...state, isSortOptionBoxItemActive: !state.isSortOptionBoxItemActive };
+		case IssueActionTypes.TOGGLE_STATUS_OPTIONS_BOX_ITEM:
+			return { ...state, isStatusOptionsBoxItemActive: !state.isStatusOptionsBoxItemActive };
+		case IssueActionTypes.TOGGLE_SORT_OPTIONS_BOX_ITEM:
+			return { ...state, isSortOptionBoxItemActive: !state.isSortOptionBoxItemActive };
 		case IssueActionTypes.TOGGLE_DELETE_ISSUES:
 			return { ...state, isShowingDeleteButton: !state.isShowingDeleteButton };
 		case IssueActionTypes.TOGGLE_EDIT_ISSUES:
 			return { ...state, isShowingEditButton: !state.isShowingEditButton };
+		case IssueActionTypes.SET_LABEL_FILTER:
+			return { ...state, labelFilter: action.payload };
+		case IssueActionTypes.SET_SORT_TYPE:
+			return { ...state, sortType: action.payload };
+		case IssueActionTypes.SET_STATUS_FILTER:
+			return { ...state, statusFilter: action.payload };
 		default:
 			return state;
 	}

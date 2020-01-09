@@ -27,9 +27,9 @@ import {
 	selectIsSortOptionsBoxOpen,
 	selectIsLabelOptionsBoxOpen,
 	selectIsStatusOptionsBoxOpen,
-	selectFilteredIssues,
 	selectIsShowingDeleteButton,
-	selectIsShowingEditButton
+	selectIsShowingEditButton,
+	selectFilteredAndSortedIssues
 } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
@@ -43,6 +43,7 @@ const Title = styled.h3`
 	width: fit-content;
 	left: 10%;
 	top: 1.47rem;
+	color: white;
 `;
 
 class IssuesPage extends Component {
@@ -65,7 +66,6 @@ class IssuesPage extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		console.log(prevProps);
 		if (prevProps.projectName !== this.props.projectName) {
 			axios
 				.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
@@ -100,6 +100,10 @@ class IssuesPage extends Component {
 				<TopMessage messageContent={this.props.messageText} />
 
 				<SharedSidebar
+					showGoBack
+					showAddTool
+					showDeleteTool
+					showEditTool
 					title="Issues"
 					isDeleting={this.props.isShowingDeleteButton}
 					isEditing={this.props.isShowingEditButton}
@@ -113,12 +117,15 @@ class IssuesPage extends Component {
 				/>
 
 				<PageContentContainer>
+					<Title>{this.props.projectName}</Title>
+					<SearchBar />
 					{this.props.isSortOptionsBoxOpen ? (
 						<OptionsBox
 							listItems={this.state.sortOptions}
+							type="sort"
 							headerTitle="Sort By"
 							right="28vw"
-							bottom="20vh"
+							bottom="21vh"
 						/>
 					) : (
 						''
@@ -126,9 +133,10 @@ class IssuesPage extends Component {
 					{this.props.isStatusOptionsBoxOpen ? (
 						<OptionsBox
 							listItems={this.state.statusOptions}
+							type="status"
 							headerTitle="Filter By"
 							right="20vw"
-							bottom="49vh"
+							bottom="50vh"
 						/>
 					) : (
 						''
@@ -136,15 +144,14 @@ class IssuesPage extends Component {
 					{this.props.isLabelOptionsBoxOpen ? (
 						<OptionsBox
 							listItems={this.state.labelOptions}
+							type="label"
 							headerTitle="Filter By"
 							right="10vw"
-							bottom="27vh"
+							bottom="28vh"
 						/>
 					) : (
 						''
 					)}
-					<Title> {this.props.projectName} </Title>
-					<SearchBar />
 
 					<Table items={this.props.issues} />
 
@@ -171,7 +178,7 @@ const mapStateToProps = (state) => {
 		isStatusOptionsBoxOpen: selectIsStatusOptionsBoxOpen(state),
 		userId: selectUserId(state),
 		projectId: selectProjectId(state),
-		issues: selectFilteredIssues(state),
+		issues: selectFilteredAndSortedIssues(state),
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state)

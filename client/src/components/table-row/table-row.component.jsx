@@ -37,13 +37,12 @@ const TableRow = ({
 					history.push('/user/issue');
 				}}
 			>
-				<div className="table__border" />
 				<div className="table__items">
 					<div className="table__item--summary">
 						<div className="table__item--row">
 							<i
 								className="fas fa-exclamation-circle"
-								style={{ marginRight: '.5rem', marginTop: '.3rem', color: '#ababab' }}
+								style={{ marginRight: '.5rem', marginTop: '.3rem', color: 'white' }}
 							/>
 							<div className={label ? 'table__item--content' : 'table__item--content margin'}>
 								{summary}

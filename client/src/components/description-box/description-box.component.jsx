@@ -1,11 +1,19 @@
 import React from 'react';
+
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
 import './description-box.styles.scss';
 
-function DescriptionBox() {
+function DescriptionBox({ content }) {
 	return (
-		<div className="description-box">
-			<div>Description</div>
-		</div>
+		<React.Fragment>
+			{content ? (
+				<div className="description-box">
+					<FroalaEditorView model={content} />
+				</div>
+			) : (
+				''
+			)}
+		</React.Fragment>
 	);
 }
 

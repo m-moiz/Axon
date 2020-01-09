@@ -16,6 +16,7 @@ const FormInput = ({
 	bottomStyle,
 	rows,
 	children,
+	value,
 	isFieldValid = true
 }) => {
 	var className = 'form-input';
@@ -46,6 +47,7 @@ const FormInput = ({
 				<Col>
 					<Form.Control
 						name={name}
+						value={value}
 						onBlur={handleBlur}
 						onChange={handleChange}
 						size="md"
@@ -69,6 +71,7 @@ FormInput.propTypes = {
 	inputName: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	text: PropTypes.string,
+	value: PropTypes.string,
 	placeholder: PropTypes.string,
 	as: PropTypes.string,
 	rows: PropTypes.string,

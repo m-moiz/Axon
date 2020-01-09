@@ -1,0 +1,23 @@
+.sidebar__go-back {
+	padding-left: 1.4rem;
+	color: rgb(255, 255, 255);
+	display: flex;
+	height: 30px;
+	align-items: center;
+	background-color: rgb(70, 190, 33);
+	margin-bottom: 1rem;
+
+	&:hover {
+		color: rgb(224, 224, 224);
+		cursor: pointer;
+	}
+
+	p {
+		margin-top: 1rem;
+		margin-right: .4rem;
+	}
+
+	i {
+		margin-top: .14rem;
+	}
+}

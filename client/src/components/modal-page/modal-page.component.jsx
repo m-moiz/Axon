@@ -41,7 +41,7 @@ const ModalPage = ({
 					{children}
 
 					{typeOfPage === 'create' ? (
-						<CustomButton type="submit" width="25%" left="22rem">
+						<CustomButton type="submit" width="25%" left="20rem">
 							Create
 						</CustomButton>
 					) : (

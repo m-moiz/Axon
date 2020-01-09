@@ -10,7 +10,7 @@ const Loading = () => (
 			transform: 'translate(-50%, -50%)'
 		}}
 	>
-		<Spinner animation="grow" />
+		<Spinner animation="grow" variant="success" />
 	</div>
 );
 

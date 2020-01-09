@@ -7,9 +7,20 @@ import { toggleCreateIssueModal } from '../../redux/issue/issue.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions.js';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
-import RichTextEditor from 'react-rte';
+import FroalaEditor from 'react-froala-wysiwyg';
 import 'react-datepicker/dist/react-datepicker.css';
 import './create-issue.styles.scss';
+// Require Editor JS files.
+import '../../../node_modules/froala-editor/js/froala_editor.pkgd.min.js';
+import '../../../node_modules/froala-editor/js/plugins.pkgd.min.js';
+import '../../../node_modules/froala-editor/js/third_party/embedly.min.js';
+// import "froala-editor/js/plugins/fullscreen.min.js"
+
+// Require Editor CSS files.
+import '../../../node_modules/froala-editor/css/froala_style.min.css';
+import '../../../node_modules/froala-editor/css/froala_editor.pkgd.min.css';
+import '../../../node_modules/froala-editor/css/third_party/embedly.min.css';
+// import "froala-editor/css/plugins/fullscreen.min.css";
 
 class CreateIssue extends Component {
 	constructor(props) {
@@ -18,25 +29,14 @@ class CreateIssue extends Component {
 			issueType: 'Improvement',
 			reporter: '',
 			summary: '',
-			description: '',
 			priority: 'High',
 			startDate: new Date(),
 			enivironment: '',
 			status: 'Open',
 			version: '',
-			value: RichTextEditor.createEmptyValue()
+			description: ''
 		};
 	}
-
-	onChange = (value) => {
-		this.setState({ value });
-		if (this.props.onChange) {
-			// Send the changes up to the parent component as an HTML string.
-			// This is here to demonstrate using `.toString()` but in a real app it
-			// would be better to avoid generating a string on each change.
-			this.props.onChange(value.toString('html'));
-		}
-	};
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -68,6 +68,12 @@ class CreateIssue extends Component {
 			.catch((err) => console.log(err));
 	};
 
+	handleModelChange = (description) => {
+		this.setState({
+			description: description
+		});
+	};
+
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
@@ -85,6 +91,8 @@ class CreateIssue extends Component {
 				handleSubmit={this.handleSubmit}
 				title="New Issue"
 				toggleModal={this.props.toggleCreateIssueModal}
+				height="80%"
+				width="70%"
 			>
 				<FormInput name="issueType" handleChange={this.handleChange} inputName="Issue Type" as="select">
 					<option>Improvement</option>
@@ -93,13 +101,123 @@ class CreateIssue extends Component {
 					<option>Task</option>
 					<option>Epic</option>
 				</FormInput>
-				<FormInput name="reporter" handleChange={this.handleChange} type="text" placeholder="Reporter name" />
+				<FormInput
+					name="reporter"
+					inputName="Reporter"
+					handleChange={this.handleChange}
+					type="text"
+					placeholder="Reporter name"
+				/>
 				<FormInput name="status" handleChange={this.handleChange} inputName="Status" as="select">
 					<option>Open</option>
 					<option>Closed</option>
 				</FormInput>
-				<FormInput name="summary" handleChange={this.handleChange} type="text" placeholder="Enter Summary" />
-				<RichTextEditor value={this.state.value} onChange={this.onChange} />
+				<FormInput
+					name="summary"
+					inputName="Summary"
+					handleChange={this.handleChange}
+					type="text"
+					placeholder="Enter Summary"
+				/>
+				<label>Description</label>
+				<FroalaEditor
+					model={this.state.description}
+					onModelChange={this.handleModelChange}
+					config={{
+						attribution: false,
+						placeholder: 'Start typing...',
+						toolbarButtons: {
+							moreText: {
+								buttons: [
+									'bold',
+									'italic',
+									'underline',
+									'strikeThrough',
+									'subscript',
+									'superscript',
+									'fontFamily',
+									'fontSize',
+									'textColor',
+									'backgroundColor',
+									'inlineClass',
+									'inlineStyle',
+									'clearFormatting'
+								]
+							},
+							moreParagraph: {
+								buttons: [
+									'alignLeft',
+									'alignCenter',
+									'formatOLSimple',
+									'alignRight',
+									'alignJustify',
+									'formatOL',
+									'formatUL',
+									'paragraphFormat',
+									'paragraphStyle',
+									'lineHeight',
+									'outdent',
+									'indent',
+									'quote'
+								]
+							},
+							moreRich: {
+								buttons: [
+									'insertLink',
+									'insertImage',
+									'insertVideo',
+									'insertTable',
+									'emoticons',
+									'fontAwesome',
+									'specialCharacters',
+									'embedly',
+									'insertFile',
+									'insertHR'
+								]
+							},
+							moreMisc: {
+								buttons: [
+									'undo',
+									'redo',
+									'fullscreen',
+									'print',
+									'getPDF',
+									'spellChecker',
+									'selectAll',
+									'html',
+									'help'
+								],
+								align: 'right',
+								buttonsVisible: 2
+							}
+						},
+						pluginsEnabled: [
+							'spell',
+							'quote',
+							'save',
+							'paragraphFormat',
+							'paragraphStyle',
+							'help',
+							'draggable',
+							'align',
+							'link',
+							'lists',
+							'file',
+							'image',
+							'emoticons',
+							'url',
+							'video',
+							'embedly',
+							'colors',
+							'entities',
+							'inlineClass',
+							'inlineStyle',
+							'codeBeautif ',
+							// 'spellChecker',
+							'imageTUI'
+						]
+					}}
+				/>
 				<FormInput name="priority" handleChange={this.handleChange} inputName="Priority" as="select">
 					<option>High</option>
 					<option>Medium</option>
@@ -121,7 +239,13 @@ class CreateIssue extends Component {
 					as="textarea"
 					rows="3"
 				/>
-				<FormInput name="version" handleChange={this.handleChange} type="text" placeholder="Enter version" />
+				<FormInput
+					inputName="Version"
+					name="version"
+					handleChange={this.handleChange}
+					type="text"
+					placeholder="Enter version"
+				/>
 			</ModalPage>
 		);
 	}

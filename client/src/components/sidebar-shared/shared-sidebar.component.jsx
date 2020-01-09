@@ -10,6 +10,8 @@ import { toggleProjectsSubcategory, toggleToolsSubcategory } from '../../redux/s
 import { selectToggleProjectsSubcategory, selectToggleToolsSubcategory } from '../../redux/sidebar/sidebar.selectors';
 import { selectProjects } from '../../redux/project/project.selectors';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import './shared-sidebar.styles.scss';
 
 const SharedSidebar = ({
 	toggleProjectsSubcategory,
@@ -24,25 +26,55 @@ const SharedSidebar = ({
 	deleteToolTipText,
 	editToolTipText,
 	addToolTipText,
+	showEditTool,
+	showDeleteTool,
+	showAddTool,
 	isDeleting,
-	isEditing
+	isEditing,
+	showGoBack,
+	history
 }) => (
 	<SideBar title={title}>
+		{showGoBack ? (
+			<div
+				onClick={() => {
+					history.goBack();
+				}}
+				className="sidebar__go-back"
+			>
+				<p>Go back</p>
+				<i className="fas fa-angle-left" />
+			</div>
+		) : (
+			''
+		)}
 		<SideBarSubCategory toggleSidebarSubcategory={toggleProjectsSubcategory} subcategoryName="projects">
 			<SideBarItemsList isSidebarSubcategoryOpen={isProjectsSubcategoryOpen} items={projects} />
 		</SideBarSubCategory>
 
 		<SideBarSubCategory toggleSidebarSubcategory={toggleToolsSubcategory} subcategoryName="tools">
 			<SideBarTools isSidebarSubcategoryOpen={isToolsSubcategoryOpen}>
-				<Tool isToolOpen={isDeleting} tooltipText={deleteToolTipText} action={toggleDelete}>
-					<i className="fas fa-trash" />
-				</Tool>
-				<Tool isToolOpen={isEditing} tooltipText={editToolTipText} action={toggleEdit}>
-					<i className="far fa-edit" />
-				</Tool>
-				<Tool tooltipText={addToolTipText} action={toggleCreate}>
-					<i className="fas fa-plus" />
-				</Tool>
+				{showDeleteTool ? (
+					<Tool isToolOpen={isDeleting} tooltipText={deleteToolTipText} action={toggleDelete}>
+						<i className="fas fa-trash" />
+					</Tool>
+				) : (
+					''
+				)}
+				{showEditTool ? (
+					<Tool isToolOpen={isEditing} tooltipText={editToolTipText} action={toggleEdit}>
+						<i className="far fa-edit" />
+					</Tool>
+				) : (
+					''
+				)}
+				{showAddTool ? (
+					<Tool tooltipText={addToolTipText} action={toggleCreate}>
+						<i className="fas fa-plus" />
+					</Tool>
+				) : (
+					''
+				)}
 				<Tool tooltipText="Settings">
 					<i className="fas fa-cog" />
 				</Tool>
@@ -67,20 +99,24 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 SharedSidebar.propTypes = {
+	showGoBack: PropTypes.bool,
 	toggleProjectsSubcategory: PropTypes.func.isRequired,
 	isProjectsSubcategoryOpen: PropTypes.bool.isRequired,
 	projects: PropTypes.arrayOf(PropTypes.object).isRequired,
 	toggleToolsSubcategory: PropTypes.func,
 	isToolsSubcategoryOpen: PropTypes.bool,
 	title: PropTypes.string.isRequired,
-	toggleCreate: PropTypes.func.isRequired,
-	toggleDelete: PropTypes.func.isRequired,
-	toggleEdit: PropTypes.func.isRequired,
-	deleteToolTipText: PropTypes.string.isRequired,
-	editToolTipText: PropTypes.string.isRequired,
-	addToolTipText: PropTypes.string.isRequired,
+	toggleCreate: PropTypes.func,
+	toggleDelete: PropTypes.func,
+	toggleEdit: PropTypes.func,
+	showEditTool: PropTypes.bool.isRequired,
+	showDeleteTool: PropTypes.bool.isRequired,
+	showAddTool: PropTypes.bool.isRequired,
+	deleteToolTipText: PropTypes.string,
+	editToolTipText: PropTypes.string,
+	addToolTipText: PropTypes.string,
 	isDeleting: PropTypes.bool,
 	isEditing: PropTypes.bool
 };
 
-export default withOpen(connect(mapStateToProps, mapDispatchToProps)(SharedSidebar));
+export default withRouter(withOpen(connect(mapStateToProps, mapDispatchToProps)(SharedSidebar)));

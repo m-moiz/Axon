@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './priority-icon.styles.scss';
 
 function PriorityIcon({ priority }) {
 	let className = 'priority-icon ';
-	if (priorty === 'High') {
+	if (priority === 'High') {
 		className += 'red';
 	} else if (priority === 'Medium') {
 		className += 'orange';
@@ -19,5 +20,9 @@ function PriorityIcon({ priority }) {
 		</div>
 	);
 }
+
+PriorityIcon.propTypes = {
+	priorty: PropTypes.string
+};
 
 export default PriorityIcon;

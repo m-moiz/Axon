@@ -4,18 +4,21 @@
 	border: none;
 	align-items: center;
 	width: 100%;
+	color: white;
+	background-color: #353535;
+	padding-top: .2rem;
+	padding-bottom: .2rem;
+	padding-left: .8rem;
 
 	&:hover {
-		background-color: #f5f2f2;
-		box-shadow: 0px 0px 2px 2px rgb(228, 228, 228);
+		background-color: rgb(75, 75, 75);
+		box-shadow: 0 4px 3px -3px rgb(20, 20, 20);
 		cursor: pointer;
 
 		.table__border {
-			background-color: rgb(58, 58, 58);
 		}
 
 		.table__item--content {
-			color: rgb(6, 121, 228);
 		}
 	}
 
@@ -23,7 +26,6 @@
 		display: flex;
 		flex-direction: row;
 		width: 100%;
-		border-bottom: 1px solid rgb(223, 223, 223);
 	}
 
 	.table__item--summary {
@@ -36,7 +38,7 @@
 		flex-direction: row;
 		margin-left: auto;
 		margin-right: 2rem;
-		color: rgb(149, 149, 149);
+		color: rgb(255, 254, 254);
 		align-items: center;
 	}
 }
@@ -53,7 +55,7 @@
 .table__border {
 	width: 10px;
 	align-self: stretch;
-	background-color: rgb(59, 209, 255);
+	background-color: #008cff;
 	transition: background-color .1s ease-in-out;
 }
 
@@ -72,6 +74,7 @@
 .table__item--content {
 	font-weight: 500;
 	margin-bottom: .15rem;
+	color: rgb(255, 255, 255);
 
 	&.margin {
 		margin-bottom: .4rem;

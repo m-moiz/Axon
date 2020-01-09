@@ -72,6 +72,9 @@ class ProjectsPage extends Component {
 
 				<SharedSidebar
 					title="Projects"
+					showAddTool
+					showEditTool
+					showDeleteTool
 					toggleCreate={this.props.toggleCreateProjectModal}
 					toggleDelete={this.props.toggleDeleteProjects}
 					toggleEdit={this.props.toggleEditProjects}

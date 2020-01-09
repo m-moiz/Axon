@@ -3,7 +3,7 @@
 	margin-left: .4rem;
 	font-size: 1.1rem;
 	border-radius: 5rem;
-	background-color: black;
+	background-color: rgb(255, 255, 255);
 	padding-left: .5rem;
 	padding-right: .5rem;
 	height: fit-content;
@@ -20,7 +20,7 @@
 	.fas {
 		&.fa-angle-right {
 			padding-left: .1rem;
-			color: rgb(31, 255, 31);
+			color: rgb(0, 161, 48);
 		}
 	}
 }
