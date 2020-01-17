@@ -1,6 +1,7 @@
 const express = require('express');
 const compression = require('compression');
 const dotenv = require('dotenv');
+const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
@@ -28,6 +29,8 @@ app.use(
 		keys: [ process.env.COOKIE_SECRET ]
 	})
 );
+
+app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(morgan('dev'));

@@ -1,7 +1,10 @@
 @media screen and (max-width: 2100px) and (min-width: 800px) {
 	.project-list {
-		box-shadow: 1px 1px 6px 1px #1d1d1d;
-		border-radius: .7rem;
+		box-shadow: 0px 3px 6px 1px #1d1d1d;
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+		border-bottom-left-radius: .7rem;
+		border-bottom-right-radius: .7rem;
 		height: 80vh;
 		width: 75vw;
 		position: relative;

@@ -8,13 +8,15 @@ import { userReducer } from './user/user.reducer';
 import { projectReducer } from './project/project.reducer';
 import { sidebarReducer } from './sidebar/sidebar.reducer';
 import { messageReducer } from './message/message.reducer';
+import { commentReducer } from './comment/comment.reducer';
+import { teamReducer } from './team/team.reducer';
 import { userActionTypes } from './user/user.types';
 
 const persistConfig = {
 	key: 'root',
 	storage: storage,
 	stateReconciler: autoMergeLevel2,
-	whitelist: [ 'user', 'project' ]
+	whitelist: [ 'user', 'project', 'team' ]
 };
 
 const appReducer = combineReducers({
@@ -22,7 +24,9 @@ const appReducer = combineReducers({
 	user: userReducer,
 	project: projectReducer,
 	sidebar: sidebarReducer,
-	message: messageReducer
+	message: messageReducer,
+	comment: commentReducer,
+	team: teamReducer
 });
 
 const rootReducer = (state, action) => {

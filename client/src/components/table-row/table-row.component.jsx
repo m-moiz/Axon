@@ -13,6 +13,7 @@ const TableRow = ({
 	summary,
 	status,
 	assignee,
+	createdBy,
 	label,
 	history,
 	itemId,
@@ -53,7 +54,7 @@ const TableRow = ({
 						</div>
 
 						<div className="table__item--date">
-							Opened on {month} {day} by mmo
+							Opened on {month} {day} by {createdBy}
 						</div>
 					</div>
 					<div className="table__row--end">
@@ -91,7 +92,8 @@ TableRow.propTypes = {
 	summary: PropTypes.string,
 	status: PropTypes.string,
 	assignee: PropTypes.string,
-	label: PropTypes.string
+	label: PropTypes.string,
+	createdBy: PropTypes.string
 };
 const mapStateToProps = (state) => {
 	return {

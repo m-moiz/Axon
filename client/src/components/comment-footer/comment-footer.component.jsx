@@ -1,10 +1,11 @@
 import React from 'react';
+import CustomButton from '../custom-button/custom-button.component';
 import './comment-footer.styles.scss';
 
-function CommentFooter() {
+function CommentFooter({ showCreateButton, likes }) {
 	return (
 		<div className="comment-footer">
-			<div>likes</div>
+			{showCreateButton ? <div>{likes} likes</div> : <CustomButton left="80%">Create</CustomButton>}
 		</div>
 	);
 }

@@ -3,19 +3,38 @@ import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import './custom-button.styles.scss';
 
-const CustomButton = ({ width, left, right, bottom, top, color, children, type, handleClick }) => (
+const CustomButton = ({
+	marginTop,
+	marginBottom,
+	width,
+	left,
+	right,
+	bottom,
+	top,
+	backgroundColor,
+	color,
+	children,
+	type,
+	handleClick,
+	isSubmitting
+}) => (
 	<div className="custom-button">
 		<Button
 			type={type}
 			onClick={handleClick}
+			disabled={isSubmitting}
 			style={{
 				position: 'relative',
 				width: width,
 				left: left,
 				right: right,
 				bottom: bottom,
+				marginTop: marginTop,
+				marginBottom: marginBottom,
 				top: top,
-				backgroundColor: color
+				backgroundColor: backgroundColor,
+				color: color,
+				border: 'none'
 			}}
 		>
 			{children}
@@ -29,6 +48,8 @@ CustomButton.propTypes = {
 	right: PropTypes.string,
 	bottom: PropTypes.string,
 	top: PropTypes.string,
+	marginBottom: PropTypes.string,
+	marginTop: PropTypes.string,
 	color: PropTypes.string,
 	children: PropTypes.node,
 	type: PropTypes.string,

@@ -1,13 +1,25 @@
 const bcrypt = require('bcryptjs');
-const logger = require('../log');
-const Joi = require('@hapi/joi');
 const jwtToken = require('../helpers/jwtToken');
 const User = require('../models/user.model').User;
+const Team = require('../models/team.model').Team;
+const validateSignIn = require('../validators/validators').validateSignIn;
+const validateSignUp = require('../validators/validators').validateSignUp;
 
 const handleSignIn = (req, res) => {
 	const { username, password } = req.body;
 	if (!username || !password) {
 		return res.status(400).json({ message: 'Incorrect form submission' });
+	}
+
+	const validateObject = {
+		username: username,
+		password: password
+	};
+
+	const [ isInvalid, error ] = validateSignIn(validateObject);
+
+	if (isInvalid) {
+		return res.status(500).json({ error: error });
 	}
 
 	User.findOne({ username })
@@ -30,23 +42,6 @@ const handleSignIn = (req, res) => {
 		.catch((err) => console.log(err));
 };
 
-const validateSignUp = (username, password, email, res) => {
-	const schema = Joi.object({
-		username: Joi.string().alphanum().min(3).max(20).required(),
-		password: Joi.string()
-			.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]{10,}$/)
-			.required(),
-		email: Joi.string().email().required()
-	});
-
-	const { error } = schema.validate({ username: username, password: password, email: email });
-
-	if (error) {
-		logger.info(error);
-		return res.status(404).json({ error: error });
-	}
-};
-
 const userController = {
 	createUser(req, res) {
 		let user = new User();
@@ -56,21 +51,23 @@ const userController = {
 			return res.status(400).json({ message: 'Incorrect form submission' });
 		}
 
-		validateSignUp(username, password, email, res);
+		const validateObject = {
+			email: email,
+			username: username,
+			password: password
+		};
+
+		const [ isInvalid, error ] = validateSignUp(validateObject);
+
+		if (isInvalid) {
+			return res.status(500).json({ error: error });
+		}
 
 		User.findOne({ username: username }, (err, user) => {
 			if (user) {
 				return res
 					.status(400)
 					.json({ message: `User ${username} already exists`, error: 'User already exists' });
-			}
-		});
-
-		User.findOne({ email: email }, (err, user) => {
-			if (user) {
-				return res
-					.status(400)
-					.json({ message: `Email ${email} already exists`, error: 'Email is already being used' });
 			}
 		});
 
@@ -96,9 +93,32 @@ const userController = {
 		});
 	},
 
+	//for handling sign in/up taking username, email etc
 	getUser(req, res) {
 		const { token } = req.headers;
 		token ? jwtToken.checkTokenInDb(req, res) : handleSignIn(req, res);
+	},
+
+	//only takes username
+	findUserWithUsername(req, res) {
+		const { username } = req.body;
+		User.find({ username: username }, (err, doc) => {
+			if (doc.length > 0) {
+				return res.status(200).json({ message: 'User already exists' });
+			}
+
+			if (doc.length === 0) {
+				return res.status(200).json({ message: 'User not found' });
+			}
+		});
+	},
+
+	getUsers(req, res) {
+		User.find({}, { _id: 0, username: 1 }, (err, doc) => {
+			if (err) return res.status(500).json({ message: "Couldn't get users" });
+			doc = doc.map((item) => ({ value: item.username, label: item.username.toUpperCase() }));
+			return res.status(200).json({ doc: doc });
+		});
 	},
 
 	updateUser(req, res) {
@@ -107,6 +127,42 @@ const userController = {
 		User.updateOne({ _id: userId }, (err, res) => {
 			if (!err) return res.status(200).json({ message: 'success' });
 			if (err) return res.status(404).json({ message: err });
+		});
+	},
+
+	addTeamToUser(req, res) {
+		const { id } = req.params;
+		let { name } = req.body;
+		name = name.value;
+
+		Team.find({ name: name }, (err, team) => {
+			if (err) return res.status(500).json({ message: 'No such team exists' });
+			console.log(team);
+
+			User.findOneAndUpdate(
+				{ _id: id },
+				{
+					$push: {
+						teams: {
+							teamId: team[0]._id,
+							name: team[0].name
+						}
+					}
+				},
+				{ new: true },
+				(err, user) => {
+					if (err) return res.status(500).json({ message: "Couldn't update user", error: err });
+					console.log(user);
+
+					return res
+						.status(200)
+						.json({
+							message: 'Successfully updated user',
+							_teamId: user.teams[0].teamId,
+							teams: user.teams
+						});
+				}
+			);
 		});
 	},
 

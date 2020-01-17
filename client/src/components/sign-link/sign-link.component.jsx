@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const SignLink = ({ text, link, linkTo }) => (
 	<div className="sign-link">
-		<p>{text}</p>
+		<p style={{ marginRight: '.3rem' }}>{text}</p>
 		<Link to={linkTo}>{link}</Link>
 	</div>
 );

@@ -1,91 +1,122 @@
 import React, { Component } from 'react';
 import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
+import CustomButton from '../../components/custom-button/custom-button.component';
+import CloseButton from '../../components/close-button/close-button.component';
+import Form from 'react-bootstrap/Form';
+import { selectTeamId } from '../../redux/team/team.selectors';
+import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
 import { toggleCreateProjectModal } from '../../redux/project/project.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
 import { withRouter } from 'react-router-dom';
+import * as yup from 'yup';
 import axios from 'axios';
 import './create-project.styles.scss';
 
-class CreateProject extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: '',
-			description: '',
-			showMessage: false
-		};
-	}
+const schema = (teamId) =>
+	yup.object().shape({
+		name: yup.string().test('checkDuplicate', 'Project name already exists', function(value) {
+			return new Promise((resolve, reject) => {
+				axios({
+					method: 'post',
+					url: `/api/project/${teamId}`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: {
+						projectName: value
+					}
+				})
+					.then((resp) => {
+						console.log(resp);
+						if (resp.data.message === 'Project already exists') {
+							resolve(false);
+						}
 
-	handleSubmit = (e) => {
-		e.preventDefault();
+						if (resp.data.message === 'Project not found') {
+							resolve(true);
+						}
 
-		axios({
-			method: 'post',
-			url: `/api/project/${this.props.userId}/create`,
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			data: {
-				projectName: this.state.name,
-				projectDesc: this.state.description
-			}
+						resolve(true);
+					})
+					.catch((err) => {
+						resolve(true);
+					});
+			});
 		})
-			.then((resp) => {
-				this.props.toggleCreateProjectModal();
-				this.props.setMessageText('Project created successfully');
-				this.props.closingMessageAfterOpening();
-				this.props.history.push('/empty');
-				this.props.history.replace('/projects');
-			})
-			.catch((err) => console.log(err));
-	};
+	});
 
-	handleBlur = (e) => {
-		if (e.target.name === 'name') {
-			axios({
-				method: 'post',
-				url: `/api/project/${this.props.userId}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				data: {
-					projectName: this.state.name
-				}
-			})
-				.then((resp) => {})
-				.catch((err) => {
-					this.setState({ showMessage: false });
-					console.log(err);
-				});
-		}
-	};
-
-	handleChange = (e) => {
-		this.setState({ [e.target.name]: e.target.value });
-	};
-
+class CreateProject extends Component {
 	render() {
 		return (
-			<ModalPage
-				typeOfPage="create"
-				handleSubmit={this.handleSubmit}
-				title="New Project"
-				toggleModal={this.props.toggleCreateProjectModal}
-				closeButtonFontSize="1.4rem"
-				closeButtonLeft="56%"
-				closeButtonBottom=".5rem"
-			>
-				{this.state.showMessage ? <span>Name already exists</span> : ''}
-				<FormInput
-					name="name"
-					handleBlur={this.handleBlur}
-					handleChange={this.handleChange}
-					type="text"
-					placeholder="Enter Project Name"
-				/>
-				<FormInput name="description" handleChange={this.handleChange} placeholder="Enter a brief summary" />
+			<ModalPage>
+				<Formik
+					initialValues={{ name: '', description: '' }}
+					onSubmit={(values, { setSubmitting }) => {
+						setSubmitting(true);
+						axios({
+							method: 'post',
+							url: `/api/project/${this.props.teamId}/create`,
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							data: {
+								projectName: values.name,
+								projectDesc: values.description
+							}
+						})
+							.then((resp) => {
+								if (resp.data.message === 'Successfully created project') {
+									this.props.toggleCreateProjectModal();
+									this.props.setMessageText('Project created successfully');
+									this.props.closingMessageAfterOpening();
+									this.props.history.push('/empty');
+									setSubmitting(false);
+									this.props.history.replace('/projects');
+								}
+							})
+							.catch((err) => console.log(err));
+					}}
+				>
+					{({ errors, handleSubmit, touched }) => (
+						<Form
+							onSubmit={handleSubmit}
+							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
+						>
+							<div className="form-head">
+								<h3 className="modal-page-title">Create Project</h3>
+								<CloseButton
+									fontSize="1.4rem"
+									left="56%"
+									bottom=".5rem"
+									action={this.props.toggleCreateProjectModal}
+								/>
+							</div>
+
+							<Field
+								name="name"
+								placeholder="Enter Project Name"
+								as={FormInput}
+								error={errors.name}
+								touched={touched.name}
+								bottomStyle
+							/>
+							<Field
+								name="description"
+								placeholder="Enter a brief summary"
+								as={FormInput}
+								error={errors.description}
+								touched={touched.description}
+								bottomStyle
+							/>
+
+							<CustomButton type="submit" width="25%" left="20rem">
+								Create
+							</CustomButton>
+						</Form>
+					)}
+				</Formik>
 			</ModalPage>
 		);
 	}
@@ -101,7 +132,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
 	return {
-		userId: state.user.userId
+		userId: state.user.userId,
+		teamId: selectTeamId(state)
 	};
 };
 

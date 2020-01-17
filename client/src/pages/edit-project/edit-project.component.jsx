@@ -1,89 +1,110 @@
 import React, { Component } from 'react';
 import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
+import CustomButton from '../../components/custom-button/custom-button.component';
+import CloseButton from '../../components/close-button/close-button.component';
+import Form from 'react-bootstrap/Form';
+import { selectTeamId } from '../../redux/team/team.selectors';
+import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
 import { toggleEditProjectModal } from '../../redux/project/project.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
 import { withRouter } from 'react-router-dom';
+import * as yup from 'yup';
 import axios from 'axios';
+import './edit-project.styles.scss';
 
-class EditProject extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: '',
-			description: '',
-			showMessage: false
-		};
-	}
-
-	handleSubmit = (e) => {
-		e.preventDefault();
-
-		axios({
-			method: 'post',
-			url: `/api/project/${this.props.userId}&${this.props.projectId}/update`,
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			data: {
-				projectName: this.state.name,
-				projectDesc: this.state.description
-			}
-		})
-			.then((resp) => {
-				this.props.toggleEditProjectModal();
-				this.props.setMessageText('Project edited successfully');
-				this.props.closingMessageAfterOpening();
-				this.props.history.push('/empty');
-				this.props.history.replace('/projects');
-			})
-			.catch((err) => console.log(err));
-	};
-
-	handleBlur = (e) => {
-		if (e.target.name === 'name') {
+const schema = yup.object().shape({
+	name: yup.string().test('checkDuplicate', 'Project name already exists', function(value) {
+		return new Promise((resolve, reject) => {
 			axios({
 				method: 'post',
-				url: `/api/project/${this.props.userId}`,
+				url: `/api/project/${this.props.teamId}`,
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				data: {
-					projectName: this.state.name
+					projectName: value
 				}
 			})
-				.then((resp) => {})
+				.then((resp) => {
+					if (resp.data.message === 'Project already exists') {
+						resolve(false);
+					}
+
+					if (resp.data.message === 'Project not found') {
+						resolve(true);
+					}
+
+					resolve(true);
+				})
 				.catch((err) => {
-					this.setState({ showMessage: false });
-					console.log(err);
+					resolve(true);
 				});
-		}
-	};
+		});
+	})
+});
 
-	handleChange = (e) => {
-		this.setState({ [e.target.name]: e.target.value });
-	};
-
+class EditProject extends Component {
 	render() {
 		return (
-			<ModalPage
-				typeOfPage="create"
-				handleSubmit={this.handleSubmit}
-				title="Edit Project"
-				toggleModal={this.props.toggleEditProjectModal}
-				closeButtonFontSize="1.4rem"
-				closeButtonBottom=".5rem"
-			>
-				{this.state.showMessage ? <span>Name already exists</span> : ''}
-				<FormInput
-					name="name"
-					handleBlur={this.handleBlur}
-					handleChange={this.handleChange}
-					type="text"
-					placeholder="Enter Project Name"
-				/>
-				<FormInput name="description" handleChange={this.handleChange} placeholder="Enter a brief summary" />
+			<ModalPage>
+				<Formik
+					initialValues={{ name: '', description: '' }}
+					validationSchema={schema}
+					onSubmit={(values, { setSubmitting }) => {
+						setSubmitting(true);
+						axios({
+							method: 'post',
+							url: `/api/project/${this.props.teamId}&${this.props.projectId}/update`,
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							data: {
+								projectName: values.name,
+								projectDesc: values.description
+							}
+						})
+							.then((resp) => {
+								this.props.toggleCreateProjectModal();
+								this.props.setMessageText('Project edited successfully');
+								this.props.closingMessageAfterOpening();
+								this.props.history.push('/empty');
+								setSubmitting(false);
+								this.props.history.replace('/projects');
+							})
+							.catch((err) => console.log(err));
+					}}
+				>
+					{({ values, errors, handleSubmit, touched }) => (
+						<Form
+							onSubmit={handleSubmit}
+							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
+						>
+							<div className="form-head">
+								<h3 className="modal-page-title">Edit Project</h3>
+								<CloseButton
+									fontSize="1.4rem"
+									left="56%"
+									bottom=".5rem"
+									action={this.props.toggleEditProjectModal}
+								/>
+							</div>
+
+							<Field name="name" placeholder="Enter Project Name" as={FormInput} error={errors.name} />
+							<Field
+								name="description"
+								placeholder="Enter a brief summary"
+								as={FormInput}
+								error={errors.description}
+							/>
+
+							<CustomButton type="submit" width="25%" left="20rem">
+								Edit
+							</CustomButton>
+						</Form>
+					)}
+				</Formik>
 			</ModalPage>
 		);
 	}
@@ -100,7 +121,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
 	return {
 		userId: state.user.userId,
-		projectId: state.project.projectId
+		projectId: state.project.projectId,
+		teamId: selectTeamId(state)
 	};
 };
 

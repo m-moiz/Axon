@@ -5,6 +5,16 @@ export const setUserId = (userId) => ({
 	payload: userId
 });
 
+export const setIsAdmin = (isAdmin) => ({
+	type: userActionTypes.SET_IS_ADMIN,
+	payload: isAdmin
+});
+
+export const setUsername = (username) => ({
+	type: userActionTypes.SET_USER_NAME,
+	payload: username
+});
+
 export const signIn = () => ({
 	type: userActionTypes.SIGN_IN
 });

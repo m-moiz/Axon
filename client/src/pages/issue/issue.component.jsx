@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AddButton from '../../components/add-button/add-button.component';
 import PageContainer from '../../components/page-container/page-container.component';
 import PageContentContainer from '../../components/page-content-container/page-content-container.component';
 import DeleteIssue from '../delete-issue/delete-issue.component';
@@ -9,13 +8,20 @@ import Modal from '../../components/modal/modal.components';
 import TopMessage from '../../components/top-message/top-message.component';
 import DetailsBox from '../../components/details-box/details-box.component';
 import DescriptionBox from '../../components/description-box/description-box.component';
+import StatusIcon from '../../components/status-icon/status-icon.component';
+import CommentList from '../../components/comment-list/comment-list.component';
+import CreateComment from '../../components/create-comment/create-comment.component';
+import axios from 'axios';
 import styled from 'styled-components';
 import { toggleDeleteIssueModal, toggleEditIssues } from '../../redux/issue/issue.actions';
 import { selectIsDeleteIssueModalOpen, selectIsEditIssueModalOpen } from '../../redux/issue/issue.selectors';
 import { selectProjectName } from '../../redux/project/project.selectors';
-import { selectIssueId, selectIssueDescription, selectCurrentIssue } from '../../redux/issue/issue.selectors';
+import { selectIssueId, selectCurrentIssue } from '../../redux/issue/issue.selectors';
+import { selectUsername } from '../../redux/user/user.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../redux/message/message.selectors';
+import { setCommentsArray } from '../../redux/comment/comment.actions';
+import { selectComments } from '../../redux/comment/comment.selectors';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`
@@ -30,7 +36,20 @@ const Title = styled.h3`
 class IssuePage extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			commentText: ''
+		};
 	}
+
+	componentDidMount() {
+		axios
+			.get(`/api/comment/${this.props.issueId}`)
+			.then((resp) => {
+				this.props.setCommentsArray(resp.data.comments);
+			})
+			.catch((err) => console.log(err));
+	}
+
 	render() {
 		const {
 			description,
@@ -44,6 +63,9 @@ class IssuePage extends Component {
 			summary,
 			reporter
 		} = this.props.currentIssue[0];
+
+		const { username, comments, projectName } = this.props;
+
 		return (
 			<PageContainer>
 				{this.props.isDeleteIssueModalOpen && (
@@ -72,14 +94,25 @@ class IssuePage extends Component {
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
 				<PageContentContainer>
-					<div style={{ position: 'relative', left: '2%' }}>
-						<Title> {summary} </Title>
-
-						<DetailsBox label={issueType} priority={priorityType} environment={environment} />
-						<DescriptionBox content={this.props.description} />
+					<div style={{ position: 'relative', left: '2%', display: 'flex', flexDirection: 'column' }}>
+						<Title>
+							{' '}
+							{projectName}/{summary}{' '}
+						</Title>
+						<StatusIcon status={status} />
+						<DetailsBox
+							label={issueType}
+							priority={priorityType}
+							environment={environment}
+							dueDate={dueDate}
+							version={version}
+							creationDate={creationDate}
+							reporter={reporter}
+						/>
+						<DescriptionBox content={description} />
+						<CreateComment username={username} />
+						<CommentList comments={comments} />
 					</div>
-
-					<AddButton toggleModal={this.props.toggleCreateIssueModal} />
 				</PageContentContainer>
 			</PageContainer>
 		);
@@ -94,15 +127,17 @@ const mapStateToProps = (state) => {
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state),
-		description: selectIssueDescription(state),
-		currentIssue: selectCurrentIssue(state)
+		currentIssue: selectCurrentIssue(state),
+		username: selectUsername(state),
+		comments: selectComments(state)
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleDeleteIssueModal: () => dispatch(toggleDeleteIssueModal()),
-		toggleEditIssues: () => dispatch(toggleEditIssues())
+		toggleEditIssues: () => dispatch(toggleEditIssues()),
+		setCommentsArray: (comments) => dispatch(setCommentsArray(comments))
 	};
 };
 

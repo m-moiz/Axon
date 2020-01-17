@@ -1,63 +1,20 @@
 import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
-
 import FormInput from '../../components/form-input/form-input.component';
+import { Formik, Field } from 'formik';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import SignLink from '../../components/sign-link/sign-link.component';
 import axios from 'axios';
-import { setUserId, signIn } from '../../redux/user/user.actions';
+import { setTeamId, setTeamArray } from '../../redux/team/team.actions';
+import { setUserId, setUsername, setIsAdmin, signIn } from '../../redux/user/user.actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './sign-in.styles.scss';
 
 class SignInPage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			username: '',
-			password: '',
-			message: '',
-			updatedMessage: false
-		};
-	}
-
-	//improves ux by delaying message
-	handleClick = () => {
-		if (this.state.message !== '') {
-			this.setState({ updateMessage: true });
-			setTimeout(() => {
-				this.setState({ updateMessage: false });
-			}, 200);
-		}
-	};
-
 	saveAuthTokenInSession = (token) => {
 		window.sessionStorage.setItem('token', token);
-	};
-
-	handleSubmit = (e) => {
-		e.preventDefault();
-		axios
-			.post('http://localhost:4001/api/user', {
-				username: this.state.username,
-				password: this.state.password
-			})
-			.then((response) => {
-				if (response.data.success === 'true') {
-					this.saveAuthTokenInSession(response.data.token);
-					this.props.signIn();
-					this.props.setUserId(response.data.userId);
-					this.props.history.push(`/projects`);
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-
-	handleChange = (e) => {
-		this.setState({ [e.target.name]: e.target.value });
 	};
 
 	render() {
@@ -67,7 +24,7 @@ class SignInPage extends Component {
 					className="d-flex justify-content-center align-items-center"
 					style={{ marginTop: '2.6rem', marginBottom: '2.6rem' }}
 				>
-					<Card style={{ width: '32rem', boxShadow: '1px 1px 10px 2px rgb(217, 214, 208)' }}>
+					<Card style={{ width: '32rem', boxShadow: '1px 1px 10px 2px rgb(39, 38, 38)', border: 'none' }}>
 						<Card.Body
 							style={{
 								backgroundColor: 'rgb(44,44,44)',
@@ -80,40 +37,86 @@ class SignInPage extends Component {
 						>
 							<Card.Title>Sign In</Card.Title>
 						</Card.Body>
-						<form
-							onSubmit={this.handleSubmit}
-							style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
-						>
-							<div style={{ marginBottom: '2.3rem' }}>
-								<FormInput
-									handleChange={this.handleChange}
-									name="username"
-									type="username"
-									placeholder="Enter Username"
-									isFieldValid={true}
-									bottomStyle
-								/>
-								{this.state.message !== '' ? (
-									<p className={this.state.updateMessage ? 'form_wrong update' : 'form_wrong'}>
-										{this.state.message}
-									</p>
-								) : (
-									''
-								)}
-								<FormInput
-									handleChange={this.handleChange}
-									name="password"
-									type="password"
-									placeholder="Enter Password"
-									isFieldValid={true}
-									bottomStyle
-								/>
-							</div>
+						<Formik
+							initialValues={{ username: '', password: '' }}
+							validate={(values) => {
+								const errors = {};
+								if (!values.username) {
+									errors.username = 'Required field';
+								}
+								if (!values.password) {
+									errors.password = 'Required field';
+								}
 
-							<CustomButton type="submit" width="70%">
-								Sign In
-							</CustomButton>
-						</form>
+								return errors;
+							}}
+							onSubmit={(values, { setSubmitting }) => {
+								setSubmitting(true);
+								console.log(values);
+								axios({
+									method: 'post',
+									url: `http://localhost:4001/api/user/`,
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									data: {
+										username: values.username,
+										password: values.password
+									}
+								})
+									.then((response) => {
+										if (response.data.success === 'true') {
+											this.saveAuthTokenInSession(response.data.token);
+											this.props.signIn();
+											if (response.data.teams.length > 0) {
+												this.props.setTeamId(response.data.teams[0].teamId);
+											}
+											this.props.setTeamArray(response.data.teams);
+											this.props.setIsAdmin(response.data.isTeamAdmin);
+											this.props.setUserId(response.data.userId);
+											this.props.setUsername(response.data.username);
+											this.props.history.push(`/`);
+											setSubmitting(false);
+										}
+									})
+									.catch((error) => {
+										console.log(error);
+									});
+							}}
+						>
+							{({ handleSubmit, isSubmitting, errors, touched }) => (
+								<form
+									onSubmit={handleSubmit}
+									style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
+								>
+									<div style={{ marginBottom: '2.3rem' }}>
+										<Field
+											name="username"
+											type="username"
+											placeholder="Enter Username"
+											as={FormInput}
+											bottomStyle
+											error={errors.username}
+											touched={touched.username}
+										/>
+
+										<Field
+											name="password"
+											type="password"
+											placeholder="Enter Password"
+											as={FormInput}
+											error={errors.password}
+											touched={touched.password}
+											bottomStyle
+										/>
+									</div>
+
+									<CustomButton type="submit" disabled={isSubmitting} width="70%">
+										Sign In
+									</CustomButton>
+								</form>
+							)}
+						</Formik>
 					</Card>
 				</div>
 
@@ -126,7 +129,11 @@ class SignInPage extends Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setUserId: (userId) => dispatch(setUserId(userId)),
-		signIn: () => dispatch(signIn())
+		setUsername: (username) => dispatch(setUsername(username)),
+		signIn: () => dispatch(signIn()),
+		setTeamId: (id) => dispatch(setTeamId(id)),
+		setIsAdmin: (isTeamAdmin) => dispatch(setIsAdmin(isTeamAdmin)),
+		setTeamArray: (array) => dispatch(setTeamArray(array))
 	};
 };
 

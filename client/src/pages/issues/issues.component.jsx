@@ -19,6 +19,7 @@ import {
 	toggleEditIssues,
 	toggleDeleteIssues
 } from '../../redux/issue/issue.actions';
+import { selectTeamId } from '../../redux/team/team.selectors';
 import { selectUserId } from '../../redux/user/user.selectors';
 import {
 	selectIsCreateIssueModalOpen,
@@ -34,6 +35,7 @@ import {
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../redux/message/message.selectors';
+import { issueTypes, statusTypes } from '../../types/types';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`
@@ -51,14 +53,14 @@ class IssuesPage extends Component {
 		super(props);
 		this.state = {
 			sortOptions: [ 'Newest', 'Oldest', 'Highest Priority', 'Lowest Priority', 'Most votes', 'Least votes' ],
-			statusOptions: [ 'Open', 'Closed' ],
-			labelOptions: [ 'Improvement', 'Feature', 'Bug', 'Task', 'Epic' ]
+			statusOptions: statusTypes,
+			labelOptions: issueTypes
 		};
 	}
 
 	componentDidMount() {
 		axios
-			.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
+			.get(`http://localhost:4001/api/issue/${this.props.teamId}&${this.props.projectId}`)
 			.then((resp) => {
 				this.props.setIssuesArray(resp.data.result.projects[0].issues);
 			})
@@ -68,7 +70,7 @@ class IssuesPage extends Component {
 	componentDidUpdate(prevProps) {
 		if (prevProps.projectName !== this.props.projectName) {
 			axios
-				.get(`http://localhost:4001/api/issue/${this.props.userId}&${this.props.projectId}`)
+				.get(`http://localhost:4001/api/issue/${this.props.teamId}&${this.props.projectId}`)
 				.then((resp) => {
 					this.props.setIssuesArray(resp.data.result.projects[0].issues);
 				})
@@ -177,6 +179,7 @@ const mapStateToProps = (state) => {
 		isLabelOptionsBoxOpen: selectIsLabelOptionsBoxOpen(state),
 		isStatusOptionsBoxOpen: selectIsStatusOptionsBoxOpen(state),
 		userId: selectUserId(state),
+		teamId: selectTeamId(state),
 		projectId: selectProjectId(state),
 		issues: selectFilteredAndSortedIssues(state),
 		projectName: selectProjectName(state),

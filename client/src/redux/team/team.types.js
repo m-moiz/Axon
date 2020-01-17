@@ -1,0 +1,5 @@
+export const teamActionTypes = {
+	SET_TEAM_ID: 'SET_TEAM_ID',
+	SET_TEAMS_ARRAY: 'SET_TEAMS_ARRAY',
+	SWITCH_TEAMS: 'SWITCH_TEAMS'
+};

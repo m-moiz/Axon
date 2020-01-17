@@ -18,7 +18,10 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSid
 		<div className={className}>
 			<div className="title">
 				<h5>{title}</h5>
-				<p>🔨</p>
+				<span role="img" aria-label="hammer">
+					🔨
+				</span>
+
 				{!(isSidebarClosing || isSidebarOpening) ? (
 					<div
 						onClick={() => {

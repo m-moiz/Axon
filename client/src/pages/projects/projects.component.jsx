@@ -4,6 +4,7 @@ import Modal from '../../components/modal/modal.components';
 import PageContainer from '../../components/page-container/page-container.component';
 import PageContentContainer from '../../components/page-content-container/page-content-container.component';
 import CreateProject from '../create-project/create-project.component';
+import TabBar from '../../components/tab-bar/tab-bar.component';
 import DeleteProject from '../delete-project/delete-project.component';
 import EditProject from '../edit-project/edit-project.component';
 import ProjectList from '../../components/project-list/project-list.component';
@@ -17,6 +18,7 @@ import {
 	toggleDeleteProjects,
 	toggleEditProjects
 } from '../../redux/project/project.actions';
+import { selectTeamId, selectTeamArray } from '../../redux/team/team.selectors';
 import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
 import {
 	selectProjects,
@@ -37,14 +39,29 @@ class ProjectsPage extends Component {
 			window.location = '/sign-in';
 		}
 		axios
-			.get(`http://localhost:4001/api/projects/${this.props.userId}`)
+			.get(`http://localhost:4001/api/projects/${this.props.teamId}`)
 			.then((resp) => {
+				console.log(resp);
 				if (resp.data.result[0].projects === undefined) {
 				} else {
 					this.props.setProjectsArray(resp.data.result[0].projects);
 				}
 			})
 			.catch((err) => console.log(err));
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.teamId !== this.props.teamId) {
+			axios
+				.get(`http://localhost:4001/api/projects/${this.props.teamId}`)
+				.then((resp) => {
+					if (resp.data.result[0].projects === undefined) {
+					} else {
+						this.props.setProjectsArray(resp.data.result[0].projects);
+					}
+				})
+				.catch((err) => console.log(err));
+		}
 	}
 
 	render() {
@@ -86,6 +103,7 @@ class ProjectsPage extends Component {
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
 				<PageContentContainer>
+					<TabBar items={this.props.teams} />
 					<ProjectList projects={this.props.projects} />
 					<AddButton toggleModal={this.props.toggleCreateProjectModal} />
 				</PageContentContainer>
@@ -97,6 +115,8 @@ class ProjectsPage extends Component {
 const mapStateToProps = (state) => {
 	return {
 		userId: selectUserId(state),
+		teamId: selectTeamId(state),
+		teams: selectTeamArray(state),
 		isSignedIn: selectIsUserSignedIn(state),
 		projects: selectProjects(state),
 		isCreateProjectModalOpen: selectIsCreateProjectModalOpen(state),

@@ -1,0 +1,18 @@
+.status-icon {
+	display: flex;
+	width: fit-content;
+	padding: .5rem;
+	border-radius: 3rem;
+	box-shadow: 1px 1px 3px 2px rgb(37, 37, 37);
+	background: white;
+	color: white;
+	margin-top: 3rem;
+
+	&.green {
+		background-color: green;
+	}
+
+	&.red {
+		background-color: red;
+	}
+}

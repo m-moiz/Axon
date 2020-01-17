@@ -20,13 +20,12 @@ const Header = ({ isSignedIn, signOut }) => (
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
 				<Nav className="mr-auto">
-					<LinkContainer to="/">
-						<Nav.Link active={false}>Home</Nav.Link>
-					</LinkContainer>
 					{isSignedIn ? (
-						<LinkContainer to="/projects">
-							<Nav.Link active={false}>Projects</Nav.Link>
-						</LinkContainer>
+						<React.Fragment>
+							<LinkContainer to="/projects">
+								<Nav.Link active={false}>Projects</Nav.Link>
+							</LinkContainer>
+						</React.Fragment>
 					) : (
 						''
 					)}

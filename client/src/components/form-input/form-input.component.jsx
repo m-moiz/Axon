@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import './form-input.styles.scss';
 
 const FormInput = ({
-	handleChange,
-	handleBlur,
+	error,
+	touched,
+	value,
+	onChange,
+	onBlur,
 	inputName,
 	name,
 	type,
@@ -15,59 +16,59 @@ const FormInput = ({
 	as,
 	bottomStyle,
 	rows,
-	children,
-	value,
-	isFieldValid = true
+	isSelectInput,
+	children
 }) => {
 	var className = 'form-input';
-	if (as === 'select') {
+	if (isSelectInput) {
 		className += ' dropdown';
 	} else if (!as && bottomStyle) {
 		className += ' original';
 	} else if (!as && !bottomStyle) {
 		className += ' border';
-	} else if (!isFieldValid) {
+	}
+
+	if (error) {
 		className += ' invalid';
 	}
 
 	return (
-		<Form.Group>
-			<Row>
-				<Col>
-					{inputName ? (
-						<div className="form-label">
-							<Form.Label>{inputName}</Form.Label>
-						</div>
-					) : (
-						''
-					)}
-				</Col>
-			</Row>
-			<Row>
-				<Col>
-					<Form.Control
+		<div>
+			{inputName ? (
+				<div className="form-label">
+					<label>{inputName}</label>
+				</div>
+			) : (
+				''
+			)}
+			<div className="input-container">
+				{isSelectInput ? (
+					<Form.Control className={className} as="select" placeholder={placeholder}>
+						{children}
+					</Form.Control>
+				) : (
+					<input
+						className={className}
 						name={name}
 						value={value}
-						onBlur={handleBlur}
-						onChange={handleChange}
-						size="md"
-						className={className}
+						onBlur={onBlur}
+						onChange={onChange}
 						type={type}
 						as={as}
 						placeholder={placeholder}
 						rows={rows}
-					>
-						{children}
-					</Form.Control>
-				</Col>
-			</Row>
-		</Form.Group>
+					/>
+				)}
+
+				{error && touched && <div style={{ color: 'red', marginTop: '.2rem' }}>{error}</div>}
+			</div>
+		</div>
 	);
 };
 
 FormInput.propTypes = {
-	handleChange: PropTypes.func.isRequired,
-	handleBlur: PropTypes.func,
+	onChange: PropTypes.func.isRequired,
+	onBlur: PropTypes.func,
 	inputName: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	text: PropTypes.string,

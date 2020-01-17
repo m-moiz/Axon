@@ -3,9 +3,12 @@
 	margin-bottom: 10px;
 }
 
+.input-container {
+	margin-bottom: 22px;
+}
+
 .form-input {
 	padding: .375rem .75rem;
-	margin-bottom: 22px;
 
 	&.dropdown {
 		width: 200px;
@@ -26,14 +29,15 @@
 	}
 
 	&.invalid {
+		border-color: red;
 		&:focus {
-			border-color: red;
 			transition: border-color .1s ease-out;
 			box-shadow: none !important;
 		}
 	}
 
 	&:focus {
+		outline: none;
 		transition: border-color .2s ease-in-out;
 		box-shadow: none !important;
 		box-shadow: 0 4px 2px -2px rgb(17, 235, 255) !important;

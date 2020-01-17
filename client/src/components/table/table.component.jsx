@@ -30,6 +30,7 @@ const Table = ({ title, items, top, left, bottom }) => (
 									status={item.status}
 									assignee={item.assignee}
 									label={item.issueType}
+									createdBy={item.createdBy}
 								/>
 							))
 						) : (

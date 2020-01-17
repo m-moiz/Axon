@@ -49,7 +49,7 @@ export const selectLabelAndStatusFilteredIssues = createSelector(
 			return statusFilteredIssues;
 		} else if (!statusFilter && labelFilter && labelFilteredIssues.length > 0) {
 			return labelFilteredIssues;
-		} else if (!statusFilter && !labelFilter && issues.length > 0) {
+		} else if (!statusFilter && !labelFilter && Array.isArray(issues) && issues.length > 0) {
 			return issues;
 		} else {
 			return [];

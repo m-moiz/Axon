@@ -4,6 +4,7 @@ import Header from './components/header/header.component';
 import Loading from './components/loading/loading.component';
 import './App.scss';
 
+const Homepage = React.lazy(() => import('./pages/homepage/homepage.component'));
 const IssuePage = React.lazy(() => import('./pages/issue/issue.component'));
 const IssuesPage = React.lazy(() => import('./pages/issues/issues.component'));
 const SignUpPage = React.lazy(() => import('./pages/sign-up/sign-up.component'));
@@ -19,7 +20,7 @@ class App extends Component {
 					<Header />
 					<Suspense fallback={<Loading />}>
 						<Switch>
-							<Route exact path="/" component={() => <div />} />
+							<Route exact path="/" component={() => <Homepage />} />
 							<Route exact path="/user/issue" component={() => <IssuePage />} />
 							<Route exact path="/user/issues" component={() => <IssuesPage />} />
 							<Route exact path="/sign-up" component={() => <SignUpPage />} />

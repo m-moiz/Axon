@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const issueTypes = require('../types/types').issueTypes;
+const statusTypes = require('../types/types').statusTypes;
+const priorityTypes = require('../types/types').statusTypes;
 const UserSchema = require('./user.model').UserSchema;
 
 const IssueSchema = mongoose.Schema({
@@ -6,6 +9,7 @@ const IssueSchema = mongoose.Schema({
 	reporter: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: undefined, required: true },
 	assignee: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: undefined, required: false },
 	description: { type: String, required: true },
+	createdBy: { type: String, required: true },
 	creationDate: { type: mongoose.Schema.Types.Date, default: Date.now(), required: true },
 	resolutionDate: { type: mongoose.Schema.Types.Date, default: undefined, required: false },
 	dueDate: { type: Date, default: Date.now(), required: true },
@@ -15,18 +19,18 @@ const IssueSchema = mongoose.Schema({
 	participants: { type: mongoose.Schema.Types.Number, default: undefined, require: false },
 	status: {
 		type: String,
-		enum: [ 'Open', 'Closed' ],
+		enum: statusTypes,
 		default: 'Open'
 	},
 	priorityType: {
 		type: String,
-		enum: [ 'High', 'Medium', 'Low', 'Lowest' ],
+		enum: priorityTypes,
 		default: 'High'
 	},
-	environment: String,
+	environment: { type: String, default: undefined, required: false },
 	issueType: {
 		type: String,
-		enum: [ 'Bug', 'Improvement', 'Task', 'Feature', 'Epic' ],
+		enum: issueTypes,
 		default: 'Bug'
 	}
 });

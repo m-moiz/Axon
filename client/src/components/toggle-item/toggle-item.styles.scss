@@ -1,0 +1,10 @@
+.toggle-item {
+	display: flex;
+	color: rgb(216, 215, 215);
+	margin-bottom: 1rem;
+
+	&:hover {
+		color: white;
+		cursor: pointer;
+	}
+}

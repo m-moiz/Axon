@@ -32,10 +32,19 @@ const jwtToken = {
 
 	async createSessions(user, res) {
 		const { username } = user;
-		const { _id } = user;
+		const { _id, teams, isTeamAdmin } = user;
 		const token = await this.createToken(username);
 		return this.putTokenInDb(token, username)
-			.then(() => res.json({ success: 'true', username: username, userId: _id, token: token }))
+			.then(() =>
+				res.json({
+					success: 'true',
+					username: username,
+					userId: _id,
+					teams: teams,
+					token: token,
+					isTeamAdmin: isTeamAdmin
+				})
+			)
 			.catch((err) => console.log(err));
 	}
 };

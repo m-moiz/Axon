@@ -1,18 +1,19 @@
 const User = require('../models/user.model').User;
+const Team = require('../models/team.model').Team;
 const Project = require('../models/project.model').Project;
 
 exports.createProject = async (req, res) => {
 	let project = new Project();
-	const { userId } = req.params;
+	const { teamId } = req.params;
 	const { projectName, projectDesc } = req.body;
-	User.findOne({ _id: userId, 'projects.name': projectName }, async (err, user) => {
-		console.log(user);
-		if (user === null) {
+
+	Team.findOne({ _id: teamId, 'projects.name': projectName }, async (err, team) => {
+		if (team === null) {
 			project.name = projectName;
 			project.description = projectDesc;
 			try {
-				let user = await User.findOneAndUpdate({ _id: userId }, { $push: { projects: project } });
-				return res.status(200).json({ message: 'Successfully create project in db' });
+				let team = await Team.findOneAndUpdate({ _id: teamId }, { $push: { projects: project } });
+				return res.status(200).json({ message: 'Successfully created project' });
 			} catch (ex) {
 				console.log(ex);
 				return res.status(404).json({ message: "Couldn't create project" });
@@ -22,29 +23,31 @@ exports.createProject = async (req, res) => {
 };
 
 exports.getProjects = async (req, res) => {
-	const { userId } = req.params;
-	let project = await User.find(
-		{ _id: userId },
+	const { teamId } = req.params;
+
+	let projects = await Team.find(
+		{ _id: teamId },
 		{ 'projects._id': 1, 'projects.name': 1, 'projects.description': 1 }
 	);
-	return res.status(200).json({ result: project });
+
+	return res.status(200).json({ result: projects });
 };
 
 exports.getProject = (req, res) => {
-	const { userId } = req.params;
+	const { teamId } = req.params;
 	const { projectName } = req.body;
 
-	User.findOne({ _id: userId, 'projects.name': projectName }, (err, user) => {
-		if (err) return res.status(404).json({ message: err });
-		if (user) return res.status(200).json({ message: 'Project already exists' });
+	Team.findOne({ _id: teamId, 'projects.name': projectName }, (err, team) => {
+		if (err) return res.status(200).json({ message: 'Project not found' });
+		if (team) return res.status(200).json({ message: 'Project already exists' });
 	});
 };
 
 exports.updateProject = (req, res) => {
-	const { userId, projectId } = req.params;
+	const { teamId, projectId } = req.params;
 	const { name, description } = req.body;
-	User.updateOne(
-		{ _id: userId, 'projects._id': projectId },
+	Team.updateOne(
+		{ _id: teamId, 'projects._id': projectId },
 		{ $set: { 'projects.$.name': name, 'projects.$.description': description } },
 		(err, doc) => {
 			if (err) return res.status(500).json({ message: err });
@@ -54,9 +57,9 @@ exports.updateProject = (req, res) => {
 };
 
 exports.deleteProject = (req, res) => {
-	const { userId, projectId } = req.params;
+	const { teamId, projectId } = req.params;
 
-	User.findByIdAndUpdate({ _id: userId }, { $pull: { projects: { _id: projectId } } }, (err, user) => {
+	Team.findByIdAndUpdate({ _id: teamId }, { $pull: { projects: { _id: projectId } } }, (err, doc) => {
 		if (err) return res.status(404).json({ message: "Couldn't delete project" });
 
 		return res.status(200).json({ message: 'Successfully deleted project' });

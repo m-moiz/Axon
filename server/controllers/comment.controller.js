@@ -1,4 +1,5 @@
 const Comment = require('../models/comment.model').Comment;
+const validateComment = require('../validators/validators').validateComment;
 
 exports.getComments = (req, res) => {
 	let { issueId } = req.params;
@@ -13,6 +14,16 @@ exports.createComment = (req, res) => {
 	const comment = new Comment();
 	let { issueId, userId } = req.params;
 	let { commentText } = req.body;
+
+	let validationObject = {
+		commentText
+	};
+
+	let [ isInvalid, errors ] = validateComment(objectText);
+
+	if (isInvalid) {
+		return res.status(500).json({ error: errors });
+	}
 
 	comment.discussion_id = issueId;
 	comment.postedBy = userId;
@@ -33,6 +44,12 @@ exports.createComment = (req, res) => {
 exports.updateComment = (req, res) => {
 	const { commentId } = req.params;
 	let { commentText } = req.body;
+
+	let [ isInvalid, errors ] = validateComment(objectText);
+
+	if (isInvalid) {
+		return res.status(500).json({ error: errors });
+	}
 
 	Comment.findOneAndUpdate({ _id: commentId }, { text: commentText }, (err, doc) => {
 		if (err) return res.status(500).json({ message: 'Failed updating comment', error: err });

@@ -3,6 +3,7 @@ const IssueSchema = require('./issue.model').IssueSchema;
 
 const ProjectSchema = mongoose.Schema({
 	name: { type: String, required: true },
+	teamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	description: { type: String },
 	issues: { type: [ IssueSchema ], default: undefined }
 });
