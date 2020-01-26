@@ -12,7 +12,6 @@ import Editor from '../../components/editor/editor.component';
 import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
-import 'react-nice-dates/build/style.css';
 import { Formik, Field } from 'formik';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
