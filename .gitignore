@@ -13,9 +13,9 @@ node_modules
 # production
 /build
 
-.env
-combined.log
-error.log
+/.env
+/combined.log
+/error.log
 
 # misc
 .DS_Store
