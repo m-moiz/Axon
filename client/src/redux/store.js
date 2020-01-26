@@ -4,13 +4,7 @@ import rootReducer from './root-reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore } from 'redux-persist';
 
-const middlewares = [ thunk ];
-
-if (__DEV__) {
-	const createLogger = require('redux-logger').createLogger;
-	const logger = createLogger();
-	middlewares.push(logger);
-}
+const middlewares = [ thunk, DEBUG && logger ].filter(Boolean);
 
 export default () => {
 	const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middlewares)));
