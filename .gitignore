@@ -2,7 +2,7 @@
 
 # dependencies
 /client/node_modules
-/server/node_modules
+node_modules
 /node_modules
 /.pnp
 .pnp.js
@@ -13,9 +13,9 @@
 # production
 /build
 
-/server/.env
-/server/combined.log
-/server/error.log
+.env
+combined.log
+error.log
 
 # misc
 .DS_Store
