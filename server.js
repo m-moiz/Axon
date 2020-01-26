@@ -13,12 +13,6 @@ app.use(helmet());
 app.use(cors());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-if (process.env.NODE_ENV === 'development') {
-	const morgan = require('morgan');
-	app.use(morgan('dev'));
-}
-
 app.use(bodyParser.json());
 app.use('/api', routes);
 dotenv.config();
