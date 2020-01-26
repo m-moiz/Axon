@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const morgan = require('morgan');
 const app = express();
 const routes = require('./routes/routes');
 
@@ -14,8 +13,13 @@ app.use(helmet());
 app.use(cors());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+if (process.env.NODE_ENV === 'development') {
+	const morgan = require('morgan');
+	app.use(morgan('dev'));
+}
+
 app.use(bodyParser.json());
-app.use(morgan('dev'));
 app.use('/api', routes);
 dotenv.config();
 
