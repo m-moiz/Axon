@@ -66,7 +66,7 @@ class IssuesPage extends Component {
 
 	componentDidMount() {
 		axios
-			.get(`http://localhost:4001/api/issue/${this.props.teamId}&${this.props.projectId}`)
+			.get(`/api/issue/${this.props.teamId}&${this.props.projectId}`)
 			.then((resp) => {
 				this.props.setIssuesArray(resp.data.result.projects[0].issues);
 			})
@@ -76,7 +76,7 @@ class IssuesPage extends Component {
 	componentDidUpdate(prevProps) {
 		if (prevProps.projectName !== this.props.projectName) {
 			axios
-				.get(`http://localhost:4001/api/issue/${this.props.teamId}&${this.props.projectId}`)
+				.get(`/api/issue/${this.props.teamId}&${this.props.projectId}`)
 				.then((resp) => {
 					this.props.setIssuesArray(resp.data.result.projects[0].issues);
 				})

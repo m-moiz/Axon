@@ -55,7 +55,7 @@ class SignInPage extends Component {
 								console.log(values);
 								axios({
 									method: 'post',
-									url: `http://localhost:4001/api/user/`,
+									url: `/api/user/`,
 									headers: {
 										'Content-Type': 'application/json'
 									},

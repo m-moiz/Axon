@@ -52,7 +52,7 @@ class ProjectsPage extends Component {
 	componentDidUpdate(prevProps) {
 		if (prevProps.teamId !== this.props.teamId) {
 			axios
-				.get(`http://localhost:4001/api/projects/${this.props.teamId}`)
+				.get(`/api/projects/${this.props.teamId}`)
 				.then((resp) => {
 					if (resp.data.result[0].projects === undefined) {
 					} else {

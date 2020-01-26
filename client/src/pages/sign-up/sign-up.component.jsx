@@ -86,7 +86,7 @@ class SignUpPage extends Component {
 							validationSchema={schema}
 							onSubmit={(values, { setSubmitting }) => {
 								axios
-									.post('http://localhost:4001/api/user/create', {
+									.post('/api/user/create', {
 										email: values.email,
 										username: values.username,
 										password: values.password

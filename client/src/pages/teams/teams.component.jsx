@@ -32,7 +32,7 @@ class TeamsPage extends Component {
 			window.location = '/sign-in';
 		}
 		axios
-			.get(`http://localhost:4001/api/teams`)
+			.get(`/api/teams`)
 			.then((resp) => {
 				this.props.setTeamArray(resp.data.result[0].teams);
 			})

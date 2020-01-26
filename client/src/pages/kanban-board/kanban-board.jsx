@@ -75,7 +75,7 @@ class KanbanBoardPage extends Component {
 
 	fetchAndUpdateState() {
 		axios
-			.get(`http://localhost:4001/api/issue/${this.props.teamId}&${this.props.projectId}`)
+			.get(`/api/issue/${this.props.teamId}&${this.props.projectId}`)
 			.then((resp) => {
 				let issues = resp.data.result.projects[0].issues;
 				let issuesWithBoardColumnField = issues.filter((issue) => issue.boardColumn);
@@ -128,8 +128,7 @@ class KanbanBoardPage extends Component {
 
 		axios({
 			method: 'put',
-			url: `http://localhost:4001/api/issue/${this.props.teamId}&${this.props
-				.projectId}&${newTaskId}/updateBoardColumn`,
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${newTaskId}/updateBoardColumn`,
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -218,8 +217,7 @@ class KanbanBoardPage extends Component {
 
 		axios({
 			method: 'put',
-			url: `http://localhost:4001/api/issue/${this.props.teamId}&${this.props
-				.projectId}&${draggableId}/updateBoardColumn`,
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${draggableId}/updateBoardColumn`,
 			headers: {
 				'Content-Type': 'application/json'
 			},
