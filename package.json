@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"start": "forever start -a server.js",
+		"start": "node server.js",
 		"dev": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
 		"test": "jest",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -33,7 +33,6 @@
 	},
 	"devDependencies": {
 		"jest": "^24.9.0",
-		"morgan": "^1.9.1",
 		"nodemon": "1.19.4",
 		"concurrently": "^5.0.0"
 	}
