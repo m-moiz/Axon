@@ -3,11 +3,22 @@ import './projects.styles.scss';
 import Modal from '../../components/modal/modal.components';
 import PageContainer from '../../components/page-container/page-container.component';
 import PageContentContainer from '../../components/page-content-container/page-content-container.component';
-import ItemList from '../../components/project-list/project-list.component';
+import ItemList from '../../components/item-list/item-list.component';
 import AddButton from '../../components/add-button/add-button.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import TopMessage from '../../components/top-message/top-message.component';
-import { selectTeamArray } from '../../redux/team/team.selectors';
+import CreateTeam from '../create-team/create-team.component';
+import EditTeam from '../edit-team/edit-team.component';
+import DeleteTeam from '../delete-team/delete-team.component.jsx';
+import { setTeamArray, toggleCreateTeamModal, toggleDeleteTeams, toggleEditTeams } from '../../redux/team/team.actions';
+import {
+	selectTeamArray,
+	selectIsCreateTeamModalOpen,
+	selectIsDeleteTeamModalOpen,
+	selectIsEditTeamModalOpen,
+	selectShouldDeleteTeams,
+	selectShouldEditTeams
+} from '../../redux/team/team.selectors';
 import { setTeamArray } from '../../redux/team/team.selectors';
 import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
@@ -31,21 +42,21 @@ class TeamsPage extends Component {
 	render() {
 		return (
 			<PageContainer>
-				{this.props.isCreateProjectModalOpen && (
+				{this.props.isCreateTeamModalOpen && (
 					<Modal>
-						<CreateProject />
+						<CreateTeam />
 					</Modal>
 				)}
 
-				{this.props.isDeleteProjectModalOpen && (
+				{this.props.isDeleteTeamModalOpen && (
 					<Modal>
-						<DeleteProject />
+						<DeleteTeam />
 					</Modal>
 				)}
 
-				{this.props.isEditProjectModalOpen && (
+				{this.props.isEditTeamModalOpen && (
 					<Modal>
-						<EditProject />
+						<EditTeam />
 					</Modal>
 				)}
 
@@ -56,19 +67,20 @@ class TeamsPage extends Component {
 					showAddTool
 					showEditTool
 					showDeleteTool
-					toggleCreate={this.props.toggleCreateProjectModal}
-					toggleDelete={this.props.toggleDeleteProjects}
-					toggleEdit={this.props.toggleEditProjects}
-					isDeleting={this.props.shouldDeleteProjects}
-					isEditing={this.props.shouldEditProjects}
-					addToolTipText="Create Project"
-					editToolTipText="Edit Project"
-					deleteToolTipText="Delete Projects"
+					toggleCreate={this.props.toggleCreateTeamModal}
+					toggleDelete={this.props.toggleDeleteTeams}
+					toggleEdit={this.props.toggleEditTeams}
+					isDeleting={this.props.shouldDeleteTeams}
+					isEditing={this.props.shouldEditTeams}
+					addToolTipText="Create Team"
+					editToolTipText="Edit Team"
+					deleteToolTipText="Delete Team"
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
+
 				<PageContentContainer>
 					<ItemList projects={this.props.teams} />
-					<AddButton toggleModal={this.props.toggleCreateProjectModal} />
+					<AddButton toggleModal={this.props.toggleCreateTeamModal} />
 				</PageContentContainer>
 			</PageContainer>
 		);
@@ -80,6 +92,11 @@ const mapStateToProps = (state) => {
 		userId: selectUserId(state),
 		teams: selectTeamArray(state),
 		isSignedIn: selectIsUserSignedIn(state),
+		isCreateTeamModalOpen: selectIsCreateTeamModalOpen(state),
+		isDeleteTeamModalOpen: selectIsDeleteTeamModalOpen(state),
+		isEditTeamModalOpen: selectIsEditTeamModalOpen(state),
+		shouldDeleteTeams: selectShouldDeleteTeams(state),
+		shouldEditTeams: selectShouldEditTeams(state),
 		shouldRenderMessage: selectShouldRenderMessage(state),
 		messageText: selectMessageText(state),
 		isSidebarOpen: selectIsSidebarOpen(state)
@@ -88,7 +105,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setTeamsArray: (array) => dispatch(setTeamArray(array))
+		setTeamsArray: (array) => dispatch(setTeamArray(array)),
+		toggleCreateTeamModal: () => dispatch(toggleCreateTeamModal()),
+		toggleDeleteTeams: () => dispatch(toggleDeleteTeams()),
+		toggleEditTeams: () => dispatch(toggleEditTeams())
 	};
 };
 

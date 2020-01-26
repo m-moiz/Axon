@@ -4,10 +4,10 @@ import { toggleSortOptionsBox, toggleLabelOptionsBox, toggleStatusOptionsBox } f
 import { connect } from 'react-redux';
 import './table-header.styles.scss';
 
-function TableHeader({ toggleLabelOptionsBox, toggleSortOptionsBox, toggleStatusOptionsBox }) {
+function TableHeader({ count, toggleLabelOptionsBox, toggleSortOptionsBox, toggleStatusOptionsBox }) {
 	return (
 		<div className="table-header">
-			<p className="table-header__item--start">120 Open</p>
+			<p className="table-header__item--start">{count} Open</p>
 			<div className="table-header__end">
 				<div className="table-header__item">
 					<TableHeaderFilter handleClick={toggleSortOptionsBox}>Sort</TableHeaderFilter>

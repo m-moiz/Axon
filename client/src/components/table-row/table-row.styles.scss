@@ -8,18 +8,13 @@
 	background-color: #353535;
 	padding-top: .2rem;
 	padding-bottom: .2rem;
-	padding-left: .8rem;
+	padding-left: 1rem;
+	border-left: 3px solid #26ff6e;
 
 	&:hover {
 		background-color: rgb(75, 75, 75);
 		box-shadow: 0 4px 3px -3px rgb(20, 20, 20);
 		cursor: pointer;
-
-		.table__border {
-		}
-
-		.table__item--content {
-		}
 	}
 
 	.table__items {
@@ -29,7 +24,8 @@
 	}
 
 	.table__item--summary {
-		font-size: 1.1rem;
+		font-size: 1rem;
+		letter-spacing: .01rem;
 		padding: .5rem;
 	}
 
@@ -40,12 +36,14 @@
 		margin-right: 2rem;
 		color: rgb(255, 254, 254);
 		align-items: center;
+		font-size: .8rem;
 	}
 }
 
 .table__item--date {
-	font-size: .7rem;
+	font-size: .6rem;
 	margin-left: 1.6rem;
+	opacity: .9rem;
 }
 
 .table__item--row {
@@ -83,8 +81,29 @@
 
 .table__item {
 	margin-bottom: .4rem;
+	font-size: .6rem;
 }
 
 .table__row:last-child {
 	border-bottom: none;
+}
+
+@media screen and (max-width: 600px) {
+	.table__row {
+		.table__items {
+			font-size: .6rem;
+		}
+
+		.table__item--date {
+			font-size: .4rem;
+		}
+
+		.table__item--summary {
+			font-size: .8rem;
+		}
+
+		.table__item {
+			font-size: .4rem;
+		}
+	}
 }

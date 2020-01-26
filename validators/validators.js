@@ -63,7 +63,7 @@ exports.validateIssue = (object) => {
 		status: Joi.string().valid(statusTypes).required(),
 		description: Joi.string(),
 		summary: Joi.string().required(),
-		priority: Joi.string().valid(priorityTypes).required(),
+		priorityType: Joi.string().valid(priorityTypes).required(),
 		dueDate: Joi.string(),
 		environment: Joi.string(),
 		version: Joi.string().regex(/^[\d\.]+$/)

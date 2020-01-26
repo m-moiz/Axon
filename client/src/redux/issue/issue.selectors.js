@@ -68,7 +68,7 @@ export const selectSearchFilteredIssues = createSelector(
 );
 
 export const selectFilteredAndSortedIssues = createSelector(
-	[ selectLabelAndStatusFilteredIssues, selectSortType ],
+	[ selectSearchFilteredIssues, selectSortType ],
 	(issues, sortType) => {
 		if (Array.isArray(issues) && issues.length > 0 && sortType) {
 			issues = sortByKey(issues, sortType);

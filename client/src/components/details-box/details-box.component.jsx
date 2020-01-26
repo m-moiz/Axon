@@ -11,17 +11,33 @@ function DetailsBox({ type, label, reporter, priority, environment, resolution, 
 		<React.Fragment>
 			<ToggleItem title="Details" marginTop="1rem" />
 			<div className="details-box">
-				<span>Type: {type}</span>
-				<span>Reporter: {reporter}</span>
-				<span>Label: {<Label labelType={label} marginLeft="1rem" />}</span>
-				<span>
-					Priority: <PriorityIcon priority={priority} />
-				</span>
-				<span>Environment: {environment}</span>
-				<span>Resolution: {resolution}</span>
-				<span>Version: {version} </span>
-				<span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>
-				<span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>
+				{type && <span>Type: {type}</span>}
+				{reporter && <span>Reporter: {reporter}</span>}
+				{label && (
+					<span>
+						Label:{' '}
+						{
+							<Label
+								labelType={label}
+								marginLeft=".4rem"
+								fontSize=".7rem"
+								boxShadow="none"
+								position="relative"
+								bottom=".1rem"
+							/>
+						}
+					</span>
+				)}
+				{priority && (
+					<span>
+						Priority: <PriorityIcon priority={priority} />
+					</span>
+				)}
+				{environment && <span>Environment: {environment}</span>}
+				{resolution && <span>Resolution: {resolution}</span>}
+				{version && <span>Version: {version} </span>}
+				{dueDate && <span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>}
+				{creationDate && <span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>}
 			</div>
 		</React.Fragment>
 	);

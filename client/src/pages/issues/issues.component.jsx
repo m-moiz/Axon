@@ -30,7 +30,8 @@ import {
 	selectIsStatusOptionsBoxOpen,
 	selectIsShowingDeleteButton,
 	selectIsShowingEditButton,
-	selectFilteredAndSortedIssues
+	selectFilteredAndSortedIssues,
+	selectSearchFilteredIssues
 } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
@@ -46,6 +47,11 @@ const Title = styled.h3`
 	left: 10%;
 	top: 1.47rem;
 	color: white;
+
+	@media screen and (max-width: 560px) {
+		left: 0px;
+		font-size: 1rem;
+	}
 `;
 
 class IssuesPage extends Component {
@@ -103,6 +109,7 @@ class IssuesPage extends Component {
 
 				<SharedSidebar
 					showGoBack
+					goBackTo="/projects"
 					showAddTool
 					showDeleteTool
 					showEditTool

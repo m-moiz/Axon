@@ -45,7 +45,7 @@ function partition(array, left, right, key) {
 			}
 		}
 
-		if (mapOfStringToInt[pivot] > mapOfStringToInt[array[i][selectType]]) {
+		if (mapOfStringToInt[pivot] < mapOfStringToInt[array[i][selectType]]) {
 			array = swapItems(array, i, pIndex);
 			pIndex++;
 		}

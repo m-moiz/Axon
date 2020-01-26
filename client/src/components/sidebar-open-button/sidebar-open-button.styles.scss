@@ -7,6 +7,7 @@
 	padding-left: .5rem;
 	padding-right: .5rem;
 	height: fit-content;
+	height: -moz-max-content;
 	&:hover {
 		.fas {
 			&.fa-angle-right {
@@ -22,5 +23,13 @@
 			padding-left: .1rem;
 			color: rgb(0, 161, 48);
 		}
+	}
+}
+
+@media screen and (max-width: 440px) {
+	.sidebar-open-button__right {
+		font-size: .6rem;
+		padding-left: .15rem;
+		padding-right: .15rem;
 	}
 }

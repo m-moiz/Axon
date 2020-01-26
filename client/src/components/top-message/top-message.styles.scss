@@ -13,11 +13,11 @@
 	z-index: 100;
 
 	&.fadeIn {
-		animation: fadeIn 1.5s 1 ease-in-out forwards;
+		animation: fadeIn 1.5s 1 cubic-bezier(.25, .69, .62, .96) forwards;
 	}
 
 	&.fadeOut {
-		animation: fadeOut 1.5s 1 ease-in-out forwards;
+		animation: fadeOut 1.5s 1 cubic-bezier(.25, .69, .62, .96) forwards;
 	}
 }
 

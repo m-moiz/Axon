@@ -1,12 +1,10 @@
 .details-box {
 	width: 40%;
-	min-height: 120px;
-	background-color: rgb(255, 253, 253);
-	box-shadow: 1px 1px 3px 2px rgb(209, 209, 209);
+	color: white;
 	margin-bottom: 1rem;
 	display: flex;
 	flex-direction: column;
-	padding: 2rem;
+	padding-left: 2rem;
 
 	span {
 		display: flex;

@@ -74,7 +74,7 @@ class EditTeam extends Component {
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
 						axios({
-							method: 'post',
+							method: 'put',
 							url: `/api/team/create`,
 							headers: {
 								'Content-Type': 'application/json'

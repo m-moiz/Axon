@@ -1,7 +1,25 @@
 .comment-header {
 	display: flex;
 	flex-direction: row;
-	background-color: grey;
-	color: black;
+	align-items: center;
+	background-color: #353434;
+	color: rgb(255, 255, 255);
 	height: 30px;
+
+	.button {
+		background: none;
+		border: none;
+		color: #00f3ff;
+		margin-left: .3rem;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+@media screen and (max-width: 440px) {
+	.comment-header {
+		font-size: .8rem;
+	}
 }

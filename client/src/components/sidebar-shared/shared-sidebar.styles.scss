@@ -4,7 +4,8 @@
 	display: flex;
 	height: 30px;
 	align-items: center;
-	background-color: rgb(70, 190, 33);
+	background: rgb(151, 223, 0);
+	background: linear-gradient(90deg, #3bc519 0%, #7ed000 100%);
 	margin-bottom: 1rem;
 
 	&:hover {

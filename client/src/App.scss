@@ -10,3 +10,8 @@
 :root {
 	--dark: #292929;
 }
+
+.navbar,
+.navbar-default {
+	background-image: #292929 !important; /* override background image gradient w/ flat color */
+}

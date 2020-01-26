@@ -83,7 +83,7 @@ const userController = {
 				user
 					.save()
 					.then((user) => {
-						jwtToken.createSessions(user, res);
+						jwtToken.createSession(user, res);
 					})
 					.catch((err) => {
 						console.log(err);
@@ -154,13 +154,11 @@ const userController = {
 					if (err) return res.status(500).json({ message: "Couldn't update user", error: err });
 					console.log(user);
 
-					return res
-						.status(200)
-						.json({
-							message: 'Successfully updated user',
-							_teamId: user.teams[0].teamId,
-							teams: user.teams
-						});
+					return res.status(200).json({
+						message: 'Successfully updated user',
+						_teamId: user.teams[0].teamId,
+						teams: user.teams
+					});
 				}
 			);
 		});

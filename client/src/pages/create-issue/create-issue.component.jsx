@@ -10,19 +10,31 @@ import Form from 'react-bootstrap/Form';
 import FormInput from '../../components/form-input/form-input.component';
 import Editor from '../../components/editor/editor.component';
 import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
+import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
+import 'react-nice-dates/build/style.css';
 import { Formik, Field } from 'formik';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
-import 'react-datepicker/dist/react-datepicker.css';
 import './create-issue.styles.scss';
+
+const DatePickerField = ({ name, value, onChange }) => {
+	return (
+		<DatePicker
+			selected={(value && new Date(value)) || null}
+			onChange={(val) => {
+				onChange(name, val);
+			}}
+		/>
+	);
+};
 
 const schema = yup.object().shape({
 	issueType: yup.string().required('Required'),
 	reporter: yup.string(),
 	summary: yup.string().required('Required'),
-	priority: yup.string().required('Required'),
+	priorityType: yup.string().required('Required'),
 	startDate: yup.string(),
 	enivironment: yup.string(),
 	status: yup.string(),
@@ -33,21 +45,23 @@ const schema = yup.object().shape({
 class CreateIssue extends Component {
 	render() {
 		return (
-			<ModalPage typeOfPage="create" height="80%" width="70%">
+			<ModalPage typeOfPage="create" style="large">
 				<Formik
 					initialValues={{
+						username: this.props.username,
 						issueType: 'Improvement',
 						reporter: '',
 						summary: '',
-						priority: 'High',
+						priorityType: 'High',
 						startDate: new Date(),
-						enivironment: '',
+						environment: '',
 						status: 'Open',
 						version: '',
 						description: ''
 					}}
 					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
+						console.log(values);
 						setSubmitting(true);
 						axios({
 							method: 'post',
@@ -62,9 +76,9 @@ class CreateIssue extends Component {
 								status: values.status,
 								summary: values.summary,
 								description: values.description,
-								priorityType: values.priority,
+								priorityType: values.priorityType,
 								dueDate: values.startDate,
-								enivironment: values.environment,
+								environment: values.environment,
 								version: values.version
 							}
 						})
@@ -86,9 +100,9 @@ class CreateIssue extends Component {
 							<div className="form-head">
 								<h3 className="modal-page-title">Create Issue</h3>
 								<CloseButton
-									fontSize="1.4rem"
-									left="56%"
-									bottom=".5rem"
+									fontSize="1rem"
+									left="60%"
+									color="grey"
 									action={this.props.toggleCreateIssueModal}
 								/>
 							</div>
@@ -101,13 +115,14 @@ class CreateIssue extends Component {
 								error={errors.issueType}
 								touched={touched.issueType}
 							>
-								{issueTypes.map((item) => <option>{item}</option>)}
+								{issueTypes.map((item, index) => <option key={index}>{item}</option>)}
 							</Field>
 
 							<Field
 								inputName="Reporter"
 								name="reporter"
 								as={FormInput}
+								placeholder="Reporter name"
 								bottomStyle
 								error={errors.reporter}
 								touched={touched.reporter}
@@ -121,14 +136,14 @@ class CreateIssue extends Component {
 								error={errors.status}
 								touched={touched.status}
 							>
-								{statusTypes.map((item) => <option>{item}</option>)}
+								{statusTypes.map((item, index) => <option key={index}>{item}</option>)}
 							</Field>
 
 							<Field
 								inputName="Summary"
 								name="summary"
 								as={FormInput}
-								bottomStyle
+								placeholder="Enter summary"
 								error={errors.summary}
 								touched={touched.summary}
 							/>
@@ -142,37 +157,43 @@ class CreateIssue extends Component {
 								name="priorityType"
 								as={FormInput}
 								isSelectInput
-								error={errors.priority}
-								touched={touched.priority}
+								error={errors.priorityType}
+								touched={touched.priorityType}
 							>
-								{priorityTypes.map((item) => <option>{item}</option>)}
+								{priorityTypes.map((item, index) => <option key={index}>{item}</option>)}
 							</Field>
 
 							<div className="due-date">
 								<label>Due Date</label>
 								<DatePicker
-									className="date-picker"
 									selected={values.startDate}
-									onChange={() => setFieldValue('startDate', values.startDate)}
+									dateFormat="MMMM d, yyyy"
+									name="startDate"
+									onChange={(date) => setFieldValue('startDate', date)}
 								/>
 							</div>
 
 							<Field
 								inputName="Environment"
 								name="environment"
+								placeholder="Enter environment"
+								bottomStyle
 								as={FormInput}
 								error={errors.enivironment}
 								touched={touched.enivironment}
 							/>
+
 							<Field
 								inputName="Version"
 								name="version"
+								placeholder="Enter version"
+								bottomStyle
 								as={FormInput}
 								error={errors.version}
 								touched={touched.version}
 							/>
 
-							<CustomButton type="submit" width="25%" left="20rem">
+							<CustomButton type="submit" width="25%" left="27rem" top="2.9rem" marginBottom="4rem">
 								Create
 							</CustomButton>
 						</Form>

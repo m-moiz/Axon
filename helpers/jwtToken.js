@@ -3,7 +3,7 @@ const redisClient = require('../redis');
 
 const jwtToken = {
 	async putTokenInDb(token, username) {
-		redisClient.set(token, username, (err, reply) => {
+		redisClient.set(token, username, (err) => {
 			return new Promise((resolve, reject) => {
 				if (err) {
 					reject(err);
@@ -30,7 +30,7 @@ const jwtToken = {
 		});
 	},
 
-	async createSessions(user, res) {
+	async createSession(user, res) {
 		const { username } = user;
 		const { _id, teams, isTeamAdmin } = user;
 		const token = await this.createToken(username);

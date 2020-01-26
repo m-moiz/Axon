@@ -1,10 +1,16 @@
 .description-box {
-	width: 850px;
+	width: 70%;
 	padding: 2rem;
 	height: fit-content;
 	display: flex;
 	flex-wrap: wrap;
-	background-color: rgb(255, 255, 255);
-	box-shadow: 1px 1px 3px 2px rgb(209, 209, 209);
+	background-color: #ffffff;
+	color: #171717;
 	margin-bottom: 5rem;
+}
+
+@media screen and (max-width: 950px) {
+	.description-box {
+		width: 60%;
+	}
 }

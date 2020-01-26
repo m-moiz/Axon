@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
-	border: 1px solid lightgrey;
 	padding: 8px;
 	padding-bottom: 24px;
 	border-radius: 2px;
-	box-shadow: ${(props) => (props.isDragging ? 'none' : '1px 1px 2px 1px #f0eded')};
 	margin-bottom: 8px;
-	background-color: ${(props) => (props.isDragging ? '#ededed' : 'white')};
+	box-shadow: ${(props) => (props.isDragging ? '' : '1px 1px 2px 1px #292929')};
+	color: #83ff36;
+	background-color: ${(props) => (props.isDragging ? 'grey' : '#3e3a3a')};
 	display: flex;
 `;
 

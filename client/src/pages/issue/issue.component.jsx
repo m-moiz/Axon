@@ -21,7 +21,6 @@ import { selectUsername } from '../../redux/user/user.selectors';
 import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../redux/message/message.selectors';
 import { setCommentsArray } from '../../redux/comment/comment.actions';
-import { selectComments } from '../../redux/comment/comment.selectors';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`
@@ -31,6 +30,22 @@ const Title = styled.h3`
 	width: fit-content;
 	top: 1.57rem;
 	color: white;
+
+	@media screen and (max-width: 900px) {
+		font-size: 1.4rem;
+	}
+
+	@media screen and (max-width: 700px) {
+		font-size: 1.2rem;
+	}
+
+	@media screen and (max-width: 600px) {
+		font-size: 1.0rem;
+	}
+
+	@media screen and (max-width: 400px) {
+		font-size: .9rem;
+	}
 `;
 
 class IssuePage extends Component {
@@ -84,6 +99,7 @@ class IssuePage extends Component {
 
 				<SharedSidebar
 					showGoBack
+					goBackTo="/user/issues"
 					title="Issues"
 					toggleDelete={this.props.toggleDeleteIssues}
 					toggleEdit={this.props.toggleEditIssues}
@@ -110,8 +126,8 @@ class IssuePage extends Component {
 							reporter={reporter}
 						/>
 						<DescriptionBox content={description} />
-						<CreateComment username={username} />
 						<CommentList comments={comments} />
+						<CreateComment username={username} />
 					</div>
 				</PageContentContainer>
 			</PageContainer>
@@ -129,7 +145,7 @@ const mapStateToProps = (state) => {
 		messageText: selectMessageText(state),
 		currentIssue: selectCurrentIssue(state),
 		username: selectUsername(state),
-		comments: selectComments(state)
+		comments: state.comment.comments
 	};
 };
 

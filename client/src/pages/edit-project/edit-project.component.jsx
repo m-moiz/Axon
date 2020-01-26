@@ -55,7 +55,7 @@ class EditProject extends Component {
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
 						axios({
-							method: 'post',
+							method: 'put',
 							url: `/api/project/${this.props.teamId}&${this.props.projectId}/update`,
 							headers: {
 								'Content-Type': 'application/json'
@@ -84,9 +84,9 @@ class EditProject extends Component {
 							<div className="form-head">
 								<h3 className="modal-page-title">Edit Project</h3>
 								<CloseButton
-									fontSize="1.4rem"
-									left="56%"
-									bottom=".5rem"
+									fontSize="1rem"
+									left="60%"
+									color="grey"
 									action={this.props.toggleEditProjectModal}
 								/>
 							</div>

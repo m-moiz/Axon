@@ -8,31 +8,31 @@
 
 	form {
 		input {
-			width: 38vw;
+			width: 8rem;
+			background: none;
 			padding: .2rem;
-			border: 1px solid rgba(251, 251, 251, 0.972);
-			text-align: center;
-			border-radius: .3rem;
-			box-shadow: 0px 0px 5px 2px #1f1f1f;
+			border: none;
+			color: white;
+			border-bottom: 1px solid rgb(223, 0, 243);
+			transition: width 250ms ease-in-out;
 
 			&::-webkit-input-placeholder {
-				text-align: center;
+				color: white;
+				font-size: 1.2rem;
 			}
 
 			&:-moz-placeholder {
-				text-align: center;
 			}
 
 			&::-moz-placeholder {
-				text-align: center;
 			}
 
 			&:-ms-input-placeholder {
-				text-align: center;
 			}
 
 			&:focus {
 				outline: none;
+				width: 25vw;
 			}
 		}
 	}

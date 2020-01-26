@@ -43,7 +43,14 @@ const FormInput = ({
 			)}
 			<div className="input-container">
 				{isSelectInput ? (
-					<Form.Control className={className} as="select" placeholder={placeholder}>
+					<Form.Control
+						className={className}
+						name={name}
+						value={value}
+						onChange={onChange}
+						as="select"
+						placeholder={placeholder}
+					>
 						{children}
 					</Form.Control>
 				) : (

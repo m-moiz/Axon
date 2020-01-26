@@ -5,6 +5,7 @@ const ProjectSchema = mongoose.Schema({
 	name: { type: String, required: true },
 	teamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	description: { type: String },
+	numOfIssues: { type: Number, default: 0 },
 	issues: { type: [ IssueSchema ], default: undefined }
 });
 

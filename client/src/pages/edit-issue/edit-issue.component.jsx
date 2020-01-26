@@ -45,7 +45,7 @@ class EditIssue extends Component {
 		} = this.props.currentIssue[0];
 
 		return (
-			<ModalPage height="80%" width="70%">
+			<ModalPage style="large">
 				<Formik
 					initialValues={{
 						issueType: issueType,
@@ -53,7 +53,7 @@ class EditIssue extends Component {
 						summary: summary,
 						priority: priorityType,
 						startDate: new Date(),
-						enivironment: environment,
+						environment: environment,
 						status: status,
 						version: version,
 						description: description
@@ -62,7 +62,7 @@ class EditIssue extends Component {
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
 						axios({
-							method: 'post',
+							method: 'put',
 							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/update`,
 							headers: {
 								'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ class EditIssue extends Component {
 								description: values.description,
 								priority: values.priority,
 								dueDate: values.startDate,
-								enivironment: values.environment,
+								environment: values.environment,
 								version: values.version
 							}
 						})
@@ -98,9 +98,9 @@ class EditIssue extends Component {
 							<div className="form-head">
 								<h3 className="modal-page-title">Edit Issue</h3>
 								<CloseButton
-									fontSize="1.4rem"
-									left="56%"
-									bottom=".5rem"
+									fontSize="1rem"
+									left="60%"
+									color="grey"
 									action={this.props.toggleEditIssueModal}
 								/>
 							</div>
@@ -120,6 +120,7 @@ class EditIssue extends Component {
 								inputName="Reporter"
 								name="reporter"
 								as={FormInput}
+								placeholder="Reporter name"
 								bottomStyle
 								error={errors.reporter}
 								touched={touched.reporter}
@@ -140,7 +141,7 @@ class EditIssue extends Component {
 								inputName="Summary"
 								name="summary"
 								as={FormInput}
-								bottomStyle
+								placeholder="Enter summary"
 								error={errors.summary}
 								touched={touched.summary}
 							/>
@@ -163,29 +164,35 @@ class EditIssue extends Component {
 							<div className="due-date">
 								<label>Due Date</label>
 								<DatePicker
-									className="date-picker"
 									selected={values.startDate}
-									onChange={() => setFieldValue('startDate', values.startDate)}
+									dateFormat="MMMM d, yyyy"
+									name="startDate"
+									onChange={(date) => setFieldValue('startDate', date)}
 								/>
 							</div>
 
 							<Field
 								inputName="Environment"
 								name="environment"
+								placeholder="Enter environment"
+								bottomStyle
 								as={FormInput}
 								error={errors.enivironment}
 								touched={touched.enivironment}
 							/>
+
 							<Field
 								inputName="Version"
 								name="version"
+								placeholder="Enter version"
+								bottomStyle
 								as={FormInput}
 								error={errors.version}
 								touched={touched.version}
 							/>
 
 							<CustomButton type="submit" width="25%" left="20rem">
-								Edit
+								Create
 							</CustomButton>
 						</Form>
 					)}

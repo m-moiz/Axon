@@ -9,17 +9,18 @@
 	overflow-x: visible;
 
 	&.sidebar-close {
-		animation: closing .5s 1 ease-in-out forwards;
+		animation: closing .25s 1 cubic-bezier(.17, .67, .88, .92) forwards;
 	}
 
 	&.sidebar-open {
-		animation: opening .5s 1 ease-in-out forwards;
+		animation: opening .25s 1 cubic-bezier(.17, .67, .88, .92) forwards;
 	}
 
 	.title {
 		padding-top: 1rem;
 		padding-bottom: .5rem;
-		background-color: rgba(180, 0, 255, 0.72);
+		background: rgb(179, 0, 223);
+		background: linear-gradient(90deg, rgba(179, 0, 223, 1) 0%, rgba(171, 1, 222, 1) 100%);
 		color: rgb(255, 255, 255);
 		display: flex;
 		justify-content: center;

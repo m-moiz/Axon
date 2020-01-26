@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 class MySelect extends React.Component {
@@ -30,5 +31,15 @@ class MySelect extends React.Component {
 		);
 	}
 }
+
+MySelect.propTypes = {
+	name: PropTypes.string,
+	options: PropTypes.array,
+	isMulti: PropTypes.bool,
+	handleChagne: PropTypes.func,
+	handleBlur: PropTypes.func,
+	value: PropTypes.string,
+	placeholder: PropTypes.string
+};
 
 export default MySelect;

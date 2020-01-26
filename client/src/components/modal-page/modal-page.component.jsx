@@ -3,19 +3,36 @@ import PropTypes from 'prop-types';
 import PageContentContainer from '../page-content-container/page-content-container.component';
 import './modal-page.styles.scss';
 
-const ModalPage = ({ children, width, height }) => (
-	<div className="modal-page-container">
-		<div className="modal-page" style={{ width: width, height: height }}>
-			<div className="left-box" />
-			<PageContentContainer>{children}</PageContentContainer>
+const changeStyle = (style) => {
+	let className = 'modal-page';
+
+	if (style === 'large') {
+		className += ' large';
+	} else if (style === 'medium') {
+		className += ' medium';
+	} else if (style === 'small') {
+		className += ' small';
+	}
+
+	return className;
+};
+
+const ModalPage = ({ style, children }) => {
+	const className = changeStyle(style);
+
+	return (
+		<div className="modal-page-container">
+			<div className={className}>
+				<div className="left-box" />
+				<PageContentContainer>{children}</PageContentContainer>
+			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 ModalPage.propTypes = {
-	children: PropTypes.elementType,
-	width: PropTypes.string,
-	height: PropTypes.string
+	style: PropTypes.string,
+	children: PropTypes.elementType
 };
 
 export default ModalPage;

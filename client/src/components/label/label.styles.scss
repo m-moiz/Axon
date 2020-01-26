@@ -1,17 +1,17 @@
 .label {
 	display: flex;
 	width: fit-content;
+	width: -moz-max-content;
 	justify-content: center;
 	padding-left: .7rem;
 	padding-right: .7rem;
 	padding-top: .2rem;
 	padding-bottom: .2rem;
 	border-radius: .5rem;
-	font-size: .7rem;
+	font-size: inherit;
 	margin-left: 1.4rem;
 	margin-top: .2rem;
 	margin-bottom: .2rem;
-	box-shadow: 0 0 3px 1px rgb(68, 68, 68);
 
 	&.bug {
 		background-color: rgb(231, 14, 14);
@@ -19,7 +19,7 @@
 	}
 
 	&.improvement {
-		background-color: blue;
+		background-color: rgb(77, 77, 253);
 		color: white;
 	}
 

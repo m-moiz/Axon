@@ -5,7 +5,13 @@ import './comment-footer.styles.scss';
 function CommentFooter({ showCreateButton, likes }) {
 	return (
 		<div className="comment-footer">
-			{showCreateButton ? <div>{likes} likes</div> : <CustomButton left="80%">Create</CustomButton>}
+			{showCreateButton ? (
+				<CustomButton type="submit" marginRight=".5rem" color="inherit">
+					Create
+				</CustomButton>
+			) : (
+				''
+			)}
 		</div>
 	);
 }

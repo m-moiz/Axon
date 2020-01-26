@@ -15,7 +15,7 @@ import './delete-issue.styles.scss';
 class DeleteIssue extends Component {
 	render() {
 		return (
-			<ModalPage>
+			<ModalPage style="small">
 				<Formik
 					initialValues={{}}
 					onSubmit={() => {
@@ -42,7 +42,8 @@ class DeleteIssue extends Component {
 									fontSize="1.4rem"
 									left="56%"
 									bottom=".5rem"
-									action={toggleDeleteIssueModal}
+									color="grey"
+									action={this.props.toggleDeleteIssueModal}
 								/>
 							</div>
 

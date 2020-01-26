@@ -57,20 +57,6 @@ class Editor extends React.Component {
 									'quote'
 								]
 							},
-							moreRich: {
-								buttons: [
-									'insertLink',
-									'insertImage',
-									'insertVideo',
-									'insertTable',
-									'emoticons',
-									'fontAwesome',
-									'specialCharacters',
-									'embedly',
-									'insertFile',
-									'insertHR'
-								]
-							},
 							moreMisc: {
 								buttons: [
 									'undo',
@@ -98,19 +84,15 @@ class Editor extends React.Component {
 							'align',
 							'link',
 							'lists',
-							'file',
 							'image',
 							'emoticons',
 							'url',
-							'video',
-							'embedly',
 							'colors',
 							'entities',
 							'inlineClass',
 							'inlineStyle',
 							'codeBeautif ',
-							// 'spellChecker',
-							'imageTUI'
+							'spellChecker'
 						]
 					}}
 				/>

@@ -6,6 +6,7 @@ import './custom-button.styles.scss';
 const CustomButton = ({
 	marginTop,
 	marginBottom,
+	marginRight,
 	width,
 	left,
 	right,
@@ -31,6 +32,7 @@ const CustomButton = ({
 				bottom: bottom,
 				marginTop: marginTop,
 				marginBottom: marginBottom,
+				marginRight: marginRight,
 				top: top,
 				backgroundColor: backgroundColor,
 				color: color,
@@ -50,6 +52,7 @@ CustomButton.propTypes = {
 	top: PropTypes.string,
 	marginBottom: PropTypes.string,
 	marginTop: PropTypes.string,
+	marginRight: PropTypes.string,
 	color: PropTypes.string,
 	children: PropTypes.node,
 	type: PropTypes.string,

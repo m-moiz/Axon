@@ -7,7 +7,7 @@ exports.createIssue = async (req, res) => {
 	let issue = new Issue();
 
 	let { teamId, projectId } = req.params;
-	teamId = mongoose.Types.ObjectId(userId);
+	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 
 	const {
@@ -17,7 +17,7 @@ exports.createIssue = async (req, res) => {
 		status,
 		summary,
 		description,
-		priority,
+		priorityType,
 		dueDate,
 		environment,
 		version
@@ -30,17 +30,21 @@ exports.createIssue = async (req, res) => {
 		status: status,
 		summary: summary,
 		description: description,
-		priority: priority,
+		priorityType: priorityType,
 		dueDate: dueDate,
 		environment: environment,
 		version: version
 	};
+
+	/*
 
 	const [ isInvalid, error ] = validateIssue(validationObject);
 
 	if (isInvalid) {
 		return res.status(500).json({ error: error });
 	}
+
+	*/
 
 	issue.createdBy = createdBy;
 	issue.summary = summary;
@@ -49,7 +53,7 @@ exports.createIssue = async (req, res) => {
 	issue.status = status;
 	issue.reporter = reporter;
 	issue.description = description;
-	issue.priorityType = priority;
+	issue.priorityType = priorityType;
 	issue.dueDate = dueDate;
 	issue.environment = environment;
 
@@ -60,7 +64,7 @@ exports.createIssue = async (req, res) => {
 				'projects.$.issues': issue
 			}
 		},
-		(err, doc) => {
+		(err) => {
 			if (err) return res.status(500).json({ err: err });
 			return res.status(200).json({ message: 'Issue added successfully' });
 		}
@@ -79,7 +83,7 @@ exports.getIssues = (req, res) => {
 //Use findOneAndUpdate for arrayFilters feature in mongoose?
 exports.updateIssue = (req, res) => {
 	let { teamId, projectId, issueId } = req.params;
-	const { issueType, reporter, status, summary, description, priority, dueDate, environment, version } = req.body;
+	const { issueType, reporter, status, summary, description, priorityType, dueDate, environment, version } = req.body;
 	const validationObject = {
 		createdBy: createdBy,
 		issueType: issueType,
@@ -87,14 +91,14 @@ exports.updateIssue = (req, res) => {
 		status: status,
 		summary: summary,
 		description: description,
-		priority: priority,
+		priorityType: priorityType,
 		dueDate: dueDate,
 		environment: environment,
 		version: version
 	};
 
 	validateIssue(validationObject);
-	teamId = mongoose.Types.ObjectId(userId);
+	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
 
@@ -106,7 +110,7 @@ exports.updateIssue = (req, res) => {
 				'projects.$[i].issues.$[j].summary': summary,
 				'projects.$[i].issues.$[j].reporter': reporter,
 				'projects.$[i].issues.$[j].description': description,
-				'projects.$[i].issues.$[j].priorityType': priority,
+				'projects.$[i].issues.$[j].priorityType': priorityType,
 				'projects.$[i].issues.$[j].dueDate': dueDate,
 				'projects.$[i].issues.$[j].environment': environment,
 				'projects.$[i].issues.$[j].status': status,
@@ -117,19 +121,65 @@ exports.updateIssue = (req, res) => {
 			arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
 		}
 	)
-		.then(function(resp) {
-			console.log(resp);
-			res.json({ message: 'Issue updated successfully' });
+		.then(() => {
+			return res.status(200).json({ message: 'Issue updated successfully' });
 		})
-		.catch(function(err) {
+		.catch((err) => {
 			console.log(err);
-			res.status(500).json('Failed');
+			return res.status(500).json('Failed');
 		});
+};
+
+exports.updateIssueBoardColumn = (req, res) => {
+	let { teamId, projectId, issueId } = req.params;
+	let { column } = req.body;
+
+	if (column === 'column-3') {
+		Team.findOneAndUpdate(
+			{ _id: teamId },
+			{
+				$set: {
+					'projects.$[i].issues.$[j].boardColumn': column,
+					'projects.$[i].issues.$[j].status': 'Closed'
+				}
+			},
+			{
+				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
+			}
+		)
+			.then(() => {
+				res.status(200).json({ message: 'Issue updated successfully' });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).json('Failed');
+			});
+	} else {
+		Team.findOneAndUpdate(
+			{ _id: teamId },
+			{
+				$set: {
+					'projects.$[i].issues.$[j].boardColumn': column,
+					'projects.$[i].issues.$[j].status': 'Open'
+				}
+			},
+			{
+				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
+			}
+		)
+			.then(() => {
+				res.status(200).json({ message: 'Issue updated successfully' });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).json('Failed');
+			});
+	}
 };
 
 exports.deleteIssue = (req, res) => {
 	let { teamId, projectId, issueId } = req.params;
-	teamId = mongoose.Types.ObjectId(userId);
+	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
 
@@ -141,7 +191,7 @@ exports.deleteIssue = (req, res) => {
 			}
 		},
 		{ new: true },
-		(err, doc) => {
+		(err) => {
 			if (err) return res.status(500).json({ err: err });
 			return res.status(200).json({ message: 'Issue deleted successfully' });
 		}

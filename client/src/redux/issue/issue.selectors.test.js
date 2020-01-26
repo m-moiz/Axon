@@ -1,4 +1,4 @@
-import { selectFilteredAndSortedIssues, selectLabelAndStatusFilteredIssues } from './issue.selectors';
+import { selectFilteredAndSortedIssues, selectLabelAndStatusFilteredIssues, select } from './issue.selectors';
 
 var state = {};
 
@@ -7,13 +7,14 @@ beforeEach(() => {
 		issue: {
 			statusFilter: 'Open',
 			labelFilter: 'Improvement',
-			sortType: 'Lowest Priority',
+			sortType: 'Highest Priority',
 			issues: [
-				{ _id: 1, priorityType: 'High', issueType: 'Improvement', status: 'Open' },
+				{ _id: 1, priorityType: 'Medium', issueType: 'Improvement', status: 'Open' },
+				{ _id: 2, priorityType: 'High', issueType: 'Improvement', status: 'Open' },
 				{ _id: 3, priorityType: 'Low', issueType: 'Feature', status: 'Open' },
-				{ _id: 2, priorityType: 'Medium', issueType: 'Task', status: 'Open' },
-				{ id: 4, priortyType: 'Lowest', issueType: 'Improvement', status: 'Open' },
-				{ id: 5, priorityType: 'High', issueType: 'Improvement', status: 'Closed' }
+				{ _id: 4, priorityType: 'Medium', issueType: 'Task', status: 'Open' },
+				{ id: 5, priortyType: 'Lowest', issueType: 'Improvement', status: 'Open' },
+				{ id: 6, priorityType: 'High', issueType: 'Improvement', status: 'Closed' }
 			]
 		}
 	};
@@ -21,8 +22,9 @@ beforeEach(() => {
 
 it('returns filtered and sorted result', () => {
 	let result = [
-		{ id: 4, priortyType: 'Lowest', status: 'Open', issueType: 'Improvement' },
-		{ _id: 1, priorityType: 'High', issueType: 'Improvement', status: 'Open' }
+		{ _id: 2, priorityType: 'High', issueType: 'Improvement', status: 'Open' },
+		{ _id: 1, priorityType: 'Medium', issueType: 'Improvement', status: 'Open' },
+		{ id: 5, priortyType: 'Lowest', issueType: 'Improvement', status: 'Open' }
 	];
 
 	expect(selectFilteredAndSortedIssues(state)).toEqual(result);
@@ -30,8 +32,9 @@ it('returns filtered and sorted result', () => {
 
 it('returns filtered result', () => {
 	let result = [
-		{ _id: 1, priorityType: 'High', issueType: 'Improvement', status: 'Open' },
-		{ id: 4, priortyType: 'Lowest', status: 'Open', issueType: 'Improvement' }
+		{ _id: 1, priorityType: 'Medium', issueType: 'Improvement', status: 'Open' },
+		{ _id: 2, priorityType: 'High', issueType: 'Improvement', status: 'Open' },
+		{ id: 5, priortyType: 'Lowest', issueType: 'Improvement', status: 'Open' }
 	];
 
 	expect(selectLabelAndStatusFilteredIssues(state)).toEqual(result);

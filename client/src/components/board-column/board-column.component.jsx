@@ -5,14 +5,19 @@ import BoardTask from '../board-task/board-task.component';
 
 const Container = styled.div`
 	margin: 8px;
-	background-color: white;
+	background-color: #4c4c4c;
+	box-shadow: 1px 1px 4px 2px #1d1d1d;
 	border-radius: 2px;
 	width: 280px;
 	display: flex;
 	flex-direction: column;
 `;
 
-const Title = styled.h3`padding: 8px;`;
+const Title = styled.h3`
+	padding: 8px;
+	background: #32cabb;
+	color: white;
+`;
 
 const TaskList = styled.div`
 	padding: 8px;
@@ -39,6 +44,7 @@ class BoardColumn extends Component {
 									{this.props.tasks.map((task, index) => (
 										<BoardTask key={task.id} task={task} index={index} />
 									))}
+
 									{provided.placeholder}
 								</TaskList>
 							)}

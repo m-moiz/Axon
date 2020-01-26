@@ -32,13 +32,14 @@ const SharedSidebar = ({
 	isDeleting,
 	isEditing,
 	showGoBack,
+	goBackTo,
 	history
 }) => (
 	<SideBar title={title}>
 		{showGoBack ? (
 			<div
 				onClick={() => {
-					history.goBack();
+					history.push(goBackTo);
 				}}
 				className="sidebar__go-back"
 			>
@@ -106,12 +107,13 @@ SharedSidebar.propTypes = {
 	toggleToolsSubcategory: PropTypes.func,
 	isToolsSubcategoryOpen: PropTypes.bool,
 	title: PropTypes.string.isRequired,
+	goBackTo: PropTypes.string,
 	toggleCreate: PropTypes.func,
 	toggleDelete: PropTypes.func,
 	toggleEdit: PropTypes.func,
-	showEditTool: PropTypes.bool.isRequired,
-	showDeleteTool: PropTypes.bool.isRequired,
-	showAddTool: PropTypes.bool.isRequired,
+	showEditTool: PropTypes.bool,
+	showDeleteTool: PropTypes.bool,
+	showAddTool: PropTypes.bool,
 	deleteToolTipText: PropTypes.string,
 	editToolTipText: PropTypes.string,
 	addToolTipText: PropTypes.string,

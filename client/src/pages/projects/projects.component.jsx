@@ -7,14 +7,13 @@ import CreateProject from '../create-project/create-project.component';
 import TabBar from '../../components/tab-bar/tab-bar.component';
 import DeleteProject from '../delete-project/delete-project.component';
 import EditProject from '../edit-project/edit-project.component';
-import ProjectList from '../../components/project-list/project-list.component';
+import ItemList from '../../components/item-list/item-list.component';
 import AddButton from '../../components/add-button/add-button.component';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import TopMessage from '../../components/top-message/top-message.component';
 import {
 	setProjectsArray,
 	toggleCreateProjectModal,
-	toggleDeleteProjectModal,
 	toggleDeleteProjects,
 	toggleEditProjects
 } from '../../redux/project/project.actions';
@@ -104,7 +103,7 @@ class ProjectsPage extends Component {
 				/>
 				<PageContentContainer>
 					<TabBar items={this.props.teams} />
-					<ProjectList projects={this.props.projects} />
+					<ItemList items={this.props.projects} itemName="project" />
 					<AddButton toggleModal={this.props.toggleCreateProjectModal} />
 				</PageContentContainer>
 			</PageContainer>
@@ -134,7 +133,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		setProjectsArray: (projects) => dispatch(setProjectsArray(projects)),
 		toggleCreateProjectModal: () => dispatch(toggleCreateProjectModal()),
-		toggleDeleteProjectModal: () => dispatch(toggleDeleteProjectModal()),
 		toggleDeleteProjects: () => dispatch(toggleDeleteProjects()),
 		toggleEditProjects: () => dispatch(toggleEditProjects())
 	};

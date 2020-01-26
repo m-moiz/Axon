@@ -87,9 +87,10 @@ class CreateProject extends Component {
 							<div className="form-head">
 								<h3 className="modal-page-title">Create Project</h3>
 								<CloseButton
-									fontSize="1.4rem"
-									left="56%"
-									bottom=".5rem"
+									fontSize="1rem"
+									left="60%"
+									color="grey"
+									hoverBackground="black"
 									action={this.props.toggleCreateProjectModal}
 								/>
 							</div>
@@ -111,7 +112,7 @@ class CreateProject extends Component {
 								bottomStyle
 							/>
 
-							<CustomButton type="submit" width="25%" left="20rem">
+							<CustomButton type="submit" width="25%" left="20rem" top="7.5rem">
 								Create
 							</CustomButton>
 						</Form>

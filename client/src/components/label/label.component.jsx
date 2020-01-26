@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './label.styles.scss';
 
-function Label({ labelType, marginLeft }) {
+function Label({ labelType, marginLeft, position, bottom, fontSize, boxShadow }) {
 	let content = '';
 	let className = 'label';
 	if (labelType === 'Bug') {
@@ -28,7 +28,16 @@ function Label({ labelType, marginLeft }) {
 	return (
 		<React.Fragment>
 			{labelType ? (
-				<div className={className} style={{ marginLeft: marginLeft }}>
+				<div
+					className={className}
+					style={{
+						marginLeft: marginLeft,
+						position: position,
+						bottom: bottom,
+						fontSize: fontSize,
+						boxShadow: boxShadow
+					}}
+				>
 					<div>{content}</div>
 				</div>
 			) : (
@@ -40,7 +49,11 @@ function Label({ labelType, marginLeft }) {
 
 Label.propTypes = {
 	labelType: PropTypes.string,
-	marginLeft: PropTypes.string
+	marginLeft: PropTypes.string,
+	position: PropTypes.string,
+	bottom: PropTypes.string,
+	fontSize: PropTypes.string,
+	boxShadow: PropTypes.string
 };
 
 export default Label;

@@ -110,7 +110,7 @@ class SignUpPage extends Component {
 									});
 							}}
 						>
-							{({ errors, touched, handleSubmit, isSubmitting }) => (
+							{({ errors, touched, handleSubmit, isSubmitting, submitForm }) => (
 								<form
 									onSubmit={handleSubmit}
 									style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
@@ -146,16 +146,6 @@ class SignUpPage extends Component {
 											bottomStyle
 										/>
 									</div>
-
-									<CustomButton
-										marginBottom="1rem"
-										type="submit"
-										isSubmitting={isSubmitting}
-										width="70%"
-										backgroundColor="black"
-									>
-										Sign Up with github
-									</CustomButton>
 
 									<CustomButton type="submit" isSubmitting={isSubmitting} width="70%">
 										Sign Up

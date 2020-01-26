@@ -7,6 +7,7 @@ const CommentSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
+	nameOfPoster: { type: String },
 	text: { type: String, required: true },
 	likes: { type: mongoose.Schema.Types.Number, default: undefined }
 });

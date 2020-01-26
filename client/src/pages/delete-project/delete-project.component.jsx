@@ -15,7 +15,7 @@ import './delete-project.styles.scss';
 class DeleteProject extends Component {
 	render() {
 		return (
-			<ModalPage>
+			<ModalPage style="small">
 				<Formik
 					initialValues={{}}
 					onSubmit={() => {
@@ -44,6 +44,7 @@ class DeleteProject extends Component {
 									fontSize="1.4rem"
 									left="56%"
 									bottom=".5rem"
+									color="grey"
 									action={this.props.toggleDeleteProjectModal}
 								/>
 							</div>

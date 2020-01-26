@@ -10,27 +10,32 @@ import { connect } from 'react-redux';
 import './table-row.styles.scss';
 
 const TableRow = ({
-	summary,
-	status,
-	assignee,
-	createdBy,
-	label,
+	data,
+	style,
+	index,
 	history,
-	itemId,
 	setIssueId,
-	date,
 	isShowingDeleteButton,
 	isShowingEditButton,
 	toggleDeleteIssueModal,
 	toggleEditIssueModal
 }) => {
+	const issue = data[index];
+	let itemId = issue._id;
+	let summary = issue.summary;
+	let label = issue.issueType;
+	let createdBy = issue.createdBy;
+	let priorityType = issue.priorityType;
+	let date = issue.creationDate;
+	let numOfComments = issue.numOfComments;
+
 	let [ day, month ] = getDate(date);
 	const handleClick = () => {
 		setIssueId(itemId);
 		toggleEditIssueModal();
 	};
 	return (
-		<div style={{ display: 'flex', flexDirection: 'row' }}>
+		<div style={{ ...style, display: 'flex', flexDirection: 'row' }}>
 			<div
 				className="table__row"
 				onClick={() => {
@@ -43,10 +48,11 @@ const TableRow = ({
 						<div className="table__item--row">
 							<i
 								className="fas fa-exclamation-circle"
-								style={{ marginRight: '.5rem', marginTop: '.3rem', color: 'white' }}
+								style={{ marginRight: '.6rem', marginTop: '.3rem', color: 'white' }}
 							/>
 							<div className={label ? 'table__item--content' : 'table__item--content margin'}>
 								{summary}
+								{priorityType}
 							</div>
 						</div>
 						<div className="table__item">
@@ -58,8 +64,8 @@ const TableRow = ({
 						</div>
 					</div>
 					<div className="table__row--end">
-						<span>0</span>
-						<i className="far fa-comment" style={{ marginLeft: '.2rem' }} />
+						<span>{numOfComments}</span>
+						<i className="far fa-comment" style={{ marginLeft: '.3rem' }} />
 					</div>
 				</div>
 			</div>
@@ -95,6 +101,7 @@ TableRow.propTypes = {
 	label: PropTypes.string,
 	createdBy: PropTypes.string
 };
+
 const mapStateToProps = (state) => {
 	return {
 		isShowingDeleteButton: selectIsShowingDeleteButton(state),

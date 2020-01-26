@@ -1,4 +1,3 @@
-const User = require('../models/user.model').User;
 const Team = require('../models/team.model').Team;
 const Project = require('../models/project.model').Project;
 
@@ -7,12 +6,13 @@ exports.createProject = async (req, res) => {
 	const { teamId } = req.params;
 	const { projectName, projectDesc } = req.body;
 
-	Team.findOne({ _id: teamId, 'projects.name': projectName }, async (err, team) => {
-		if (team === null) {
+	Team.findOne({ _id: teamId, 'projects.name': projectName }, async (result) => {
+		if (result === null) {
 			project.name = projectName;
 			project.description = projectDesc;
+
 			try {
-				let team = await Team.findOneAndUpdate({ _id: teamId }, { $push: { projects: project } });
+				let result = await Team.findOneAndUpdate({ _id: teamId }, { $push: { projects: project } });
 				return res.status(200).json({ message: 'Successfully created project' });
 			} catch (ex) {
 				console.log(ex);
@@ -49,7 +49,7 @@ exports.updateProject = (req, res) => {
 	Team.updateOne(
 		{ _id: teamId, 'projects._id': projectId },
 		{ $set: { 'projects.$.name': name, 'projects.$.description': description } },
-		(err, doc) => {
+		(err) => {
 			if (err) return res.status(500).json({ message: err });
 			return res.status(200).json({ message: 'Project updated successfully' });
 		}
@@ -59,7 +59,7 @@ exports.updateProject = (req, res) => {
 exports.deleteProject = (req, res) => {
 	const { teamId, projectId } = req.params;
 
-	Team.findByIdAndUpdate({ _id: teamId }, { $pull: { projects: { _id: projectId } } }, (err, doc) => {
+	Team.findByIdAndUpdate({ _id: teamId }, { $pull: { projects: { _id: projectId } } }, (err) => {
 		if (err) return res.status(404).json({ message: "Couldn't delete project" });
 
 		return res.status(200).json({ message: 'Successfully deleted project' });

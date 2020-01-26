@@ -2,7 +2,7 @@ import { commentActionTypes } from './comment.types';
 
 export const setCommentsArray = (comments) => ({
 	type: commentActionTypes.SET_COMMENTS_ARRAY,
-	paylaod: comments
+	payload: comments
 });
 
 export const createComment = () => ({
