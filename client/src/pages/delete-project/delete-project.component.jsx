@@ -38,18 +38,17 @@ class DeleteProject extends Component {
 							onSubmit={handleSubmit}
 							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
 						>
+							<CloseButton
+								fontSize="1.4rem"
+								bottom=".5rem"
+								color="grey"
+								action={this.props.toggleDeleteProjectModal}
+							/>
 							<div className="form-head">
 								<h3 className="modal-page-title">Delete Project</h3>
-								<CloseButton
-									fontSize="1.4rem"
-									left="56%"
-									bottom=".5rem"
-									color="grey"
-									action={this.props.toggleDeleteProjectModal}
-								/>
 							</div>
 
-							<CustomButton backgroundColor="red" type="submit" width="25%" left="20rem">
+							<CustomButton backgroundColor="red" type="submit" width="25%" left="20rem" top=".5rem">
 								Delete
 							</CustomButton>
 						</Form>

@@ -1,43 +1,48 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import './custom-button.styles.scss';
 
-const CustomButton = ({
-	marginTop,
-	marginBottom,
-	marginRight,
-	width,
-	left,
-	right,
-	bottom,
-	top,
-	backgroundColor,
-	color,
-	children,
-	type,
-	handleClick,
-	isSubmitting
-}) => (
+const Button = styled.button`
+	width: ${(props) => (props.width ? props.width : '70%')};
+	left: ${(props) => (props.left ? props.left : '')};
+	bottom: ${(props) => (props.bottom ? props.bottom : '')};
+	top: ${(props) => (props.top ? props.top : '2.9rem')};
+	margin-bottom: ${(props) => (props.isSign ? '4rem' : '')};
+	position: relative;
+	border: none;
+	background-color: #007bff;
+	padding-top: .4rem;
+	padding-bottom: .4rem;
+	padding-left: .4rem;
+	padding-right: .4rem;
+	color: white;
+	border-radius: .3rem;
+
+	&:hover {
+		box-shadow: 1px 1px 5px 1px rgb(56, 56, 56);
+	}
+
+	@media screen and (max-width: 684px) {
+		left: ${(props) => (props.left ? '60%' : '')};
+	}
+
+	@media screen and (max-width: 586px) {
+		width: ${(props) => (props.isSign ? '90%' : '')};
+	}
+`;
+
+const CustomButton = ({ children, type, handleClick, isSubmitting, width, left, bottom, top, isSign }) => (
 	<div className="custom-button">
 		<Button
 			type={type}
 			onClick={handleClick}
 			disabled={isSubmitting}
-			style={{
-				position: 'relative',
-				width: width,
-				left: left,
-				right: right,
-				bottom: bottom,
-				marginTop: marginTop,
-				marginBottom: marginBottom,
-				marginRight: marginRight,
-				top: top,
-				backgroundColor: backgroundColor,
-				color: color,
-				border: 'none'
-			}}
+			width={width}
+			left={left}
+			bottom={bottom}
+			top={top}
+			isSign={isSign}
 		>
 			{children}
 		</Button>
@@ -45,15 +50,6 @@ const CustomButton = ({
 );
 
 CustomButton.propTypes = {
-	width: PropTypes.string,
-	left: PropTypes.string,
-	right: PropTypes.string,
-	bottom: PropTypes.string,
-	top: PropTypes.string,
-	marginBottom: PropTypes.string,
-	marginTop: PropTypes.string,
-	marginRight: PropTypes.string,
-	color: PropTypes.string,
 	children: PropTypes.node,
 	type: PropTypes.string,
 	handleClick: PropTypes.func

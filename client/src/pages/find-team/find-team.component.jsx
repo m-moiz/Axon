@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { setTeamId, setTeamArray } from '../../redux/team/team.actions';
 import { withRouter } from 'react-router-dom';
+import './find-team.styles.scss';
 import axios from 'axios';
 
 class FindTeam extends Component {
@@ -80,9 +81,17 @@ class FindTeam extends Component {
 								width="50%"
 							/>
 
-							<CustomButton type="submit" isSubmitting={isSubmitting} width="20%" top="20%" left="25rem">
-								Create
-							</CustomButton>
+							<div className="button-layout">
+								<CustomButton
+									type="submit"
+									isSubmitting={isSubmitting}
+									width="20%"
+									top="20%"
+									left="25rem"
+								>
+									Create
+								</CustomButton>
+							</div>
 						</form>
 					)}
 				</Formik>

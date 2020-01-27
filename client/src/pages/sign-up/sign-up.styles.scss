@@ -1,2 +1,12 @@
 .sign-up {
 }
+
+@media screen and (max-width: 586px) {
+	.card {
+		width: 90% !important;
+	}
+
+	.sign-form {
+		padding-left: 2rem !important;
+	}
+}

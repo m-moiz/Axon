@@ -74,7 +74,7 @@ class SignUpPage extends Component {
 								backgroundColor: 'rgb(44,44,44)',
 								color: 'white',
 								height: '4.4rem',
-								paddingLeft: '13rem',
+								justifyContent: 'center',
 								letterSpacing: '.1rem',
 								display: 'flex'
 							}}
@@ -113,6 +113,7 @@ class SignUpPage extends Component {
 							{({ errors, touched, handleSubmit, isSubmitting, submitForm }) => (
 								<form
 									onSubmit={handleSubmit}
+									className="sign-form"
 									style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
 								>
 									<div style={{ marginBottom: '2.3rem' }}>
@@ -147,7 +148,7 @@ class SignUpPage extends Component {
 										/>
 									</div>
 
-									<CustomButton type="submit" isSubmitting={isSubmitting} width="70%">
+									<CustomButton type="submit" isSubmitting={isSubmitting} isSign>
 										Sign Up
 									</CustomButton>
 								</form>

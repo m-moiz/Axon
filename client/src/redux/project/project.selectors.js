@@ -27,3 +27,9 @@ export const selectProjectName = createSelector(
 	(projects, projectId) =>
 		Array.isArray(projects) && projects.length > 0 ? projects.find((project) => project._id === projectId).name : []
 );
+
+export const selectCurrentProject = createSelector(
+	[ selectProjects, selectProjectId ],
+	(projects, projectId) =>
+		Array.isArray(projects) && projects.length > 0 ? projects.filter((project) => project._id === projectId) : []
+);

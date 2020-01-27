@@ -84,15 +84,15 @@ class CreateProject extends Component {
 							onSubmit={handleSubmit}
 							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
 						>
+							<CloseButton
+								fontSize="1rem"
+								top="1rem"
+								color="grey"
+								hoverBackground="black"
+								action={this.props.toggleCreateProjectModal}
+							/>
 							<div className="form-head">
 								<h3 className="modal-page-title">Create Project</h3>
-								<CloseButton
-									fontSize="1rem"
-									left="60%"
-									color="grey"
-									hoverBackground="black"
-									action={this.props.toggleCreateProjectModal}
-								/>
 							</div>
 
 							<Field

@@ -47,3 +47,11 @@
 		font-size: 16px;
 	}
 }
+
+@media screen and (max-width: 586px) {
+	.form-input {
+		&.original {
+			width: 90%;
+		}
+	}
+}

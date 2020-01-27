@@ -30,7 +30,7 @@ class SignInPage extends Component {
 								backgroundColor: 'rgb(44,44,44)',
 								color: 'white',
 								height: '4.4rem',
-								paddingLeft: '13rem',
+								justifyContent: 'center',
 								letterSpacing: '.1rem',
 								display: 'flex'
 							}}
@@ -87,6 +87,7 @@ class SignInPage extends Component {
 							{({ handleSubmit, isSubmitting, errors, touched }) => (
 								<form
 									onSubmit={handleSubmit}
+									className="sign-form"
 									style={{ paddingTop: '3rem', paddingLeft: '6rem', paddingBottom: '3.4rem' }}
 								>
 									<div style={{ marginBottom: '2.3rem' }}>
@@ -111,7 +112,7 @@ class SignInPage extends Component {
 										/>
 									</div>
 
-									<CustomButton type="submit" disabled={isSubmitting} width="70%">
+									<CustomButton type="submit" disabled={isSubmitting} isSign>
 										Sign In
 									</CustomButton>
 								</form>

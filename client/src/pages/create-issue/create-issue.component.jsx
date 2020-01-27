@@ -182,9 +182,7 @@ class CreateIssue extends Component {
 								touched={touched.version}
 							/>
 
-							<CustomButton type="submit" width="25%" left="27rem" top="2.9rem" marginBottom="4rem">
-								Create
-							</CustomButton>
+							<CustomButton type="submit">Create</CustomButton>
 						</Form>
 					)}
 				</Formik>

@@ -9,49 +9,51 @@ import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
 import { toggleEditProjectModal } from '../../redux/project/project.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
+import { selectCurrentProject } from '../../redux/project/project.selectors';
 import { withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 import axios from 'axios';
 import './edit-project.styles.scss';
 
-const schema = yup.object().shape({
-	name: yup.string().test('checkDuplicate', 'Project name already exists', function(value) {
-		return new Promise((resolve, reject) => {
-			axios({
-				method: 'post',
-				url: `/api/project/${this.props.teamId}`,
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				data: {
-					projectName: value
-				}
-			})
-				.then((resp) => {
-					if (resp.data.message === 'Project already exists') {
-						resolve(false);
+const schema = (teamId) =>
+	yup.object().shape({
+		name: yup.string().test('checkDuplicate', 'Project name already exists', function(value) {
+			return new Promise((resolve, reject) => {
+				axios({
+					method: 'post',
+					url: `/api/project/${teamId}`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: {
+						projectName: value
 					}
-
-					if (resp.data.message === 'Project not found') {
-						resolve(true);
-					}
-
-					resolve(true);
 				})
-				.catch((err) => {
-					resolve(true);
-				});
-		});
-	})
-});
+					.then((resp) => {
+						if (resp.data.message === 'Project already exists') {
+							resolve(false);
+						}
+
+						if (resp.data.message === 'Project not found') {
+							resolve(true);
+						}
+
+						resolve(true);
+					})
+					.catch((err) => {
+						resolve(true);
+					});
+			});
+		})
+	});
 
 class EditProject extends Component {
 	render() {
+		const { name, description } = this.props.currentProject[0];
 		return (
 			<ModalPage>
 				<Formik
-					initialValues={{ name: '', description: '' }}
-					validationSchema={schema}
+					initialValues={{ name: name, description: description }}
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
 						axios({
@@ -61,12 +63,12 @@ class EditProject extends Component {
 								'Content-Type': 'application/json'
 							},
 							data: {
-								projectName: values.name,
-								projectDesc: values.description
+								name: values.name,
+								description: values.description
 							}
 						})
 							.then((resp) => {
-								this.props.toggleCreateProjectModal();
+								this.props.toggleEditProjectModal();
 								this.props.setMessageText('Project edited successfully');
 								this.props.closingMessageAfterOpening();
 								this.props.history.push('/empty');
@@ -81,22 +83,31 @@ class EditProject extends Component {
 							onSubmit={handleSubmit}
 							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
 						>
+							<CloseButton
+								fontSize="1.1rem"
+								bottom=".5rem"
+								color="grey"
+								action={this.props.toggleEditProjectModal}
+							/>
 							<div className="form-head">
 								<h3 className="modal-page-title">Edit Project</h3>
-								<CloseButton
-									fontSize="1rem"
-									left="60%"
-									color="grey"
-									action={this.props.toggleEditProjectModal}
-								/>
 							</div>
 
-							<Field name="name" placeholder="Enter Project Name" as={FormInput} error={errors.name} />
+							<Field
+								name="name"
+								placeholder="Enter Project Name"
+								as={FormInput}
+								error={errors.name}
+								touched={touched.name}
+								bottomStyle
+							/>
 							<Field
 								name="description"
 								placeholder="Enter a brief summary"
 								as={FormInput}
 								error={errors.description}
+								touched={touched.description}
+								bottomStyle
 							/>
 
 							<CustomButton type="submit" width="25%" left="20rem">
@@ -122,7 +133,8 @@ const mapStateToProps = (state) => {
 	return {
 		userId: state.user.userId,
 		projectId: state.project.projectId,
-		teamId: selectTeamId(state)
+		teamId: selectTeamId(state),
+		currentProject: selectCurrentProject(state)
 	};
 };
 
