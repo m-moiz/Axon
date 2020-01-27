@@ -8,7 +8,7 @@ const Container = styled.div`
 	border-radius: 2px;
 	margin-bottom: 8px;
 	box-shadow: ${(props) => (props.isDragging ? '' : '1px 1px 2px 1px #292929')};
-	color: #83ff36;
+	color: #88ffad;
 	background-color: ${(props) => (props.isDragging ? 'grey' : '#3e3a3a')};
 	display: flex;
 `;

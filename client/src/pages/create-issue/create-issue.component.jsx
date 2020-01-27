@@ -8,7 +8,8 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import CloseButton from '../../components/close-button/close-button.component';
 import Form from 'react-bootstrap/Form';
 import FormInput from '../../components/form-input/form-input.component';
-import Editor from '../../components/editor/editor.component';
+import RichEditor from '../../components/editor/editor.component';
+import { EditorState } from 'draft-js';
 import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
@@ -17,17 +18,6 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 import './create-issue.styles.scss';
-
-const DatePickerField = ({ name, value, onChange }) => {
-	return (
-		<DatePicker
-			selected={(value && new Date(value)) || null}
-			onChange={(val) => {
-				onChange(name, val);
-			}}
-		/>
-	);
-};
 
 const schema = yup.object().shape({
 	issueType: yup.string().required('Required'),
@@ -56,7 +46,7 @@ class CreateIssue extends Component {
 						environment: '',
 						status: 'Open',
 						version: '',
-						description: ''
+						editorState: new EditorState.createEmpty()
 					}}
 					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
@@ -74,7 +64,7 @@ class CreateIssue extends Component {
 								reporter: values.reporter,
 								status: values.status,
 								summary: values.summary,
-								description: values.description,
+								description: values.editorState,
 								priorityType: values.priorityType,
 								dueDate: values.startDate,
 								environment: values.environment,
@@ -149,7 +139,7 @@ class CreateIssue extends Component {
 
 							<label>Description</label>
 
-							<Editor description={values.description} handleModelChange={setFieldValue} />
+							<RichEditor editorState={values.editorState} onChange={setFieldValue} />
 
 							<Field
 								inputName="Priority"

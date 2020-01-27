@@ -1,1 +1,10 @@
-
+.react-datepicker__input-container {
+	input {
+		padding-left: 1rem;
+		padding-bottom: .3rem;
+		padding-top: .3rem;
+		color: #868686;
+		/* border: none; */
+		border: 1px solid #bebebe;
+	}
+}

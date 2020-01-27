@@ -9,6 +9,8 @@ import FormInput from '../../components/form-input/form-input.component';
 import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
 import { selectTeamId } from '../../redux/team/team.selectors';
 import { Formik, Field } from 'formik';
+import RichEditor from '../../components/editor/editor.component';
+import { EditorState } from 'draft-js';
 import { connect } from 'react-redux';
 import { toggleEditIssueModal } from '../../redux/issue/issue.actions';
 import { selectCurrentIssue } from '../../redux/issue/issue.selectors';
@@ -56,7 +58,7 @@ class EditIssue extends Component {
 						environment: environment,
 						status: status,
 						version: version,
-						description: description
+						editorState: new EditorState.createEmpty()
 					}}
 					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
@@ -73,7 +75,7 @@ class EditIssue extends Component {
 								reporter: values.reporter,
 								status: values.status,
 								summary: values.summary,
-								description: values.description,
+								description: values.editorState,
 								priority: values.priority,
 								dueDate: values.startDate,
 								environment: values.environment,
@@ -148,7 +150,7 @@ class EditIssue extends Component {
 
 							<label>Description</label>
 
-							<Editor description={values.description} handleModelChange={setFieldValue} />
+							<RichEditor editorState={values.editorState} onChange={setFieldValue} />
 
 							<Field
 								inputName="Priority"

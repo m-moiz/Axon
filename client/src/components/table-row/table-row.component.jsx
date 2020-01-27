@@ -25,7 +25,6 @@ const TableRow = ({
 	let summary = issue.summary;
 	let label = issue.issueType;
 	let createdBy = issue.createdBy;
-	let priorityType = issue.priorityType;
 	let date = issue.creationDate;
 	let numOfComments = issue.numOfComments;
 
@@ -52,7 +51,6 @@ const TableRow = ({
 							/>
 							<div className={label ? 'table__item--content' : 'table__item--content margin'}>
 								{summary}
-								{priorityType}
 							</div>
 						</div>
 						<div className="table__item">

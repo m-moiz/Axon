@@ -15,14 +15,14 @@ const Container = styled.div`
 
 const Title = styled.h3`
 	padding: 8px;
-	background: #32cabb;
+	background-color: #d70afd;
 	color: white;
 `;
 
 const TaskList = styled.div`
 	padding: 8px;
 	transition: background-color .2s ease;
-	background-color: ${(props) => (props.isDraggingOver ? '#f7f7f7' : 'inherit')};
+	background-color: ${(props) => (props.isDraggingOver ? 'grey' : 'inherit')};
 	flex-grow: 1;
 	min-height: 100px;
 `;
@@ -33,7 +33,9 @@ class BoardColumn extends Component {
 			<Draggable draggableId={this.props.column.id} index={this.props.index}>
 				{(provided) => (
 					<Container {...provided.draggableProps} ref={provided.innerRef}>
-						<Title {...provided.dragHandleProps}>{this.props.column.title}</Title>
+						<Title index={this.props.index} {...provided.dragHandleProps}>
+							{this.props.column.title}
+						</Title>
 						<Droppable droppableId={this.props.column.id} type="task">
 							{(provided, snapshot) => (
 								<TaskList

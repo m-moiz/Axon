@@ -22,3 +22,9 @@
 		margin-top: .14rem;
 	}
 }
+
+@media screen and (max-width: 600px) {
+	.sidebar__go-back {
+		padding: .8rem;
+	}
+}

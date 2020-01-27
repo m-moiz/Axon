@@ -4,6 +4,7 @@
 	z-index: 1;
 	display: flex;
 	flex-direction: column;
+	flex-shrink: 0;
 	transform-origin: top left;
 	background-color: #292929;
 	overflow-x: visible;
@@ -74,5 +75,21 @@
 
 	100% {
 		transform: translateX(0);
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.sidebar {
+		width: 100px;
+
+		.title {
+			h5 {
+				font-size: 1.05rem;
+			}
+		}
+	}
+
+	.sidebar__back {
+		left: 90px;
 	}
 }

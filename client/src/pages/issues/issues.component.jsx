@@ -30,7 +30,6 @@ import {
 	selectIsStatusOptionsBoxOpen,
 	selectIsShowingDeleteButton,
 	selectIsShowingEditButton,
-	selectFilteredAndSortedIssues,
 	selectSearchFilteredIssues
 } from '../../redux/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
@@ -38,6 +37,7 @@ import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../redux/message/message.selectors';
 import { issueTypes, statusTypes } from '../../types/types';
 import { connect } from 'react-redux';
+import './issues.styles.scss';
 
 const Title = styled.h3`
 	margin: 0;
@@ -58,7 +58,6 @@ class IssuesPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sortOptions: [ 'Newest', 'Oldest', 'Highest Priority', 'Lowest Priority', 'Most votes', 'Least votes' ],
 			statusOptions: statusTypes,
 			labelOptions: issueTypes
 		};
@@ -128,17 +127,6 @@ class IssuesPage extends Component {
 				<PageContentContainer>
 					<Title>{this.props.projectName}</Title>
 					<SearchBar />
-					{this.props.isSortOptionsBoxOpen ? (
-						<OptionsBox
-							listItems={this.state.sortOptions}
-							type="sort"
-							headerTitle="Sort By"
-							right="28vw"
-							bottom="21vh"
-						/>
-					) : (
-						''
-					)}
 					{this.props.isStatusOptionsBoxOpen ? (
 						<OptionsBox
 							listItems={this.state.statusOptions}
@@ -188,7 +176,7 @@ const mapStateToProps = (state) => {
 		userId: selectUserId(state),
 		teamId: selectTeamId(state),
 		projectId: selectProjectId(state),
-		issues: selectFilteredAndSortedIssues(state),
+		issues: selectSearchFilteredIssues(state),
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state)
