@@ -38,7 +38,7 @@ class ProjectsPage extends Component {
 			window.location = '/sign-in';
 		}
 		axios
-			.get(`http://localhost:4001/api/projects/${this.props.teamId}`)
+			.get(`api/projects/${this.props.teamId}`)
 			.then((resp) => {
 				console.log(resp);
 				if (resp.data.result[0].projects === undefined) {
