@@ -22,7 +22,8 @@ exports.validateSignUp = (object) => {
 	const schema = Joi.object({
 		username: Joi.string().alphanum().min(3).max(20).required(),
 		password: Joi.string()
-			.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]{10,}$/)
+			.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]+/)
+			.min(10)
 			.required(),
 		email: Joi.string().email().required()
 	});
@@ -41,7 +42,8 @@ exports.validateSignIn = (object) => {
 	const schema = Joi.object({
 		username: Joi.string().max(30).min(3),
 		password: Joi.string()
-			.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]{10,}$/)
+			.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#(){}[\]])[A-Za-z\d@$!%*?&#(){}[\]]+/)
+			.min(10)
 			.required()
 	});
 

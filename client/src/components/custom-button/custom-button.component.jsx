@@ -7,8 +7,7 @@ const Button = styled.button`
 	width: ${(props) => (props.width ? props.width : '70%')};
 	left: ${(props) => (props.left ? props.left : '')};
 	bottom: ${(props) => (props.bottom ? props.bottom : '')};
-	top: ${(props) => (props.top ? props.top : '2.9rem')};
-	margin-bottom: ${(props) => (props.isSign ? '4rem' : '')};
+	top: ${(props) => (props.top ? props.top : '')};
 	position: relative;
 	border: none;
 	background-color: #007bff;

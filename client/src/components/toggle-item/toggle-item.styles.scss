@@ -1,7 +1,10 @@
+@import '../../mixins.scss';
+
 .toggle-item {
 	display: flex;
 	color: rgb(216, 215, 215);
 	margin-bottom: 1rem;
+	@include remove-select;
 
 	&:hover {
 		color: white;

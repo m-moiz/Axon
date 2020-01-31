@@ -52,9 +52,30 @@ class IssuePage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			commentText: ''
+			commentText: '',
+			isDescriptionVisible: true,
+			isDetailsVisible: true,
+			isCommentsVisible: true
 		};
 	}
+
+	toggleDescription = () => {
+		this.setState((prevState) => ({
+			isDescriptionVisible: !prevState.isDescriptionVisible
+		}));
+	};
+
+	toggleDetails = () => {
+		this.setState((prevState) => ({
+			isDetailsVisible: !prevState.isDetailsVisible
+		}));
+	};
+
+	toggleComments = () => {
+		this.setState((prevState) => ({
+			isCommentsVisible: !prevState.isCommentsVisible
+		}));
+	};
 
 	componentDidMount() {
 		axios
@@ -117,6 +138,8 @@ class IssuePage extends Component {
 						</Title>
 						<StatusIcon status={status} />
 						<DetailsBox
+							isDetailsVisible={this.state.isDetailsVisible}
+							toggleDetails={this.toggleDetails}
 							label={issueType}
 							priority={priorityType}
 							environment={environment}
@@ -125,8 +148,16 @@ class IssuePage extends Component {
 							creationDate={creationDate}
 							reporter={reporter}
 						/>
-						<DescriptionBox content={description} />
-						<CommentList comments={comments} />
+						<DescriptionBox
+							isDescriptionVisible={this.state.isDescriptionVisible}
+							toggleDescription={this.toggleDescription}
+							content={description}
+						/>
+						<CommentList
+							isCommentsVisible={this.state.isCommentsVisible}
+							toggleComments={this.toggleComments}
+							comments={comments}
+						/>
 						<CreateComment username={username} />
 					</div>
 				</PageContentContainer>

@@ -1,10 +1,17 @@
 import React from 'react';
 import './toggle-item.styles.scss';
 
-function ToggleItem({ title, marginTop }) {
+function ToggleItem({ isOpen, handleClick, title, marginTop }) {
+	let className = '';
+	if (isOpen) {
+		className = 'fas fa-caret-down';
+	} else {
+		className = 'fas fa-caret-right';
+	}
+
 	return (
-		<div className="toggle-item" style={{ marginTop: marginTop }}>
-			<i className="fas fa-caret-down" style={{ marginRight: '.4rem', marginTop: '.2rem' }} />
+		<div onClick={handleClick} className="toggle-item" style={{ marginTop: marginTop }}>
+			<i className={className} style={{ marginRight: '.4rem', marginTop: '.2rem' }} />
 			<span>{title}</span>
 		</div>
 	);

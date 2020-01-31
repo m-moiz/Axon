@@ -6,14 +6,27 @@ import ToggleItem from '../toggle-item/toggle-item.component';
 import moment from 'moment';
 import './details-box.styles.scss';
 
-function DetailsBox({ type, label, reporter, priority, environment, resolution, version, dueDate, creationDate }) {
+function DetailsBox({
+	isDetailsVisible,
+	toggleDetails,
+	type,
+	label,
+	reporter,
+	priority,
+	environment,
+	resolution,
+	version,
+	dueDate,
+	creationDate
+}) {
 	return (
 		<React.Fragment>
-			<ToggleItem title="Details" marginTop="1rem" />
+			<ToggleItem isOpen={isDetailsVisible} handleClick={toggleDetails} title="Details" marginTop="1rem" />
 			<div className="details-box">
-				{type && <span>Type: {type}</span>}
-				{reporter && <span>Reporter: {reporter}</span>}
-				{label && (
+				{isDetailsVisible && type && <span>Type: {type}</span>}
+				{isDetailsVisible && reporter && <span>Reporter: {reporter}</span>}
+				{isDetailsVisible &&
+				label && (
 					<span>
 						Label:{' '}
 						{
@@ -28,16 +41,18 @@ function DetailsBox({ type, label, reporter, priority, environment, resolution, 
 						}
 					</span>
 				)}
-				{priority && (
+				{isDetailsVisible &&
+				priority && (
 					<span>
 						Priority: <PriorityIcon priority={priority} />
 					</span>
 				)}
-				{environment && <span>Environment: {environment}</span>}
-				{resolution && <span>Resolution: {resolution}</span>}
-				{version && <span>Version: {version} </span>}
-				{dueDate && <span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>}
-				{creationDate && <span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>}
+				{isDetailsVisible && environment && <span>Environment: {environment}</span>}
+				{isDetailsVisible && resolution && <span>Resolution: {resolution}</span>}
+				{isDetailsVisible && version && <span>Version: {version} </span>}
+				{isDetailsVisible && dueDate && <span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>}
+				{isDetailsVisible &&
+				creationDate && <span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>}
 			</div>
 		</React.Fragment>
 	);
