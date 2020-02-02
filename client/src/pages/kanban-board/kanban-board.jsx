@@ -107,7 +107,6 @@ class KanbanBoardPage extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		console.log(prevProps.projectId, this.props.projectId);
 		if (prevProps.projectId !== this.props.projectId) {
 			this.fetchAndUpdateState();
 		}
@@ -156,10 +155,6 @@ class KanbanBoardPage extends Component {
 			},
 			options: options
 		});
-	};
-
-	onDragUpdate = (update) => {
-		const { destination } = update;
 	};
 
 	onDragEnd = (result) => {
@@ -264,7 +259,7 @@ class KanbanBoardPage extends Component {
 					deleteToolTipText="Delete Issues"
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
-				<PageContentContainer>
+				<PageContentContainer overflowX="auto">
 					<DragDropContext onDragEnd={this.onDragEnd} onDragUpdate={this.onDragUpdate}>
 						<Droppable droppableId="all-columns" direction="horizontal" type="column">
 							{(provided, snapshot) => (

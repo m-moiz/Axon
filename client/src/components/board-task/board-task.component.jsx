@@ -9,7 +9,7 @@ const Container = styled.div`
 	margin-bottom: 8px;
 	box-shadow: ${(props) => (props.isDragging ? '' : '1px 1px 2px 1px #292929')};
 	color: #88ffad;
-	background-color: ${(props) => (props.isDragging ? 'grey' : '#3e3a3a')};
+	background-color: ${(props) => (props.isDragging ? '#484545' : '#3e3a3a')};
 	display: flex;
 `;
 
