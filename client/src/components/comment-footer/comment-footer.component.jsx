@@ -6,7 +6,7 @@ function CommentFooter({ showCreateButton, likes }) {
 	return (
 		<div className="comment-footer">
 			{showCreateButton ? (
-				<CustomButton type="submit" marginRight=".5rem" color="inherit">
+				<CustomButton type="submit" width="90%" marginRight=".8rem" color="inherit">
 					Create
 				</CustomButton>
 			) : (

@@ -177,6 +177,53 @@ exports.updateIssueBoardColumn = (req, res) => {
 	}
 };
 
+exports.toggleStatus = (req, res) => {
+	let { teamId, projectId, issueId } = req.params;
+	const { prevStatus } = req.body;
+
+	if (prevStatus === 'Open') {
+		Team.findOneAndUpdate(
+			{ _id: teamId },
+			{
+				$set: {
+					'projects.$[i].issues.$[j].boardColumn': 'column-3',
+					'projects.$[i].issues.$[j].status': 'Closed'
+				}
+			},
+			{
+				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
+			}
+		)
+			.then(() => {
+				res.status(200).json({ message: 'Issue updated successfully' });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).json('Failed');
+			});
+	} else if (prevStatus === 'Closed') {
+		Team.findOneAndUpdate(
+			{ _id: teamId },
+			{
+				$set: {
+					'projects.$[i].issues.$[j].boardColumn': 'column-1',
+					'projects.$[i].issues.$[j].status': 'Open'
+				}
+			},
+			{
+				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
+			}
+		)
+			.then(() => {
+				res.status(200).json({ message: 'Issue updated successfully' });
+			})
+			.catch((err) => {
+				console.log(err);
+				res.status(500).json('Failed');
+			});
+	}
+};
+
 exports.deleteIssue = (req, res) => {
 	let { teamId, projectId, issueId } = req.params;
 	teamId = mongoose.Types.ObjectId(teamId);

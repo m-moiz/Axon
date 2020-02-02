@@ -9,6 +9,7 @@ const teamController = require('../controllers/team.controller');
 router.get('/issue/:teamId&:projectId', issueController.getIssues);
 router.post('/issue/:teamId&:projectId/create', issueController.createIssue);
 router.put('/issue/:teamId&:projectId&:issueId/updateBoardColumn', issueController.updateIssueBoardColumn);
+router.put('/issue/:teamId&:projectId&:issueId/toggleStatus', issueController.toggleStatus);
 router.put('/issue/:teamId&:projectId&:issueId/update', issueController.updateIssue);
 router.delete('/issue/:teamId&:projectId&:issueId/delete', issueController.deleteIssue);
 

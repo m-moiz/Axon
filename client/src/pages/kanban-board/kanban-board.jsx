@@ -135,9 +135,7 @@ class KanbanBoardPage extends Component {
 			data: {
 				column: columnId
 			}
-		})
-			.then((resp) => console.log(resp))
-			.catch((err) => console.log(err));
+		}).catch((err) => console.log(err));
 
 		let column = this.state.columns[columnId];
 

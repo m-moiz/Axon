@@ -7,7 +7,7 @@ const IssueSchema = mongoose.Schema({
 	summary: { type: String, required: true },
 	reporter: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: undefined, required: true },
 	assignee: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: undefined, required: false },
-	description: { type: String, required: true },
+	description: mongoose.Schema.Types.Mixed,
 	boardColumn: { type: String, required: false },
 	createdBy: { type: String, required: true },
 	creationDate: { type: mongoose.Schema.Types.Date, default: Date.now(), required: true },

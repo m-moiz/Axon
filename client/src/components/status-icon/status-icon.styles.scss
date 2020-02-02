@@ -16,4 +16,10 @@
 	&.red {
 		background-color: red;
 	}
+
+	&.isInteractible {
+		&:hover {
+			cursor: pointer;
+		}
+	}
 }

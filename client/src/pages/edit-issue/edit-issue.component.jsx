@@ -3,14 +3,13 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import ModalPage from '../../components/modal-page/modal-page.component';
 import CloseButton from '../../components/close-button/close-button.component';
 import Form from 'react-bootstrap/Form';
-import Editor from '../../components/editor/editor.component';
 import DatePicker from 'react-datepicker';
 import FormInput from '../../components/form-input/form-input.component';
 import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
 import { selectTeamId } from '../../redux/team/team.selectors';
 import { Formik, Field } from 'formik';
 import RichEditor from '../../components/editor/editor.component';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { connect } from 'react-redux';
 import { toggleEditIssueModal } from '../../redux/issue/issue.actions';
 import { selectCurrentIssue } from '../../redux/issue/issue.selectors';
@@ -35,16 +34,7 @@ const schema = yup.object().shape({
 
 class EditIssue extends Component {
 	render() {
-		const {
-			issueType,
-			reporter,
-			summary,
-			description,
-			priorityType,
-			environment,
-			status,
-			version
-		} = this.props.currentIssue[0];
+		const { issueType, reporter, summary, priorityType, environment, status, version } = this.props.currentIssue[0];
 
 		return (
 			<ModalPage style="large">
@@ -63,6 +53,7 @@ class EditIssue extends Component {
 					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
+						const convertedData = convertToRaw(values.editorState.getCurrentContent());
 						axios({
 							method: 'put',
 							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/update`,
@@ -75,7 +66,7 @@ class EditIssue extends Component {
 								reporter: values.reporter,
 								status: values.status,
 								summary: values.summary,
-								description: values.editorState,
+								description: convertedData,
 								priority: values.priority,
 								dueDate: values.startDate,
 								environment: values.environment,

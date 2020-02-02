@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import './editor.styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -21,6 +20,13 @@ class RichEditor extends React.Component {
 					placeholder="Description..."
 					ref="editor"
 					spellCheck={true}
+					toolbar={{
+						options: [ 'inline', 'list', 'link' ],
+						inline: { inDropdown: false },
+						list: { inDropdown: false },
+						link: { inDropdown: false },
+						history: { inDropdown: false }
+					}}
 				/>
 			</React.Fragment>
 		);

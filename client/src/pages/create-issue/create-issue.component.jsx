@@ -9,7 +9,7 @@ import CloseButton from '../../components/close-button/close-button.component';
 import Form from 'react-bootstrap/Form';
 import FormInput from '../../components/form-input/form-input.component';
 import RichEditor from '../../components/editor/editor.component';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
@@ -27,8 +27,7 @@ const schema = yup.object().shape({
 	startDate: yup.string(),
 	enivironment: yup.string(),
 	status: yup.string(),
-	version: yup.string().matches(/^[\d\.]+$/, 'Not a valid version number'),
-	description: yup.string()
+	version: yup.string().matches(/^[\d\.]+$/, 'Not a valid version number')
 });
 
 class CreateIssue extends Component {
@@ -46,11 +45,11 @@ class CreateIssue extends Component {
 						environment: '',
 						status: 'Open',
 						version: '',
-						editorState: new EditorState.createEmpty()
+						editorState: EditorState.createEmpty()
 					}}
 					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
-						console.log(values);
+						const convertedData = convertToRaw(values.editorState.getCurrentContent());
 						setSubmitting(true);
 						axios({
 							method: 'post',
@@ -64,7 +63,7 @@ class CreateIssue extends Component {
 								reporter: values.reporter,
 								status: values.status,
 								summary: values.summary,
-								description: values.editorState,
+								description: convertedData,
 								priorityType: values.priorityType,
 								dueDate: values.startDate,
 								environment: values.environment,

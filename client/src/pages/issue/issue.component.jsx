@@ -77,6 +77,19 @@ class IssuePage extends Component {
 		}));
 	};
 
+	handleStatusClick = (e) => {
+		axios({
+			method: 'put',
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/toggleStatus`,
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: {
+				prevStatus: e.target.value
+			}
+		}).catch((err) => console.log(err));
+	};
+
 	componentDidMount() {
 		axios
 			.get(`/api/comment/${this.props.issueId}`)
@@ -88,6 +101,7 @@ class IssuePage extends Component {
 
 	render() {
 		const {
+			createdBy,
 			description,
 			priorityType,
 			environment,
@@ -101,6 +115,11 @@ class IssuePage extends Component {
 		} = this.props.currentIssue[0];
 
 		const { username, comments, projectName } = this.props;
+
+		let isInteractible = false;
+		if (createdBy === username) {
+			isInteractible = true;
+		}
 
 		return (
 			<PageContainer>
@@ -136,7 +155,11 @@ class IssuePage extends Component {
 							{' '}
 							{projectName}/{summary}{' '}
 						</Title>
-						<StatusIcon status={status} />
+						<StatusIcon
+							isInteractible={isInteractible}
+							handleClick={this.handleStatusClick}
+							status={status}
+						/>
 						<DetailsBox
 							isDetailsVisible={this.state.isDetailsVisible}
 							toggleDetails={this.toggleDetails}
@@ -171,6 +194,8 @@ const mapStateToProps = (state) => {
 		isDeleteIssueModalOpen: selectIsDeleteIssueModalOpen(state),
 		isEditIssueModalOpen: selectIsEditIssueModalOpen(state),
 		issueId: selectIssueId(state),
+		teamId: state.team.teamId,
+		projectId: state.project.projectId,
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state),

@@ -4,6 +4,8 @@ import Label from '../label/label.component';
 import PriorityIcon from '../priority-icon/priority-icon.component';
 import ToggleItem from '../toggle-item/toggle-item.component';
 import moment from 'moment';
+import { animated } from 'react-spring';
+import { Transition } from 'react-spring/renderprops';
 import './details-box.styles.scss';
 
 function DetailsBox({
@@ -22,38 +24,47 @@ function DetailsBox({
 	return (
 		<React.Fragment>
 			<ToggleItem isOpen={isDetailsVisible} handleClick={toggleDetails} title="Details" marginTop="1rem" />
-			<div className="details-box">
-				{isDetailsVisible && type && <span>Type: {type}</span>}
-				{isDetailsVisible && reporter && <span>Reporter: {reporter}</span>}
-				{isDetailsVisible &&
-				label && (
-					<span>
-						Label:{' '}
-						{
-							<Label
-								labelType={label}
-								marginLeft=".4rem"
-								fontSize=".7rem"
-								boxShadow="none"
-								position="relative"
-								bottom=".1rem"
-							/>
-						}
-					</span>
-				)}
-				{isDetailsVisible &&
-				priority && (
-					<span>
-						Priority: <PriorityIcon priority={priority} />
-					</span>
-				)}
-				{isDetailsVisible && environment && <span>Environment: {environment}</span>}
-				{isDetailsVisible && resolution && <span>Resolution: {resolution}</span>}
-				{isDetailsVisible && version && <span>Version: {version} </span>}
-				{isDetailsVisible && dueDate && <span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>}
-				{isDetailsVisible &&
-				creationDate && <span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>}
-			</div>
+			<Transition
+				items={isDetailsVisible}
+				from={{ opacity: 0 }}
+				enter={{ opacity: 1 }}
+				leave={{ opacity: 0 }}
+				config={{ duration: 100 }}
+			>
+				{(show) =>
+					show &&
+					((props) => (
+						<animated.div style={props} className="details-box">
+							{type && <span>Type: {type}</span>}
+							{reporter && <span>Reporter: {reporter}</span>}
+							{label && (
+								<span>
+									Label:{' '}
+									{
+										<Label
+											labelType={label}
+											marginLeft=".4rem"
+											fontSize=".7rem"
+											boxShadow="none"
+											position="relative"
+											bottom=".1rem"
+										/>
+									}
+								</span>
+							)}
+							{priority && (
+								<span>
+									Priority: <PriorityIcon priority={priority} />
+								</span>
+							)}
+							{environment && <span>Environment: {environment}</span>}
+							{resolution && <span>Resolution: {resolution}</span>}
+							{version && <span>Version: {version} </span>}
+							{dueDate && <span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>}
+							{creationDate && <span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>}
+						</animated.div>
+					))}
+			</Transition>
 		</React.Fragment>
 	);
 }
