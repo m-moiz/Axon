@@ -9,6 +9,7 @@ const Button = styled.button`
 	bottom: ${(props) => (props.bottom ? props.bottom : '')};
 	top: ${(props) => (props.top ? props.top : '')};
 	margin-right: ${(props) => (props.marginRight ? props.marginRight : '')};
+	margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '')};
 	position: relative;
 	border: none;
 	background-color: #007bff;
@@ -32,7 +33,19 @@ const Button = styled.button`
 	}
 `;
 
-const CustomButton = ({ children, type, handleClick, isSubmitting, width, left, bottom, top, marginRight, isSign }) => (
+const CustomButton = ({
+	children,
+	type,
+	handleClick,
+	isSubmitting,
+	width,
+	left,
+	bottom,
+	top,
+	marginRight,
+	marginLeft,
+	isSign
+}) => (
 	<div className="custom-button">
 		<Button
 			type={type}
@@ -42,6 +55,7 @@ const CustomButton = ({ children, type, handleClick, isSubmitting, width, left, 
 			left={left}
 			bottom={bottom}
 			marginRight={marginRight}
+			marginLeft={marginLeft}
 			top={top}
 			isSign={isSign}
 		>

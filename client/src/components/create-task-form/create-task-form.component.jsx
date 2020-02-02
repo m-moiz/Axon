@@ -49,7 +49,7 @@ class CreateTaskForm extends React.Component {
 					styles={customStyles}
 					autosize={false}
 				/>
-				<CustomButton type="submit" left=".2rem" width="100%" top=".05rem" color="white">
+				<CustomButton type="submit" width="100%" marginLeft=".2rem" top=".05rem" color="white">
 					<i className="fas fa-plus" style={{ position: 'relative', bottom: '.02rem', fontSize: '.8rem' }} />
 				</CustomButton>
 			</form>
