@@ -22,9 +22,9 @@ import './edit-issue.styles.scss';
 
 const schema = yup.object().shape({
 	issueType: yup.string().required('Required'),
-	reporter: yup.string(),
+	reporter: yup.string().nullable(),
 	summary: yup.string().required('Required'),
-	priority: yup.string().required('Required'),
+	priority: yup.string().required('Required').nullable(),
 	startDate: yup.string(),
 	enivironment: yup.string(),
 	status: yup.string(),
@@ -40,6 +40,7 @@ class EditIssue extends Component {
 			<ModalPage style="large">
 				<Formik
 					initialValues={{
+						username: this.props.username,
 						issueType: issueType,
 						reporter: reporter,
 						summary: summary,
@@ -74,7 +75,7 @@ class EditIssue extends Component {
 							}
 						})
 							.then((resp) => {
-								this.props.toggleCreateIssueModal();
+								this.props.toggleEditIssueModal();
 								this.props.setMessageText('Issue edited successfully');
 								this.props.closingMessageAfterOpening();
 								this.props.history.push('/empty');
@@ -184,8 +185,8 @@ class EditIssue extends Component {
 								touched={touched.version}
 							/>
 
-							<CustomButton type="submit" width="25%" left="20rem">
-								Create
+							<CustomButton type="submit" width="25%" left="20rem" marginBottom="4rem" top="2rem">
+								Edit
 							</CustomButton>
 						</Form>
 					)}
@@ -210,7 +211,8 @@ const mapStateToProps = (state) => {
 		projectId: state.project.projectId,
 		issueId: state.issue.issueId,
 		currentIssue: selectCurrentIssue(state),
-		teamId: selectTeamId(state)
+		teamId: selectTeamId(state),
+		username: state.user.username
 	};
 };
 

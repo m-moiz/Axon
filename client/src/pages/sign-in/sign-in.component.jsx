@@ -38,7 +38,7 @@ class SignInPage extends Component {
 							<Card.Title>Sign In</Card.Title>
 						</Card.Body>
 						<Formik
-							initialValues={{ username: '', password: '' }}
+							initialValues={{ username: 'user2', password: 'Truthordare-123@' }}
 							validate={(values) => {
 								const errors = {};
 								if (!values.username) {

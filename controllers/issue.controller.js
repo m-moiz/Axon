@@ -83,7 +83,18 @@ exports.getIssues = (req, res) => {
 //Use findOneAndUpdate for arrayFilters feature in mongoose?
 exports.updateIssue = (req, res) => {
 	let { teamId, projectId, issueId } = req.params;
-	const { issueType, reporter, status, summary, description, priorityType, dueDate, environment, version } = req.body;
+	const {
+		createdBy,
+		issueType,
+		reporter,
+		status,
+		summary,
+		description,
+		priorityType,
+		dueDate,
+		environment,
+		version
+	} = req.body;
 	const validationObject = {
 		createdBy: createdBy,
 		issueType: issueType,
@@ -97,7 +108,7 @@ exports.updateIssue = (req, res) => {
 		version: version
 	};
 
-	validateIssue(validationObject);
+	//validateIssue(validationObject);
 	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
