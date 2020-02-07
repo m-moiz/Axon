@@ -40,7 +40,6 @@ class ProjectsPage extends Component {
 		axios
 			.get(`api/projects/${this.props.teamId}`)
 			.then((resp) => {
-				console.log(resp);
 				if (resp.data.result[0].projects === undefined) {
 				} else {
 					this.props.setProjectsArray(resp.data.result[0].projects);
