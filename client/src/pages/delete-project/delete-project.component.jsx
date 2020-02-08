@@ -21,7 +21,10 @@ class DeleteProject extends Component {
 					onSubmit={() => {
 						axios({
 							method: 'delete',
-							url: `/api/project/${this.props.teamId}&${this.props.projectId}/delete`
+							url: `/api/project/${this.props.teamId}&${this.props.projectId}/delete`,
+							headers: {
+								Authorization: window.sessionStorage.getItem('token')
+							}
 						}).then((res) => {
 							if (res.data.message === 'Successfully deleted project') {
 								this.props.toggleDeleteProjectModal();

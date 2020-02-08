@@ -59,7 +59,8 @@ class EditIssue extends Component {
 							method: 'put',
 							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/update`,
 							headers: {
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								Authorization: window.sessionStorage.getItem('token')
 							},
 							data: {
 								createdBy: values.username,

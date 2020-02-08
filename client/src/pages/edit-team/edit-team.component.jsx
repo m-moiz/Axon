@@ -19,7 +19,8 @@ const schema = yup.object().shape({
 					method: 'post',
 					url: `/api/team/find`,
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						Authorization: window.sessionStorage.getItem('token')
 					},
 					data: {
 						name: value
@@ -51,8 +52,13 @@ class EditTeam extends Component {
 	}
 
 	componentDidMount() {
-		axios
-			.get('/api/users')
+		axios({
+			method: 'get',
+			url: '/api/users',
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				this.setState((prevState) => {
 					let users = [ ...prevState.users, resp.data.doc ];
@@ -77,7 +83,8 @@ class EditTeam extends Component {
 							method: 'put',
 							url: `/api/team/create`,
 							headers: {
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								Authorization: window.sessionStorage.getItem('token')
 							},
 							data: {
 								name: values.name,

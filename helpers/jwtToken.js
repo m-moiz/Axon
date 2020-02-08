@@ -49,4 +49,7 @@ const jwtToken = {
 	}
 };
 
-module.exports = jwtToken;
+module.exports = {
+	jwtToken,
+	redisClient
+};

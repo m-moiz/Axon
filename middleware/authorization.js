@@ -1,4 +1,6 @@
-exports.requireAuth = (req, res, next, redisClient) => {
+const redisClient = require('../helpers/jwtToken').redisClient;
+
+exports.requireAuth = (req, res, next) => {
 	const { authorization } = req.headers;
 	if (!authorization) {
 		return res.status(401).json({ message: 'Unauthorized' });
@@ -6,9 +8,10 @@ exports.requireAuth = (req, res, next, redisClient) => {
 
 	return redisClient.get(authorization, (err, reply) => {
 		if (err || !reply) {
+			console.log(err);
 			return res.status(401).json({ message: 'Unauthorized' });
 		}
 
-		return next;
+		next();
 	});
 };

@@ -31,8 +31,13 @@ class TeamsPage extends Component {
 		if (this.props.isSignedIn === false) {
 			window.location = '/sign-in';
 		}
-		axios
-			.get(`/api/teams`)
+		axios({
+			method: 'get',
+			url: `/api/teams`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				this.props.setTeamArray(resp.data.result[0].teams);
 			})

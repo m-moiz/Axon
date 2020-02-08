@@ -18,8 +18,13 @@ class FindTeam extends Component {
 	}
 
 	componentDidMount() {
-		axios
-			.get('/api/teams')
+		axios({
+			method: 'get',
+			url: `api/teams`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				this.setState((prevState) => {
 					let teams = [ ...prevState.teams, resp.data.teams ];
@@ -43,7 +48,8 @@ class FindTeam extends Component {
 							method: 'post',
 							url: `/api/user/${this.props.userId}/addTeam`,
 							headers: {
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								Authorization: window.sessionStorage.getItem('token')
 							},
 							data: {
 								name: values.teams

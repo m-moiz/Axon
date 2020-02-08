@@ -55,7 +55,8 @@ class CreateIssue extends Component {
 							method: 'post',
 							url: `/api/issue/${this.props.teamId}&${this.props.projectId}/create`,
 							headers: {
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								Authorization: window.sessionStorage.getItem('token')
 							},
 							data: {
 								createdBy: values.username,

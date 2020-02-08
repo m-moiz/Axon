@@ -82,7 +82,8 @@ class IssuePage extends Component {
 			method: 'put',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/toggleStatus`,
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				Authorization: window.sessionStorage.getItem('token')
 			},
 			data: {
 				prevStatus: e.target.value
@@ -91,8 +92,13 @@ class IssuePage extends Component {
 	};
 
 	componentDidMount() {
-		axios
-			.get(`/api/comment/${this.props.issueId}`)
+		axios({
+			method: 'get',
+			url: `/api/comment/${this.props.issueId}`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				this.props.setCommentsArray(resp.data.comments);
 			})

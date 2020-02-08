@@ -74,8 +74,13 @@ class KanbanBoardPage extends Component {
 	}
 
 	fetchAndUpdateState() {
-		axios
-			.get(`/api/issue/${this.props.teamId}&${this.props.projectId}`)
+		axios({
+			method: 'get',
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				let issues = resp.data.result.projects[0].issues;
 				let issuesWithBoardColumnField = issues.filter((issue) => issue.boardColumn);
@@ -129,7 +134,8 @@ class KanbanBoardPage extends Component {
 			method: 'put',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${newTaskId}/updateBoardColumn`,
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				Authorization: window.sessionStorage.getItem('token')
 			},
 			data: {
 				column: columnId
@@ -212,7 +218,8 @@ class KanbanBoardPage extends Component {
 			method: 'put',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${draggableId}/updateBoardColumn`,
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				Authorization: window.sessionStorage.getItem('token')
 			},
 			data: {
 				column: destination.droppableId

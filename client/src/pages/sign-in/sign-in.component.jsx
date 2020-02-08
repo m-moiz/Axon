@@ -52,7 +52,6 @@ class SignInPage extends Component {
 							}}
 							onSubmit={(values, { setSubmitting }) => {
 								setSubmitting(true);
-								console.log(values);
 								axios({
 									method: 'post',
 									url: `/api/user/`,

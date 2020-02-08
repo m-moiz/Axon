@@ -23,7 +23,8 @@ const schema = (teamId) =>
 					method: 'post',
 					url: `/api/project/${teamId}`,
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						Authorization: window.sessionStorage.getItem('token')
 					},
 					data: {
 						projectName: value
@@ -60,7 +61,8 @@ class EditProject extends Component {
 							method: 'put',
 							url: `/api/project/${this.props.teamId}&${this.props.projectId}/update`,
 							headers: {
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								Authorization: window.sessionStorage.getItem('token')
 							},
 							data: {
 								name: values.name,

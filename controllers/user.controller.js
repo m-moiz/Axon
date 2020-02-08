@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const jwtToken = require('../helpers/jwtToken');
+const jwtToken = require('../helpers/jwtToken').jwtToken;
 const User = require('../models/user.model').User;
 const Team = require('../models/team.model').Team;
 const validateSignIn = require('../validators/validators').validateSignIn;
@@ -32,7 +32,7 @@ const handleSignIn = (req, res) => {
 				.compare(password, user.password)
 				.then((isMatch) => {
 					if (isMatch) {
-						jwtToken.createSessions(user, res);
+						jwtToken.createSession(user, res);
 					} else {
 						return res.status(404).json({ message: 'Password is wrong, Try again! ' });
 					}

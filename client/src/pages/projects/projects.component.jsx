@@ -37,8 +37,13 @@ class ProjectsPage extends Component {
 		if (this.props.isSignedIn === false) {
 			window.location = '/sign-in';
 		}
-		axios
-			.get(`api/projects/${this.props.teamId}`)
+		axios({
+			method: 'get',
+			url: `api/projects/${this.props.teamId}`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				if (resp.data.result[0].projects === undefined) {
 				} else {
@@ -50,8 +55,13 @@ class ProjectsPage extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.teamId !== this.props.teamId) {
-			axios
-				.get(`/api/projects/${this.props.teamId}`)
+			axios({
+				method: 'get',
+				url: `api/projects/${this.props.teamId}`,
+				headers: {
+					Authorization: window.sessionStorage.getItem('token')
+				}
+			})
 				.then((resp) => {
 					if (resp.data.result[0].projects === undefined) {
 					} else {

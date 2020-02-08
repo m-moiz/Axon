@@ -22,7 +22,8 @@ const schema = (teamId) =>
 					method: 'post',
 					url: `/api/project/${teamId}`,
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						Authorization: window.sessionStorage.getItem('token')
 					},
 					data: {
 						projectName: value
@@ -59,7 +60,8 @@ class CreateProject extends Component {
 							method: 'post',
 							url: `/api/project/${this.props.teamId}/create`,
 							headers: {
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
+								Authorization: window.sessionStorage.getItem('token')
 							},
 							data: {
 								projectName: values.name,

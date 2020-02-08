@@ -64,8 +64,13 @@ class IssuesPage extends Component {
 	}
 
 	componentDidMount() {
-		axios
-			.get(`/api/issue/${this.props.teamId}&${this.props.projectId}`)
+		axios({
+			method: 'get',
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		})
 			.then((resp) => {
 				this.props.setIssuesArray(resp.data.result.projects[0].issues);
 			})
@@ -74,8 +79,13 @@ class IssuesPage extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.projectName !== this.props.projectName) {
-			axios
-				.get(`/api/issue/${this.props.teamId}&${this.props.projectId}`)
+			axios({
+				method: 'get',
+				url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
+				headers: {
+					Authorization: window.sessionStorage.getItem('token')
+				}
+			})
 				.then((resp) => {
 					this.props.setIssuesArray(resp.data.result.projects[0].issues);
 				})
