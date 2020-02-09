@@ -47,7 +47,8 @@ class CreateComment extends React.Component {
 			method: 'post',
 			url: `/api/comment/${this.props.issueId}&${this.props.userId}/create`,
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				Authorization: window.sessionStorage.getItem('token')
 			},
 			data: {
 				commentText: this.state.commentText,

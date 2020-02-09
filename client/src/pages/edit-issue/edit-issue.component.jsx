@@ -68,7 +68,7 @@ class EditIssue extends Component {
 						reporter: reporter,
 						summary: summary,
 						priorityType: priorityType,
-						startDate: dueDate,
+						startDate: Date.parse(dueDate),
 						environment: environment,
 						status: status,
 						version: version,

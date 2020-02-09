@@ -67,6 +67,7 @@ class IssuesPage extends Component {
 		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
 			window.location = '/sign-in';
 		}
+
 		axios({
 			method: 'get',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
