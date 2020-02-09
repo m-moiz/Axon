@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 class Hompepage extends Component {
 	componentDidMount() {
 		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
-			this.history.push('/sign-in');
+			this.props.history.push('/sign-in');
 		}
 	}
 
