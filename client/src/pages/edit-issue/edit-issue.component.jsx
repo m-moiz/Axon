@@ -9,7 +9,7 @@ import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
 import { selectTeamId } from '../../redux/team/team.selectors';
 import { Formik, Field } from 'formik';
 import RichEditor from '../../components/editor/editor.component';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { connect } from 'react-redux';
 import { toggleEditIssueModal } from '../../redux/issue/issue.actions';
 import { selectCurrentIssue } from '../../redux/issue/issue.selectors';
@@ -21,20 +21,43 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './edit-issue.styles.scss';
 
 const schema = yup.object().shape({
-	issueType: yup.string().required('Required'),
+	issueType: yup.string(),
 	reporter: yup.string().nullable(),
-	summary: yup.string().required('Required'),
-	priority: yup.string().required('Required').nullable(),
+	summary: yup.string(),
+	priority: yup.string().nullable(),
 	startDate: yup.string(),
-	enivironment: yup.string(),
+	environment: yup.string(),
 	status: yup.string(),
 	version: yup.string().matches(/^[\d\.]+$/, 'Not a valid version number'),
 	description: yup.string()
 });
 
 class EditIssue extends Component {
+	componentDidMount() {
+		console.log(this.props.currentIssue[0]);
+	}
 	render() {
-		const { issueType, reporter, summary, priorityType, environment, status, version } = this.props.currentIssue[0];
+		let currentIssueArray = Object.entries(this.props.currentIssue[0]);
+
+		for (let [ key, value ] of currentIssueArray) {
+			if (!value) {
+				value = '';
+			}
+		}
+
+		let currentIssue = Object.fromEntries(currentIssueArray);
+
+		let {
+			issueType,
+			reporter,
+			dueDate,
+			summary,
+			description,
+			priorityType,
+			environment,
+			status,
+			version
+		} = currentIssue;
 
 		return (
 			<ModalPage style="large">
@@ -44,17 +67,17 @@ class EditIssue extends Component {
 						issueType: issueType,
 						reporter: reporter,
 						summary: summary,
-						priority: priorityType,
-						startDate: new Date(),
+						priorityType: priorityType,
+						startDate: dueDate,
 						environment: environment,
 						status: status,
 						version: version,
-						editorState: new EditorState.createEmpty()
+						//Have to parse because description is stored as string in db.
+						editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
 					}}
-					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
-						const convertedData = convertToRaw(values.editorState.getCurrentContent());
+						const convertedData = JSON.stringify(convertToRaw(values.editorState.getCurrentContent()));
 						axios({
 							method: 'put',
 							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/update`,
@@ -69,7 +92,7 @@ class EditIssue extends Component {
 								status: values.status,
 								summary: values.summary,
 								description: convertedData,
-								priority: values.priority,
+								priorityType: values.priorityType,
 								dueDate: values.startDate,
 								environment: values.environment,
 								version: values.version
@@ -150,8 +173,8 @@ class EditIssue extends Component {
 								name="priorityType"
 								as={FormInput}
 								isSelectInput
-								error={errors.priority}
-								touched={touched.priority}
+								error={errors.priorityType}
+								touched={touched.priorityType}
 							>
 								{priorityTypes.map((item) => <option>{item}</option>)}
 							</Field>

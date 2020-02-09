@@ -25,7 +25,7 @@ const schema = yup.object().shape({
 	summary: yup.string().required('Required'),
 	priorityType: yup.string().required('Required'),
 	startDate: yup.string(),
-	enivironment: yup.string(),
+	environment: yup.string(),
 	status: yup.string(),
 	version: yup.string().matches(/^[\d\.]+$/, 'Not a valid version number')
 });
@@ -49,7 +49,8 @@ class CreateIssue extends Component {
 					}}
 					validationSchema={schema}
 					onSubmit={(values, { setSubmitting }) => {
-						const convertedData = convertToRaw(values.editorState.getCurrentContent());
+						//convert to string because storing and retrieving editor state as an object causes error when setting EditorState.createWithContent()
+						const convertedData = JSON.stringify(convertToRaw(values.editorState.getCurrentContent()));
 						setSubmitting(true);
 						axios({
 							method: 'post',
@@ -182,14 +183,7 @@ class CreateIssue extends Component {
 								touched={touched.version}
 							/>
 
-							<CustomButton
-								type="submit"
-								type="submit"
-								width="25%"
-								left="20rem"
-								marginBottom="4rem"
-								top="2rem"
-							>
+							<CustomButton type="submit" width="25%" left="20rem" marginBottom="4rem" top="2rem">
 								Create
 							</CustomButton>
 						</Form>

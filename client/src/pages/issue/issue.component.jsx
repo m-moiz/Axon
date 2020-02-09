@@ -180,7 +180,7 @@ class IssuePage extends Component {
 						<DescriptionBox
 							isDescriptionVisible={this.state.isDescriptionVisible}
 							toggleDescription={this.toggleDescription}
-							content={description}
+							content={JSON.parse(description)}
 						/>
 						<CommentList
 							isCommentsVisible={this.state.isCommentsVisible}
