@@ -28,9 +28,10 @@ import axios from 'axios';
 
 class TeamsPage extends Component {
 	componentDidMount() {
-		if (this.props.isSignedIn === false) {
+		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
 			window.location = '/sign-in';
 		}
+
 		axios({
 			method: 'get',
 			url: `/api/teams`,

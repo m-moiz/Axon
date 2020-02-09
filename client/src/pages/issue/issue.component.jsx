@@ -78,6 +78,10 @@ class IssuePage extends Component {
 	};
 
 	handleStatusClick = (e) => {
+		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
+			window.location = '/sign-in';
+		}
+
 		axios({
 			method: 'put',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/toggleStatus`,
