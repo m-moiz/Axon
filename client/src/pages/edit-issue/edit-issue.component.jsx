@@ -60,7 +60,7 @@ class EditIssue extends Component {
 		} = currentIssue;
 
 		return (
-			<ModalPage style="large">
+			<ModalPage style="full">
 				<Formik
 					initialValues={{
 						username: this.props.username,
@@ -108,7 +108,7 @@ class EditIssue extends Component {
 							.catch((err) => console.log(err));
 					}}
 				>
-					{({ values, errors, handleSubmit, touched, setFieldValue, setFieldTouched }) => (
+					{({ values, errors, handleSubmit, touched, setFieldValue }) => (
 						<Form
 							onSubmit={handleSubmit}
 							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
@@ -116,9 +116,10 @@ class EditIssue extends Component {
 							<div className="form-head">
 								<h3 className="modal-page-title">Edit Issue</h3>
 								<CloseButton
-									fontSize="1rem"
-									left="60%"
+									fontSize="1.3rem"
+									left="70%"
 									color="grey"
+									hoverBackground="#6b6b6b"
 									action={this.props.toggleEditIssueModal}
 								/>
 							</div>

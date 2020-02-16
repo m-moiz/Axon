@@ -82,7 +82,7 @@ class CreateIssue extends Component {
 							.catch((err) => console.log(err));
 					}}
 				>
-					{({ values, errors, handleSubmit, touched, setFieldValue, setFieldTouched }) => (
+					{({ values, errors, handleSubmit, touched, setFieldValue }) => (
 						<Form
 							onSubmit={handleSubmit}
 							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
@@ -90,9 +90,10 @@ class CreateIssue extends Component {
 							<div className="form-head">
 								<h3 className="modal-page-title">Create Issue</h3>
 								<CloseButton
-									fontSize="1rem"
-									left="60%"
+									fontSize="1.3rem"
+									left="70%"
 									color="grey"
+									hoverBackground="#6b6b6b"
 									action={this.props.toggleCreateIssueModal}
 								/>
 							</div>
