@@ -33,7 +33,7 @@ const schema = yup.object().shape({
 class CreateIssue extends Component {
 	render() {
 		return (
-			<ModalPage typeOfPage="create" style="large">
+			<ModalPage typeOfPage="create" style="full">
 				<Formik
 					initialValues={{
 						username: this.props.username,

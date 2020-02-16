@@ -5,8 +5,9 @@ import './modal-page.styles.scss';
 
 const changeStyle = (style) => {
 	let className = 'modal-page';
-
-	if (style === 'large') {
+	if (style === 'full') {
+		className += ' full';
+	} else if (style === 'large') {
 		className += ' large';
 	} else if (style === 'medium') {
 		className += ' medium';

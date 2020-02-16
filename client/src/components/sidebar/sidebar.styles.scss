@@ -8,6 +8,7 @@
 	transform-origin: top left;
 	background-color: #292929;
 	overflow-x: visible;
+	box-shadow: 1px 6px 15px 0px #1b1b1b;
 
 	&.sidebar-close {
 		animation: closing .25s 1 cubic-bezier(.17, .67, .88, .92) forwards;
