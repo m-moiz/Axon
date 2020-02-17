@@ -39,7 +39,13 @@ class CreateTaskForm extends React.Component {
 				: [];
 		return (
 			<form
-				style={{ display: 'flex', flexDirection: 'row', position: 'relative', left: '.45rem' }}
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					position: 'relative',
+					left: '.45rem',
+					marginBottom: '8rem'
+				}}
 				onSubmit={(e) => handleSubmit(e, column, this.state.newTask)}
 			>
 				<Select

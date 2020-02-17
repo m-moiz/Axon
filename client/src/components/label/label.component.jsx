@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './label.styles.scss';
 
-function Label({ labelType, marginLeft, position, bottom, fontSize, boxShadow }) {
+function Label({ labelType, marginLeft, position, bottom, fontSize, boxShadow, inTableRow, inBoardTask }) {
 	let content = '';
 	let className = 'label';
 	if (labelType === 'Bug') {
@@ -23,6 +23,12 @@ function Label({ labelType, marginLeft, position, bottom, fontSize, boxShadow })
 	} else if (labelType === 'Review') {
 		content = 'Review';
 		className += ' review';
+	}
+
+	if (inTableRow) {
+		className += ' row';
+	} else if (inBoardTask) {
+		className += ' board-task';
 	}
 
 	return (

@@ -8,12 +8,12 @@ const Container = styled.div`
 	background-color: #4c4c4c;
 	box-shadow: 1px 1px 4px 2px #1d1d1d;
 	border-radius: 2px;
-	width: 280px;
+	width: 284px;
 	display: flex;
 	flex-direction: column;
 `;
 
-const Title = styled.h3`
+const Title = styled.h5`
 	padding: 8px;
 	background-color: #d70afd;
 	color: white;

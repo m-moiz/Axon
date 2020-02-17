@@ -18,11 +18,11 @@ const changeStyle = (style) => {
 	return className;
 };
 
-const ModalPage = ({ style, children }) => {
+const ModalPage = ({ newStyle, style, children }) => {
 	const className = changeStyle(style);
 
 	return (
-		<div className="modal-page-container">
+		<div style={newStyle} className="modal-page-container">
 			<div className={className}>
 				<div className="left-box" />
 				<PageContentContainer>{children}</PageContentContainer>

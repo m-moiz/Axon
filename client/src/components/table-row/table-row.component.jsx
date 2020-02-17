@@ -54,7 +54,7 @@ const TableRow = ({
 							</div>
 						</div>
 						<div className="table__item">
-							<Label labelType={label} />
+							<Label labelType={label} inTableRow />
 						</div>
 
 						<div className="table__item--date">

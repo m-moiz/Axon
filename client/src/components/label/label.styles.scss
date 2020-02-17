@@ -8,10 +8,19 @@
 	padding-top: .2rem;
 	padding-bottom: .2rem;
 	border-radius: .5rem;
-	font-size: inherit;
-	margin-left: 1.4rem;
-	margin-top: .2rem;
-	margin-bottom: .2rem;
+
+	&.board-task {
+		font-size: .55rem;
+		position: relative;
+		top: .65rem;
+	}
+
+	&.row {
+		margin-left: 1.4rem;
+		margin-top: .1rem;
+		margin-bottom: .2rem;
+		font-size: inherit;
+	}
 
 	&.bug {
 		background-color: rgb(231, 14, 14);

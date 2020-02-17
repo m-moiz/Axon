@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Label from '../label/label.component';
 import { Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
@@ -8,9 +9,15 @@ const Container = styled.div`
 	border-radius: 2px;
 	margin-bottom: 8px;
 	box-shadow: ${(props) => (props.isDragging ? '' : '1px 1px 2px 1px #292929')};
-	color: #88ffad;
-	background-color: ${(props) => (props.isDragging ? '#484545' : '#3e3a3a')};
-	display: flex;
+	color: white;
+	background-color: ${(props) => (props.isDragging ? '#454545' : '#3e3a3a')};
+	width: 100%;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	${(props) => props.isDragging && css`border-left: 2px solid blue;`};
 `;
 
 class BoardTask extends Component {
@@ -25,6 +32,7 @@ class BoardTask extends Component {
 						isDragging={snapshot.isDragging}
 					>
 						{this.props.task.content}
+						<Label labelType={this.props.task.issueType} inBoardTask />
 					</Container>
 				)}
 			</Draggable>

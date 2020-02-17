@@ -15,6 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { Formik, Field } from 'formik';
 import { withRouter } from 'react-router-dom';
+import { Transition } from 'react-spring/renderprops';
 import axios from 'axios';
 import * as yup from 'yup';
 import './create-issue.styles.scss';
@@ -33,164 +34,192 @@ const schema = yup.object().shape({
 class CreateIssue extends Component {
 	render() {
 		return (
-			<ModalPage typeOfPage="create" style="full">
-				<Formik
-					initialValues={{
-						username: this.props.username,
-						issueType: 'Improvement',
-						reporter: '',
-						summary: '',
-						priorityType: 'High',
-						startDate: new Date(),
-						environment: '',
-						status: 'Open',
-						version: '',
-						editorState: EditorState.createEmpty()
-					}}
-					validationSchema={schema}
-					onSubmit={(values, { setSubmitting }) => {
-						//convert to string because storing and retrieving editor state as an object causes error when setting EditorState.createWithContent()
-						const convertedData = JSON.stringify(convertToRaw(values.editorState.getCurrentContent()));
-						setSubmitting(true);
-						axios({
-							method: 'post',
-							url: `/api/issue/${this.props.teamId}&${this.props.projectId}/create`,
-							headers: {
-								'Content-Type': 'application/json',
-								Authorization: window.sessionStorage.getItem('token')
-							},
-							data: {
-								createdBy: values.username,
-								issueType: values.issueType,
-								reporter: values.reporter,
-								status: values.status,
-								summary: values.summary,
-								description: convertedData,
-								priorityType: values.priorityType,
-								dueDate: values.startDate,
-								environment: values.environment,
-								version: values.version
-							}
-						})
-							.then((resp) => {
-								this.props.toggleCreateIssueModal();
-								this.props.setMessageText('Issue created successfully');
-								this.props.closingMessageAfterOpening();
-								this.props.history.push('/empty');
-								this.props.history.replace('/user/issues');
-							})
-							.catch((err) => console.log(err));
-					}}
-				>
-					{({ values, errors, handleSubmit, touched, setFieldValue }) => (
-						<Form
-							onSubmit={handleSubmit}
-							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
-						>
-							<div className="form-head">
-								<h3 className="modal-page-title">Create Issue</h3>
-								<CloseButton
-									fontSize="1.3rem"
-									left="70%"
-									color="grey"
-									hoverBackground="#6b6b6b"
-									action={this.props.toggleCreateIssueModal}
-								/>
-							</div>
-
-							<Field
-								inputName="Issue Type"
-								name="issueType"
-								as={FormInput}
-								isSelectInput
-								error={errors.issueType}
-								touched={touched.issueType}
+			<Transition
+				items={this.props.isCreateIssueModalOpen}
+				from={{ transform: 'translateY(800px)' }}
+				enter={{ transform: 'translateY(0)' }}
+				leave={{ transform: 'translateY(800px)' }}
+				config={{
+					mass: 1.6,
+					tension: 202,
+					friction: 32
+				}}
+			>
+				{(show) =>
+					show &&
+					((props) => (
+						<ModalPage newStyle={props} typeOfPage="create" style="full">
+							<Formik
+								initialValues={{
+									username: this.props.username,
+									issueType: 'Improvement',
+									reporter: '',
+									summary: '',
+									priorityType: 'High',
+									startDate: new Date(),
+									environment: '',
+									status: 'Open',
+									version: '',
+									editorState: EditorState.createEmpty()
+								}}
+								validationSchema={schema}
+								onSubmit={(values, { setSubmitting }) => {
+									//convert to string because storing and retrieving editor state as an object causes error when setting EditorState.createWithContent()
+									const convertedData = JSON.stringify(
+										convertToRaw(values.editorState.getCurrentContent())
+									);
+									setSubmitting(true);
+									axios({
+										method: 'post',
+										url: `/api/issue/${this.props.teamId}&${this.props.projectId}/create`,
+										headers: {
+											'Content-Type': 'application/json',
+											Authorization: window.sessionStorage.getItem('token')
+										},
+										data: {
+											createdBy: values.username,
+											issueType: values.issueType,
+											reporter: values.reporter,
+											status: values.status,
+											summary: values.summary,
+											description: convertedData,
+											priorityType: values.priorityType,
+											dueDate: values.startDate,
+											environment: values.environment,
+											version: values.version
+										}
+									})
+										.then((resp) => {
+											this.props.toggleCreateIssueModal();
+											this.props.setMessageText('Issue created successfully');
+											this.props.closingMessageAfterOpening();
+											this.props.history.push('/empty');
+											this.props.history.replace('/user/issues');
+										})
+										.catch((err) => console.log(err));
+								}}
 							>
-								{issueTypes.map((item, index) => <option key={index}>{item}</option>)}
-							</Field>
+								{({ values, errors, handleSubmit, touched, setFieldValue }) => (
+									<Form
+										onSubmit={handleSubmit}
+										style={{
+											paddingLeft: '1.7rem',
+											paddingTop: '2.5rem',
+											marginBottom: '1rem'
+										}}
+									>
+										<div className="form-head">
+											<h3 className="modal-page-title">Create Issue</h3>
+											<CloseButton
+												fontSize="1.3rem"
+												left="70%"
+												color="grey"
+												hoverBackground="#6b6b6b"
+												action={this.props.toggleCreateIssueModal}
+											/>
+										</div>
 
-							<Field
-								inputName="Reporter"
-								name="reporter"
-								as={FormInput}
-								placeholder="Reporter name"
-								bottomStyle
-								error={errors.reporter}
-								touched={touched.reporter}
-							/>
+										<Field
+											inputName="Issue Type"
+											name="issueType"
+											as={FormInput}
+											isSelectInput
+											error={errors.issueType}
+											touched={touched.issueType}
+										>
+											{issueTypes.map((item, index) => <option key={index}>{item}</option>)}
+										</Field>
 
-							<Field
-								inputName="Status"
-								name="status"
-								as={FormInput}
-								isSelectInput
-								error={errors.status}
-								touched={touched.status}
-							>
-								{statusTypes.map((item, index) => <option key={index}>{item}</option>)}
-							</Field>
+										<Field
+											inputName="Reporter"
+											name="reporter"
+											as={FormInput}
+											placeholder="Reporter name"
+											bottomStyle
+											error={errors.reporter}
+											touched={touched.reporter}
+										/>
 
-							<Field
-								inputName="Summary"
-								name="summary"
-								as={FormInput}
-								placeholder="Enter summary"
-								error={errors.summary}
-								touched={touched.summary}
-							/>
+										<Field
+											inputName="Status"
+											name="status"
+											as={FormInput}
+											isSelectInput
+											error={errors.status}
+											touched={touched.status}
+										>
+											{statusTypes.map((item, index) => <option key={index}>{item}</option>)}
+										</Field>
 
-							<label>Description</label>
+										<Field
+											inputName="Summary"
+											name="summary"
+											as={FormInput}
+											placeholder="Enter summary"
+											error={errors.summary}
+											touched={touched.summary}
+										/>
 
-							<RichEditor editorState={values.editorState} onChange={setFieldValue} />
+										<label>Description</label>
 
-							<Field
-								inputName="Priority"
-								name="priorityType"
-								as={FormInput}
-								isSelectInput
-								error={errors.priorityType}
-								touched={touched.priorityType}
-							>
-								{priorityTypes.map((item, index) => <option key={index}>{item}</option>)}
-							</Field>
+										<RichEditor editorState={values.editorState} onChange={setFieldValue} />
 
-							<div className="due-date">
-								<label>Due Date</label>
-								<DatePicker
-									selected={values.startDate}
-									dateFormat="MMMM d, yyyy"
-									name="startDate"
-									onChange={(date) => setFieldValue('startDate', date)}
-								/>
-							</div>
+										<Field
+											inputName="Priority"
+											name="priorityType"
+											as={FormInput}
+											isSelectInput
+											error={errors.priorityType}
+											touched={touched.priorityType}
+										>
+											{priorityTypes.map((item, index) => <option key={index}>{item}</option>)}
+										</Field>
 
-							<Field
-								inputName="Environment"
-								name="environment"
-								placeholder="Enter environment"
-								bottomStyle
-								as={FormInput}
-								error={errors.enivironment}
-								touched={touched.enivironment}
-							/>
+										<div className="due-date">
+											<label>Due Date</label>
+											<DatePicker
+												selected={values.startDate}
+												dateFormat="MMMM d, yyyy"
+												name="startDate"
+												onChange={(date) => setFieldValue('startDate', date)}
+											/>
+										</div>
 
-							<Field
-								inputName="Version"
-								name="version"
-								placeholder="Enter version"
-								bottomStyle
-								as={FormInput}
-								error={errors.version}
-								touched={touched.version}
-							/>
+										<Field
+											inputName="Environment"
+											name="environment"
+											placeholder="Enter environment"
+											bottomStyle
+											as={FormInput}
+											error={errors.enivironment}
+											touched={touched.enivironment}
+										/>
 
-							<CustomButton type="submit" width="25%" left="20rem" marginBottom="4rem" top="2rem">
-								Create
-							</CustomButton>
-						</Form>
-					)}
-				</Formik>
-			</ModalPage>
+										<Field
+											inputName="Version"
+											name="version"
+											placeholder="Enter version"
+											bottomStyle
+											as={FormInput}
+											error={errors.version}
+											touched={touched.version}
+										/>
+
+										<CustomButton
+											type="submit"
+											width="25%"
+											left="20rem"
+											marginBottom="4rem"
+											top="2rem"
+										>
+											Create
+										</CustomButton>
+									</Form>
+								)}
+							</Formik>
+						</ModalPage>
+					))}
+			</Transition>
 		);
 	}
 }

@@ -99,7 +99,7 @@ class KanbanBoardPage extends Component {
 
 				var boardIssues = {};
 				issuesWithBoardColumnField.forEach((issue) => {
-					boardIssues[issue._id] = { id: issue._id, content: issue.summary };
+					boardIssues[issue._id] = { id: issue._id, content: issue.summary, issueType: issue.issueType };
 				});
 
 				this.updateState(column1TaskIds, column2TaskIds, column3TaskIds, boardIssues, issues);

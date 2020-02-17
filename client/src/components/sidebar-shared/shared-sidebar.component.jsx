@@ -76,7 +76,7 @@ const SharedSidebar = ({
 				) : (
 					''
 				)}
-				<Tool tooltipText="Settings">
+				<Tool tooltipText="Settings" action={() => history.push('/user/settings')}>
 					<i className="fas fa-cog" />
 				</Tool>
 			</SideBarTools>

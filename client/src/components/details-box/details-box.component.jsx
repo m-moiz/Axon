@@ -60,8 +60,8 @@ function DetailsBox({
 							{environment && <span>Environment: {environment}</span>}
 							{resolution && <span>Resolution: {resolution}</span>}
 							{version && <span>Version: {version} </span>}
-							{dueDate && <span>Due Date: {moment(dueDate).format('DD-MM-YYYY')} </span>}
-							{creationDate && <span>Creation Date: {moment(creationDate).format('DD-MM-YYYY')} </span>}
+							{dueDate && <span>Due Date: {moment(dueDate).format('MMMM Do YYYY')} </span>}
+							{creationDate && <span>Creation Date: {moment(creationDate).format('MMMM Do YYYY')} </span>}
 						</animated.div>
 					))}
 			</Transition>

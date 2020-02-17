@@ -11,6 +11,7 @@ const SignUpPage = React.lazy(() => import('./pages/sign-up/sign-up.component'))
 const SignInPage = React.lazy(() => import('./pages/sign-in/sign-in.component'));
 const KanbanBoardPage = React.lazy(() => import('./pages/kanban-board/kanban-board'));
 const ProjectsPage = React.lazy(() => import('./pages/projects/projects.component'));
+const SettingsPage = React.lazy(() => import('./pages/settings-page/settings.component'));
 
 class App extends Component {
 	render() {
@@ -23,6 +24,7 @@ class App extends Component {
 							<Route exact path="/" component={() => <Homepage />} />
 							<Route exact path="/user/issue" component={() => <IssuePage />} />
 							<Route exact path="/user/issues" component={() => <IssuesPage />} />
+							<Route exact path="/user/settings" component={() => <SettingsPage />} />
 							<Route exact path="/sign-up" component={() => <SignUpPage />} />
 							<Route exact path="/sign-in" component={() => <SignInPage />} />
 							<Route exact path="/kanban" component={() => <KanbanBoardPage />} />
