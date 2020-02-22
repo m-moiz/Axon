@@ -17,7 +17,8 @@ router.delete('/issue/:teamId&:projectId&:issueId/delete', requireAuth, issueCon
 router.post('/user/findUser', requireAuth, userController.findUserWithUsername);
 router.post('/user/:id/addTeam', requireAuth, userController.addTeamToUser);
 router.post('/user', userController.getUser);
-router.get('/users', userController.getUsers);
+router.post('/user/signout', userController.handleSignOut);
+router.get('/users', requireAuth, userController.getUsers);
 router.post('/user/create', userController.createUser);
 router.put('/user/:id/update', requireAuth, userController.updateUser);
 router.delete('/user/:id/delete', requireAuth, userController.deleteUser);

@@ -14,6 +14,12 @@ const jwtToken = {
 		});
 	},
 
+	async removeTokenFromDb(token) {
+		redisClient.del(token, (err) => {
+			if (err) console.log(err);
+		});
+	},
+
 	async createToken(username) {
 		const jwtPayload = { username };
 		return jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '1 days' });

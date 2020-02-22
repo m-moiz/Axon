@@ -93,6 +93,11 @@ const userController = {
 		});
 	},
 
+	handleSignOut(req, res) {
+		jwtToken.removeTokenFromDb(req.body.token);
+		return res.status(200).json({ message: 'success' });
+	},
+
 	//for handling sign in/up taking username, email etc
 	getUser(req, res) {
 		const { token } = req.headers;

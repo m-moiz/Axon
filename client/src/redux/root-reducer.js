@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-
 import { issueReducer } from './issue/issue.reducer';
 import { userReducer } from './user/user.reducer';
 import { projectReducer } from './project/project.reducer';
@@ -32,6 +31,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
 	if (action.type === userActionTypes.SIGN_OUT) {
 		localStorage.removeItem('persist:root');
+		window.sessionStorage.removeItem('token');
 		state = undefined;
 	}
 

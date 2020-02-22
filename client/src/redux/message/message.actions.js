@@ -20,6 +20,7 @@ export const setMessageText = (message) => ({
 
 export const openingMessage = () => (dispatch) =>
 	new Promise((resolve, reject) => {
+		const openingTime = 1500;
 		batch(() => {
 			dispatch(toggleShouldRenderMessage());
 			dispatch(toggleIsOpeningMessage());
@@ -27,18 +28,19 @@ export const openingMessage = () => (dispatch) =>
 		setTimeout(() => {
 			dispatch(toggleIsOpeningMessage());
 			resolve();
-		}, 2000);
+		}, openingTime);
 	});
 
 export function closingMessage() {
 	return (dispatch) => {
+		const closingTime = 1500;
 		dispatch(toggleIsClosingMessage());
 		setTimeout(() => {
 			batch(() => {
 				dispatch(toggleIsClosingMessage());
 				dispatch(toggleShouldRenderMessage());
 			});
-		}, 1500);
+		}, closingTime);
 	};
 }
 

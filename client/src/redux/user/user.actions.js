@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { userActionTypes } from './user.types';
 
 export const setUserId = (userId) => ({
@@ -19,6 +20,23 @@ export const signIn = () => ({
 	type: userActionTypes.SIGN_IN
 });
 
-export const signOut = () => ({
-	type: userActionTypes.SIGN_OUT
-});
+export const signOut = (token) => {
+	return (dispatch) => {
+		axios({
+			method: 'post',
+			url: '/api/user/signout',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			data: {
+				token: token
+			}
+		})
+			.then(() => {
+				dispatch({
+					type: userActionTypes.SIGN_OUT
+				});
+			})
+			.catch((err) => console.log(err));
+	};
+};

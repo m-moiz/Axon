@@ -33,7 +33,10 @@ const Header = ({ isSignedIn, signOut }) => (
 				<Form inline>
 					{isSignedIn ? (
 						<LinkContainer to="/sign-in">
-							<Nav.Link className="link-button" onClick={signOut}>
+							<Nav.Link
+								className="link-button"
+								onClick={() => signOut(window.sessionStorage.getItem('token'))}
+							>
 								Sign Out
 							</Nav.Link>
 						</LinkContainer>
@@ -64,7 +67,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		signOut: () => dispatch(signOut())
+		signOut: (token) => dispatch(signOut(token))
 	};
 };
 

@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 class Hompepage extends Component {
 	componentDidMount() {
 		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
-			this.props.signOut();
+			this.props.signOut(window.sessionStorage.getItem('token'));
 			this.props.history.push('/sign-in');
 		}
 	}
@@ -40,7 +40,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		signOut: () => dispatch(signOut())
+		signOut: (token) => dispatch(signOut(token))
 	};
 };
 
