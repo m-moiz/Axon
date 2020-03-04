@@ -3,6 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
+import Notification from '../notification/notification.component';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import { signOut } from '../../redux/user/user.actions';
@@ -30,16 +31,19 @@ const Header = ({ isSignedIn, signOut }) => (
 						''
 					)}
 				</Nav>
+				{isSignedIn ? <Notification /> : ''}
 				<Form inline>
 					{isSignedIn ? (
-						<LinkContainer to="/sign-in">
-							<Nav.Link
-								className="link-button"
-								onClick={() => signOut(window.sessionStorage.getItem('token'))}
-							>
-								Sign Out
-							</Nav.Link>
-						</LinkContainer>
+						<React.Fragment>
+							<LinkContainer to="/sign-in">
+								<Nav.Link
+									className="link-button"
+									onClick={() => signOut(window.sessionStorage.getItem('token'))}
+								>
+									Sign Out
+								</Nav.Link>
+							</LinkContainer>
+						</React.Fragment>
 					) : (
 						<React.Fragment>
 							<div className="nav-links">

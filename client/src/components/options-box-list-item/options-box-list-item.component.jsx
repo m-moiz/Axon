@@ -30,7 +30,6 @@ function OptionsBoxListItem({
 	toggleStatusOptionsBox
 }) {
 	const handleClick = () => {
-		console.log('Type: ' + type, 'Item: ' + item);
 		if (type === 'label') {
 			if (labelFilter === item) {
 				setLabelFilter('');

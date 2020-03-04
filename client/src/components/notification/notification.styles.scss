@@ -1,0 +1,28 @@
+.notif-bell {
+	margin-right: 1rem;
+	display: flex;
+	border: none;
+	background-color: transparent;
+
+	&:hover {
+		.fa-bell {
+			color: #ebebeb;
+		}
+
+		cursor: pointer;
+	}
+
+	.red-circle {
+		position: relative;
+		right: .05rem;
+		border-radius: 5rem;
+		background-color: red;
+		width: .67rem;
+		height: .67rem;
+	}
+
+	.fa-bell {
+		font-size: 1.1rem;
+		color: white;
+	}
+}

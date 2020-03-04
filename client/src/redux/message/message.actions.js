@@ -18,6 +18,10 @@ export const setMessageText = (message) => ({
 	payload: message
 });
 
+export const toggleNotificationModal = () => ({
+	type: messageActionTypes.TOGGLE_NOTIFICATION_MODAL
+});
+
 export const openingMessage = () => (dispatch) =>
 	new Promise((resolve, reject) => {
 		const openingTime = 1500;

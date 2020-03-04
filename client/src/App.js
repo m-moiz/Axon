@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './components/header/header.component';
+import NotificationModal from './components/notification-modal/notification-modal.component';
 import Loading from './components/loading/loading.component';
 import './App.scss';
 
@@ -19,6 +20,7 @@ class App extends Component {
 			<div className="App">
 				<BrowserRouter>
 					<Header />
+					<NotificationModal />
 					<Suspense fallback={<Loading />}>
 						<Switch>
 							<Route exact path="/" component={() => <Homepage />} />
