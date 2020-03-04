@@ -158,7 +158,6 @@ class EditIssue extends Component {
 											name="reporter"
 											as={FormInput}
 											placeholder="Reporter name"
-											bottomStyle
 											error={errors.reporter}
 											touched={touched.reporter}
 										/>
@@ -212,7 +211,6 @@ class EditIssue extends Component {
 											inputName="Environment"
 											name="environment"
 											placeholder="Enter environment"
-											bottomStyle
 											as={FormInput}
 											error={errors.enivironment}
 											touched={touched.enivironment}
@@ -222,7 +220,6 @@ class EditIssue extends Component {
 											inputName="Version"
 											name="version"
 											placeholder="Enter version"
-											bottomStyle
 											as={FormInput}
 											error={errors.version}
 											touched={touched.version}
