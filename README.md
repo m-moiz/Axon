@@ -1,6 +1,11 @@
 # Axon
 An issue tracker for teams
 
+# Features
+1. Fast
+2. Kanban Board
+3. 
+
 # Usage
 
 1. Sign Up/Sign In.
@@ -14,7 +19,7 @@ An issue tracker for teams
 
 Q1. How to change teams?
 Ans: You can change teams from the settings page. To go to the settings page, simply click the settings icon in your sidebar under the tools category.
-
+   
 # Built With
 - React
 - Redux
@@ -25,5 +30,4 @@ Ans: You can change teams from the settings page. To go to the settings page, si
 - Draft-js
 - React-datepicker
 - React-Beautiful-DnD
-
 

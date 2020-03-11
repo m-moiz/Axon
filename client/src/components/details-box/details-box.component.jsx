@@ -57,11 +57,31 @@ function DetailsBox({
 									Priority: <PriorityIcon priority={priority} />
 								</span>
 							)}
-							{environment && <span>Environment: {environment}</span>}
-							{resolution && <span>Resolution: {resolution}</span>}
-							{version && <span>Version: {version} </span>}
-							{dueDate && <span>Due Date: {moment(dueDate).format('MMMM Do YYYY')} </span>}
-							{creationDate && <span>Creation Date: {moment(creationDate).format('MMMM Do YYYY')} </span>}
+							{environment && (
+								<span>
+									Environment: <span>{environment}</span>
+								</span>
+							)}
+							{resolution && (
+								<span>
+									Resolution: <span>{resolution}</span>
+								</span>
+							)}
+							{version && (
+								<span>
+									Version: <span>{version}</span>{' '}
+								</span>
+							)}
+							{dueDate && (
+								<span>
+									Due Date: <span>{moment(dueDate).format('MMMM Do YYYY')}</span>{' '}
+								</span>
+							)}
+							{creationDate && (
+								<span>
+									Creation Date: <span>{moment(creationDate).format('MMMM Do YYYY')}</span>{' '}
+								</span>
+							)}
 						</animated.div>
 					))}
 			</Transition>
