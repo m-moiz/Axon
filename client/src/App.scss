@@ -13,5 +13,6 @@
 
 .navbar,
 .navbar-default {
+	transition: background-color .25s ease-in;
 	background-image: #292929 !important; /* override background image gradient w/ flat color */
 }

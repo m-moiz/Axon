@@ -17,7 +17,8 @@ const Project = ({
 	toggleDeleteProjectModal,
 	setProjectId,
 	history,
-	projectId
+	projectId,
+	isDarkTheme
 }) => {
 	const handleClick = () => {
 		setProjectId(projectId);
@@ -25,7 +26,7 @@ const Project = ({
 	};
 
 	return (
-		<div className="project-container">
+		<div className={isDarkTheme ? 'project-container dark' : 'project-container light'}>
 			{shouldDeleteProjects ? (
 				<CloseButton
 					action={() => {
@@ -77,7 +78,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
 	return {
 		shouldDeleteProjects: selectShouldDeleteProjects(state),
-		shouldEditProjects: selectShouldEditProjects(state)
+		shouldEditProjects: selectShouldEditProjects(state),
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
 

@@ -6,9 +6,18 @@
 	flex-direction: column;
 	flex-shrink: 0;
 	transform-origin: top left;
-	background-color: #292929;
+	transition: background-color .25s ease-in, box-shadow .25s ease-in;
 	overflow-x: visible;
-	box-shadow: 1px 6px 15px 0px #1b1b1b;
+
+	&.dark {
+		background-color: #292929;
+		box-shadow: 1px 6px 15px 0px #1b1b1b;
+	}
+
+	&.light {
+		background-color: #ffffff;
+		box-shadow: 1px 6px 15px 0px #d4d4d4;
+	}
 
 	&.sidebar-close {
 		animation: closing .25s 1 cubic-bezier(.17, .67, .88, .92) forwards;

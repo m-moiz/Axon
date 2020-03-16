@@ -2,9 +2,29 @@
 	font-size: .9rem;
 	display: flex;
 	flex-direction: row;
-	color: rgba(228, 228, 228, 0.829);
+
 	align-items: center;
 	padding-left: .8rem;
+
+	&.dark {
+		color: rgba(228, 228, 228, 0.829);
+
+		&:hover {
+			background-color: rgba(117, 117, 117, 0.685);
+			color: white;
+			cursor: pointer;
+		}
+	}
+
+	&.light {
+		color: rgba(75, 74, 74, 0.829);
+
+		&:hover {
+			background-color: rgba(231, 231, 231, 0.685);
+			color: rgb(77, 77, 77);
+			cursor: pointer;
+		}
+	}
 
 	i {
 		margin-right: .3rem;
@@ -12,12 +32,6 @@
 
 	li {
 		list-style-type: none !important;
-	}
-
-	&:hover {
-		background-color: rgba(117, 117, 117, 0.685);
-		color: white;
-		cursor: pointer;
 	}
 }
 
@@ -31,10 +45,6 @@
 
 	.sidebar-item {
 		font-size: inherit;
-		&:hover {
-			background-color: rgba(112, 112, 112, 0.555);
-			color: rgb(255, 255, 255);
-		}
 	}
 }
 

@@ -5,8 +5,9 @@ import { selectSidebarItemHiddenProperty } from '../../redux/sidebar/sidebar.sel
 import { connect } from 'react-redux';
 import './sidebar-item.styles.scss';
 
-function SideBarItem({ item, children, show, toggleSidebarItemVisibility, isSidebarItemVisible }) {
+function SideBarItem({ item, children, show, toggleSidebarItemVisibility, isSidebarItemVisible, isDarkTheme }) {
 	let className = '';
+	let classOfRecurseItem = '';
 	if (show && isSidebarItemVisible === false) {
 		className = 'fas fa-caret-right';
 	} else if (show && isSidebarItemVisible === true) {
@@ -15,23 +16,31 @@ function SideBarItem({ item, children, show, toggleSidebarItemVisibility, isSide
 		className = '';
 	}
 
+	if (isSidebarItemVisible) {
+		classOfRecurseItem = 'sidebar-recurse-item';
+	} else {
+		classOfRecurseItem = 'sidebar-recurse-item closed';
+	}
+
 	return (
 		<div>
-			<div className="sidebar-item" onClick={() => toggleSidebarItemVisibility(item)}>
+			<div
+				className={isDarkTheme ? 'sidebar-item dark' : 'sidebar-item light'}
+				onClick={() => toggleSidebarItemVisibility(item)}
+			>
 				<i className={className} />
 				<li>{item}</li>
 			</div>
 
-			<div className={isSidebarItemVisible ? 'sidebar-recurse-item' : 'sidebar-recurse-item closed'}>
-				{children}
-			</div>
+			<div className={classOfRecurseItem}>{children}</div>
 		</div>
 	);
 }
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		isSidebarItemVisible: selectSidebarItemHiddenProperty(ownProps.item)(state)
+		isSidebarItemVisible: selectSidebarItemHiddenProperty(ownProps.item)(state),
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
 

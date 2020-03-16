@@ -4,7 +4,8 @@ const INITIAL_STATE = {
 	userId: '',
 	username: '',
 	isAdmin: '',
-	isSignedIn: false
+	isSignedIn: false,
+	isDarkTheme: true
 };
 
 export const userReducer = (state = INITIAL_STATE, action = {}) => {
@@ -19,6 +20,8 @@ export const userReducer = (state = INITIAL_STATE, action = {}) => {
 			return Object.assign({}, state, { username: action.payload });
 		case userActionTypes.SET_IS_ADMIN:
 			return Object.assign({}, state, { isAdmin: action.payload });
+		case userActionTypes.TOGGLE_APP_THEME:
+			return Object.assign({}, state, { isDarkTheme: !state.isDarkTheme });
 		default:
 			return state;
 	}

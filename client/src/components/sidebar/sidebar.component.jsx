@@ -5,7 +5,7 @@ import { closeSidebar } from '../../redux/sidebar/sidebar.actions';
 import { selectIsSidebarClosing, selectIsSidebarOpening } from '../../redux/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
 
-function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSidebar }) {
+function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSidebar, isDarkTheme }) {
 	let className;
 	if (isSidebarClosing) {
 		className = 'sidebar sidebar-close';
@@ -14,6 +14,13 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSid
 	} else {
 		className = 'sidebar';
 	}
+
+	if (isDarkTheme) {
+		className += ' dark';
+	} else {
+		className += ' light';
+	}
+
 	return (
 		<div className={className}>
 			<div className="title">
@@ -44,7 +51,8 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSid
 const mapStateToProps = (state) => {
 	return {
 		isSidebarClosing: selectIsSidebarClosing(state),
-		isSidebarOpening: selectIsSidebarOpening(state)
+		isSidebarOpening: selectIsSidebarOpening(state),
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
 

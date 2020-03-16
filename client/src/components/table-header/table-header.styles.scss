@@ -9,9 +9,17 @@
 	border-bottom: none;
 	padding-left: 1rem;
 	height: 40px;
-	box-shadow: -5px -1px 5px #363636, -5px 0px 5px #353535, 5px 0px 5px #353535;
 	border-top-left-radius: 1rem;
 	border-top-right-radius: 1rem;
+	transition: box-shadow .5s ease-in;
+
+	&.dark {
+		box-shadow: -5px -1px 5px #363636, -5px 0px 5px #353535, 5px 0px 5px #353535;
+	}
+
+	&.light {
+		box-shadow: none;
+	}
 
 	.table-header__item {
 		margin-right: 1rem;

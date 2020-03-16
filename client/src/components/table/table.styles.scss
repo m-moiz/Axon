@@ -7,9 +7,18 @@
 
 	.table-wrapper {
 		border: none;
-		-webkit-box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
-		-moz-box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
-		box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
+		transition: box-shadow .5s ease-in;
+
+		&.dark {
+			-webkit-box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
+			-moz-box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
+			box-shadow: 3px 3px 3px -3px #131313, 3px 3px 3px -3px #131313, -3px 3px 3px -3px #131313;
+		}
+
+		&.light {
+			box-shadow: none;
+		}
+
 		height: 100%;
 	}
 

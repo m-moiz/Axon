@@ -46,7 +46,8 @@ const Title = styled.h3`
 	width: fit-content;
 	left: 10%;
 	top: 1.47rem;
-	color: white;
+	transition: color .25s ease-in;
+	color: ${(props) => (props.isDarkTheme ? 'white' : 'black')};
 
 	@media screen and (max-width: 560px) {
 		left: 0px;
@@ -139,7 +140,7 @@ class IssuesPage extends Component {
 				/>
 
 				<PageContentContainer>
-					<Title>{this.props.projectName}</Title>
+					<Title isDarkTheme={this.props.isDarkTheme}>{this.props.projectName}</Title>
 					<SearchBar />
 					{this.props.isStatusOptionsBoxOpen ? (
 						<OptionsBox
@@ -193,7 +194,8 @@ const mapStateToProps = (state) => {
 		issues: selectSearchFilteredIssues(state),
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
-		messageText: selectMessageText(state)
+		messageText: selectMessageText(state),
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
 

@@ -1,10 +1,28 @@
 .details-box {
 	width: 40%;
-	color: white;
+
 	margin-bottom: 1rem;
 	display: flex;
 	flex-direction: column;
 	padding-left: 2rem;
+
+	.issue-details {
+		margin-left: .3rem;
+	}
+
+	&.dark {
+		color: white;
+		.issue-details {
+			color: rgb(75, 251, 75);
+		}
+	}
+
+	&.light {
+		color: rgb(68, 68, 68);
+		.issue-details {
+			color: rgb(55, 160, 63);
+		}
+	}
 
 	span {
 		display: flex;

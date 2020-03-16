@@ -6,6 +6,7 @@ import ToggleItem from '../toggle-item/toggle-item.component';
 import moment from 'moment';
 import { animated } from 'react-spring';
 import { Transition } from 'react-spring/renderprops';
+import { connect } from 'react-redux';
 import './details-box.styles.scss';
 
 function DetailsBox({
@@ -19,7 +20,8 @@ function DetailsBox({
 	resolution,
 	version,
 	dueDate,
-	creationDate
+	creationDate,
+	isDarkTheme
 }) {
 	return (
 		<React.Fragment>
@@ -34,7 +36,7 @@ function DetailsBox({
 				{(show) =>
 					show &&
 					((props) => (
-						<animated.div style={props} className="details-box">
+						<animated.div style={props} className={isDarkTheme ? 'details-box dark' : 'details-box light'}>
 							{type && <span>Type: {type}</span>}
 							{reporter && <span>Reporter: {reporter}</span>}
 							{label && (
@@ -59,27 +61,34 @@ function DetailsBox({
 							)}
 							{environment && (
 								<span>
-									Environment: <span>{environment}</span>
+									Environment: <span className="issue-details"> {environment}</span>
 								</span>
 							)}
 							{resolution && (
 								<span>
-									Resolution: <span>{resolution}</span>
+									Resolution: <span className="issue-details"> {resolution}</span>
 								</span>
 							)}
 							{version && (
 								<span>
-									Version: <span>{version}</span>{' '}
+									Version: <span className="issue-details"> {version}</span>{' '}
 								</span>
 							)}
 							{dueDate && (
 								<span>
-									Due Date: <span>{moment(dueDate).format('MMMM Do YYYY')}</span>{' '}
+									Due Date:{' '}
+									<span className="issue-details">
+										{' '}
+										{moment(dueDate).format('MMMM Do YYYY')}
+									</span>{' '}
 								</span>
 							)}
 							{creationDate && (
 								<span>
-									Creation Date: <span>{moment(creationDate).format('MMMM Do YYYY')}</span>{' '}
+									Creation Date:{' '}
+									<span className="issue-details">
+										{moment(creationDate).format('MMMM Do YYYY')}
+									</span>{' '}
 								</span>
 							)}
 						</animated.div>
@@ -101,4 +110,9 @@ DetailsBox.propTypes = {
 	dueDate: PropTypes.string
 };
 
-export default DetailsBox;
+const mapStateToProps = (state) => {
+	return {
+		isDarkTheme: state.user.isDarkTheme
+	};
+};
+export default connect(mapStateToProps)(DetailsBox);

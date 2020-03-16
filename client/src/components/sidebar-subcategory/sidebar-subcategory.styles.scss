@@ -2,13 +2,25 @@
 
 .sidebar-subcategory-title {
 	padding-left: .3rem;
-	color: rgba(206, 204, 204, 0.671);
 	font-size: .8rem;
 	height: 1.5rem;
 	@include remove-select;
 
-	&:hover {
-		color: rgb(255, 255, 255);
-		cursor: pointer;
+	&.dark {
+		color: rgba(206, 204, 204, 0.671);
+
+		&:hover {
+			color: rgb(255, 255, 255);
+			cursor: pointer;
+		}
+	}
+
+	&.light {
+		color: rgba(85, 85, 85, 0.671);
+
+		&:hover {
+			color: rgb(167, 167, 167);
+			cursor: pointer;
+		}
 	}
 }

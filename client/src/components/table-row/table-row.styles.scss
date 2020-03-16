@@ -4,17 +4,33 @@
 	border: none;
 	align-items: center;
 	width: 100%;
-	color: white;
-	background-color: #353535;
+
 	padding-top: .2rem;
 	padding-bottom: .2rem;
 	padding-left: 1rem;
 	border-left: 3px solid #26ff6e;
 
-	&:hover {
-		background-color: rgb(75, 75, 75);
-		box-shadow: 0 4px 3px -3px rgb(20, 20, 20);
-		cursor: pointer;
+	&.dark {
+		color: rgb(226, 226, 226);
+
+		&:hover {
+			background-color: rgb(75, 75, 75);
+			box-shadow: 0 4px 3px -3px rgb(20, 20, 20);
+			color: rgb(226, 226, 226);
+			cursor: pointer;
+		}
+	}
+
+	&.light {
+		color: rgb(65, 65, 65);
+		background-color: #ffffff;
+		color: rgb(39, 39, 39);
+
+		&:hover {
+			background-color: rgb(219, 219, 219);
+			box-shadow: 0 4px 3px -3px rgb(144, 144, 144);
+			cursor: pointer;
+		}
 	}
 
 	.table__items {
@@ -38,54 +54,55 @@
 		align-items: center;
 		font-size: .8rem;
 	}
-}
 
-.table__item--date {
-	font-size: .6rem;
-	margin-left: 1.6rem;
-	opacity: .9rem;
-}
-
-.table__item--row {
-	display: flex;
-}
-
-.table__border {
-	width: 10px;
-	align-self: stretch;
-	background-color: #008cff;
-	transition: background-color .1s ease-in-out;
-}
-
-.table__row--delete {
-	color: rgb(149, 149, 149);
-	align-self: center;
-	margin-right: 1rem;
-	padding-left: 1rem;
-
-	&:hover {
-		color: black;
-		cursor: pointer;
+	.table__item--date {
+		font-size: .6rem;
+		margin-left: 1.6rem;
+		opacity: .9rem;
+		color: inherit;
 	}
-}
 
-.table__item--content {
-	font-weight: 500;
-	margin-bottom: .15rem;
-	color: rgb(255, 255, 255);
+	.table__item--row {
+		display: flex;
+	}
 
-	&.margin {
+	.table__border {
+		width: 10px;
+		align-self: stretch;
+		background-color: #008cff;
+		transition: background-color .1s ease-in-out;
+	}
+
+	.table__row--delete {
+		color: rgb(149, 149, 149);
+		align-self: center;
+		margin-right: 1rem;
+		padding-left: 1rem;
+
+		&:hover {
+			color: black;
+			cursor: pointer;
+		}
+	}
+
+	.table__item--content {
+		font-weight: 500;
+		margin-bottom: .15rem;
+		color: inherit;
+
+		&.margin {
+			margin-bottom: .4rem;
+		}
+	}
+
+	.table__item {
 		margin-bottom: .4rem;
+		font-size: .6rem;
 	}
-}
 
-.table__item {
-	margin-bottom: .4rem;
-	font-size: .6rem;
-}
-
-.table__row:last-child {
-	border-bottom: none;
+	.table__row:last-child {
+		border-bottom: none;
+	}
 }
 
 @media screen and (max-width: 600px) {

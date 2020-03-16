@@ -2,19 +2,25 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import PropTypes from 'prop-types';
 import Notification from '../notification/notification.component';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
-import { signOut } from '../../redux/user/user.actions';
+import { signOut, toggleAppTheme } from '../../redux/user/user.actions';
 import { withRouter } from 'react-router-dom';
 import { selectIsUserSignedIn } from '../../redux/user/user.selectors';
 import logo from './PixelArt.png';
 import './header.styles.scss';
 
-const Header = ({ isSignedIn, signOut }) => (
+const Header = ({ isSignedIn, signOut, toggleAppTheme, isDarkTheme }) => (
 	<div className="header">
-		<Navbar collapseOnSelect bg="dark" variant="dark" expand="lg">
+		<Navbar
+			collapseOnSelect
+			bg={isDarkTheme ? 'dark' : 'light'}
+			variant={isDarkTheme ? 'dark' : 'light'}
+			expand="lg"
+		>
 			<Navbar.Brand href="#home">
 				<img alt="axon logo" src={logo} width="30" height="30" className="d-inline-block align-top" /> Axon
 			</Navbar.Brand>
@@ -31,6 +37,20 @@ const Header = ({ isSignedIn, signOut }) => (
 						''
 					)}
 				</Nav>
+				{isSignedIn ? (
+					<BootstrapSwitchButton
+						checked={true}
+						size="xs"
+						style="switch-style"
+						onlabel="Dark"
+						offlabel="Light"
+						onstyle="primary"
+						offstyle="success"
+						onChange={toggleAppTheme}
+					/>
+				) : (
+					''
+				)}
 				{isSignedIn ? <Notification /> : ''}
 				<Form inline>
 					{isSignedIn ? (
@@ -65,13 +85,15 @@ const Header = ({ isSignedIn, signOut }) => (
 
 const mapStateToProps = (state) => {
 	return {
-		isSignedIn: selectIsUserSignedIn(state)
+		isSignedIn: selectIsUserSignedIn(state),
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		signOut: (token) => dispatch(signOut(token))
+		signOut: (token) => dispatch(signOut(token)),
+		toggleAppTheme: () => dispatch(toggleAppTheme())
 	};
 };
 

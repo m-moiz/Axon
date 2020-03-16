@@ -18,7 +18,8 @@ const TableRow = ({
 	isShowingDeleteButton,
 	isShowingEditButton,
 	toggleDeleteIssueModal,
-	toggleEditIssueModal
+	toggleEditIssueModal,
+	isDarkTheme
 }) => {
 	const issue = data[index];
 	let itemId = issue._id;
@@ -36,7 +37,7 @@ const TableRow = ({
 	return (
 		<div style={{ ...style, display: 'flex', flexDirection: 'row' }}>
 			<div
-				className="table__row"
+				className={isDarkTheme ? 'table__row dark' : 'table__row light'}
 				onClick={() => {
 					setIssueId(itemId);
 					history.push('/user/issue');
@@ -45,10 +46,18 @@ const TableRow = ({
 				<div className="table__items">
 					<div className="table__item--summary">
 						<div className="table__item--row">
-							<i
-								className="fas fa-exclamation-circle"
-								style={{ marginRight: '.6rem', marginTop: '.3rem', color: 'white' }}
-							/>
+							{isDarkTheme ? (
+								<i
+									className="fas fa-exclamation-circle"
+									style={{ marginRight: '.6rem', marginTop: '.3rem', color: 'white' }}
+								/>
+							) : (
+								<i
+									className="fas fa-exclamation-circle"
+									style={{ marginRight: '.6rem', marginTop: '.3rem', color: '#585858' }}
+								/>
+							)}
+
 							<div className={label ? 'table__item--content' : 'table__item--content margin'}>
 								{summary}
 							</div>
@@ -103,9 +112,11 @@ TableRow.propTypes = {
 const mapStateToProps = (state) => {
 	return {
 		isShowingDeleteButton: selectIsShowingDeleteButton(state),
-		isShowingEditButton: selectIsShowingEditButton(state)
+		isShowingEditButton: selectIsShowingEditButton(state),
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setIssueId: (id) => dispatch(setIssueId(id)),

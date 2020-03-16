@@ -4,9 +4,9 @@ import { toggleSortOptionsBox, toggleLabelOptionsBox, toggleStatusOptionsBox } f
 import { connect } from 'react-redux';
 import './table-header.styles.scss';
 
-function TableHeader({ count, toggleLabelOptionsBox, toggleSortOptionsBox, toggleStatusOptionsBox }) {
+function TableHeader({ count, toggleLabelOptionsBox, toggleSortOptionsBox, toggleStatusOptionsBox, isDarkTheme }) {
 	return (
-		<div className="table-header">
+		<div className={isDarkTheme ? 'table-header dark' : 'table-header light'}>
 			<p className="table-header__item--start">{count} Open</p>
 			<div className="table-header__end">
 				<div className="table-header__item">
@@ -23,6 +23,12 @@ function TableHeader({ count, toggleLabelOptionsBox, toggleSortOptionsBox, toggl
 	);
 }
 
+const mapStateToProps = (state) => {
+	return {
+		isDarkTheme: state.user.isDarkTheme
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleLabelOptionsBox: () => dispatch(toggleLabelOptionsBox()),
@@ -31,4 +37,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect(null, mapDispatchToProps)(TableHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(TableHeader);

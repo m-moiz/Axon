@@ -2,12 +2,23 @@
 
 .toggle-item {
 	display: flex;
-	color: rgb(216, 215, 215);
 	margin-bottom: 1rem;
+	transition: color .25s ease-in;
 	@include remove-select;
 
-	&:hover {
-		color: white;
-		cursor: pointer;
+	&.dark {
+		color: rgb(221, 221, 221);
+		&:hover {
+			color: white;
+			cursor: pointer;
+		}
+	}
+
+	&.light {
+		color: rgb(54, 54, 54);
+		&:hover {
+			color: rgb(93, 93, 93);
+			cursor: pointer;
+		}
 	}
 }

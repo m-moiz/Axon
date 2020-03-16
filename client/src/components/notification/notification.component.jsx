@@ -11,7 +11,10 @@ class Notification extends Component {
 
 	render() {
 		return (
-			<button onClick={this.handleClick} className="notif-bell">
+			<button
+				onClick={this.handleClick}
+				className={this.props.isDarkTheme ? 'notif-bell dark' : 'notif-bell light'}
+			>
 				<i className="fas fa-bell" />
 				<div className="red-circle" />
 			</button>
@@ -19,10 +22,16 @@ class Notification extends Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {
+		isDarkTheme: state.user.isDarkTheme
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleNotificationModal: () => dispatch(toggleNotificationModal())
 	};
 };
 
-export default connect(null, mapDispatchToProps)(Notification);
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);

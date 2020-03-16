@@ -3,5 +3,13 @@
 	display: flex;
 	flex-direction: row;
 	height: 100vh;
-	background-color: #2d2d2d;
+	transition: background-color .25s ease-in;
+
+	&.dark {
+		background-color: #2d2d2d;
+	}
+
+	&.light {
+		background-color: #ffffff;
+	}
 }

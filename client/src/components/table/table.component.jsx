@@ -4,10 +4,11 @@ import TableHeader from '../table-header/table-header.component';
 import TableRow from '../table-row/table-row.component';
 import { VariableSizeList as List } from 'react-window';
 import { getWordCount } from '../../utils/utils';
+import { connect } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import './table.styles.scss';
 
-const Table = ({ title, items, top, left, bottom }) => {
+const Table = ({ title, items, top, left, bottom, isDarkTheme }) => {
 	const getItemSize = (index) => {
 		let numOfWords = getWordCount(items[index].summary);
 		if (numOfWords <= 10) {
@@ -20,7 +21,7 @@ const Table = ({ title, items, top, left, bottom }) => {
 		<div className="wrapper">
 			<div style={{ height: '100%' }}>
 				<TableHeader count={items.length} />
-				<div className="table-wrapper">
+				<div className={isDarkTheme ? 'table-wrapper dark' : 'table-wrapper light'}>
 					<div className="table" style={{ top: top, left: left, bottom: bottom }}>
 						{title ? (
 							<div className="table__title">
@@ -64,4 +65,10 @@ Table.propTypes = {
 	bottom: PropTypes.string
 };
 
-export default Table;
+const mapStateToProps = (state) => {
+	return {
+		isDarkTheme: state.user.isDarkTheme
+	};
+};
+
+export default connect(mapStateToProps)(Table);

@@ -2,7 +2,18 @@
 	margin-right: 1rem;
 	display: flex;
 	border: none;
+	transition: color .25s ease-in;
 	background-color: transparent;
+
+	&.dark {
+		color: transparent;
+	}
+
+	&.light {
+		.fa-bell {
+			color: #030303;
+		}
+	}
 
 	&:hover {
 		.fa-bell {

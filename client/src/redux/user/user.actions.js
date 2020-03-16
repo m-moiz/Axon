@@ -16,6 +16,10 @@ export const setUsername = (username) => ({
 	payload: username
 });
 
+export const toggleAppTheme = () => ({
+	type: userActionTypes.TOGGLE_APP_THEME
+});
+
 export const signIn = () => ({
 	type: userActionTypes.SIGN_IN
 });

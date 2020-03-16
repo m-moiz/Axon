@@ -4,10 +4,21 @@
 	width: 24rem;
 	height: 7.6rem;
 	border-radius: .5rem;
-	box-shadow: 0px 0px 6px 2px #252424;
 	border-left: 4px solid #77ff77;
 	border-right: 4px solid #77ff77;
-	background: #333333;
+	transition: background .25s ease-in, box-shadow .25s ease-in, color .25s ease-in;
+
+	&.dark {
+		background: #333333;
+		box-shadow: 0px 0px 6px 2px #252424;
+		color: white;
+	}
+
+	&.light {
+		background: #ffffff;
+		box-shadow: 0px 0px 6px 2px #dadada;
+		color: rgb(78, 78, 78);
+	}
 
 	.project-edit {
 		position: relative;
@@ -37,7 +48,7 @@
 	.project-desc {
 		font-size: .8rem;
 		font-weight: 500;
-		color: white;
+		color: inherit;
 	}
 }
 
