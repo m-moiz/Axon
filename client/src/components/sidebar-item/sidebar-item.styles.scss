@@ -2,9 +2,9 @@
 	font-size: .9rem;
 	display: flex;
 	flex-direction: row;
-
 	align-items: center;
 	padding-left: .8rem;
+	margin-bottom: 0;
 
 	&.dark {
 		color: rgba(228, 228, 228, 0.829);

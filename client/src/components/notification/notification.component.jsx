@@ -12,6 +12,7 @@ class Notification extends Component {
 	render() {
 		return (
 			<button
+				aria-label="Notification"
 				onClick={this.handleClick}
 				className={this.props.isDarkTheme ? 'notif-bell dark' : 'notif-bell light'}
 			>

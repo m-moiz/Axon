@@ -22,7 +22,7 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSid
 	}
 
 	return (
-		<div className={className}>
+		<div role="navigation" className={className}>
 			<div className="title">
 				<h5>{title}</h5>
 				<span role="img" aria-label="hammer">
@@ -30,14 +30,15 @@ function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSid
 				</span>
 
 				{!(isSidebarClosing || isSidebarOpening) ? (
-					<div
+					<button
 						onClick={() => {
 							closeSidebar();
 						}}
 						className="sidebar__back"
+						aria-label="sidebar close"
 					>
 						<i className="fas fa-angle-left" />
-					</div>
+					</button>
 				) : (
 					''
 				)}

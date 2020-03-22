@@ -4,13 +4,13 @@ import './search-bar.styles.scss';
 import { connect } from 'react-redux';
 import { setSearchText } from '../../redux/issue/issue.actions';
 
-function SearchBar({ setSearchText }) {
+function SearchBar({ setSearchText, isDarkTheme }) {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 	};
 
 	return (
-		<div className="search-bar">
+		<div className={isDarkTheme ? 'search-bar dark' : 'search-bar light'}>
 			<form autoComplete="off" onSubmit={handleSubmit}>
 				<input
 					onChange={(e) => setSearchText(e.target.value)}
@@ -27,10 +27,16 @@ SearchBar.propTypes = {
 	setSearchText: PropTypes.func.isRequired
 };
 
+const mapStateToProps = (state) => {
+	return {
+		isDarkTheme: state.user.isDarkTheme
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setSearchText: (inputText) => dispatch(setSearchText(inputText))
 	};
 };
 
-export default connect(null, mapDispatchToProps)(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

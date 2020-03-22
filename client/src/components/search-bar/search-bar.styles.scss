@@ -6,6 +6,21 @@
 	position: relative;
 	bottom: .4rem;
 
+	&.dark {
+	}
+
+	&.light {
+		form {
+			input {
+				color: rgb(68, 68, 68);
+			}
+
+			input::placeholder {
+				color: rgb(68, 68, 68);
+			}
+		}
+	}
+
 	form {
 		input {
 			width: 8rem;

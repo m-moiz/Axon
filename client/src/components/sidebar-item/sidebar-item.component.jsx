@@ -24,13 +24,15 @@ function SideBarItem({ item, children, show, toggleSidebarItemVisibility, isSide
 
 	return (
 		<div>
-			<div
+			<ul
 				className={isDarkTheme ? 'sidebar-item dark' : 'sidebar-item light'}
 				onClick={() => toggleSidebarItemVisibility(item)}
 			>
-				<i className={className} />
-				<li>{item}</li>
-			</div>
+				<li>
+					<i className={className} />
+					{item}
+				</li>
+			</ul>
 
 			<div className={classOfRecurseItem}>{children}</div>
 		</div>

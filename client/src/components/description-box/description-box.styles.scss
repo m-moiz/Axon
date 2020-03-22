@@ -5,6 +5,14 @@
 	background-color: #ffffff;
 	color: #171717;
 	margin-bottom: 5rem;
+	transition: border .25s ease-in;
+
+	&.dark {
+	}
+
+	&.light {
+		border: 1px solid grey;
+	}
 }
 
 .description-header {

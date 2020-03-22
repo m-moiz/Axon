@@ -61,26 +61,23 @@ function DetailsBox({
 							)}
 							{environment && (
 								<span>
-									Environment: <span className="issue-details"> {environment}</span>
+									Environment: <span className="issue-details">{environment}</span>
 								</span>
 							)}
 							{resolution && (
 								<span>
-									Resolution: <span className="issue-details"> {resolution}</span>
+									Resolution: <span className="issue-details">{resolution}</span>
 								</span>
 							)}
 							{version && (
 								<span>
-									Version: <span className="issue-details"> {version}</span>{' '}
+									Version: <span className="issue-details">{version}</span>{' '}
 								</span>
 							)}
 							{dueDate && (
 								<span>
 									Due Date:{' '}
-									<span className="issue-details">
-										{' '}
-										{moment(dueDate).format('MMMM Do YYYY')}
-									</span>{' '}
+									<span className="issue-details">{moment(dueDate).format('MMMM Do YYYY')}</span>{' '}
 								</span>
 							)}
 							{creationDate && (

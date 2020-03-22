@@ -57,7 +57,7 @@ const Project = ({
 						setProjectId(projectId);
 						history.push('/user/issues');
 					}}
-					className="project-name"
+					className={isDarkTheme ? 'project-name dark' : 'project-name light'}
 				>
 					{children}
 				</h4>

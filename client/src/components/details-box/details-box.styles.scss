@@ -1,10 +1,10 @@
 .details-box {
 	width: 40%;
-
 	margin-bottom: 1rem;
 	display: flex;
 	flex-direction: column;
 	padding-left: 2rem;
+	transition: color .25s ease-in;
 
 	.issue-details {
 		margin-left: .3rem;

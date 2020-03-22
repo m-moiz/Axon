@@ -29,7 +29,7 @@ const Title = styled.h3`
 	position: relative;
 	width: fit-content;
 	top: 1.57rem;
-	color: white;
+	color: ${(props) => (props.isDarkTheme ? 'white' : '#5a5a5a')};
 
 	@media screen and (max-width: 900px) {
 		font-size: 1.4rem;
@@ -161,7 +161,7 @@ class IssuePage extends Component {
 				/>
 				<PageContentContainer>
 					<div style={{ position: 'relative', left: '2%', display: 'flex', flexDirection: 'column' }}>
-						<Title>
+						<Title isDarkTheme={this.props.isDarkTheme}>
 							{' '}
 							{projectName}/{summary}{' '}
 						</Title>
@@ -211,7 +211,8 @@ const mapStateToProps = (state) => {
 		messageText: selectMessageText(state),
 		currentIssue: selectCurrentIssue(state),
 		username: selectUsername(state),
-		comments: state.comment.comments
+		comments: state.comment.comments,
+		isDarkTheme: state.user.isDarkTheme
 	};
 };
 

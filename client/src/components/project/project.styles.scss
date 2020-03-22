@@ -4,19 +4,21 @@
 	width: 24rem;
 	height: 7.6rem;
 	border-radius: .5rem;
-	border-left: 4px solid #77ff77;
-	border-right: 4px solid #77ff77;
 	transition: background .25s ease-in, box-shadow .25s ease-in, color .25s ease-in;
 
 	&.dark {
 		background: #333333;
 		box-shadow: 0px 0px 6px 2px #252424;
+		border-left: 4px solid #77ff77;
+		border-right: 4px solid #77ff77;
 		color: white;
 	}
 
 	&.light {
 		background: #ffffff;
-		box-shadow: 0px 0px 6px 2px #dadada;
+		box-shadow: 0px 0px 6px 2px #979797;
+		border-left: 4px solid #14ff14;
+		border-right: 4px solid #14ff14;
 		color: rgb(78, 78, 78);
 	}
 
@@ -33,15 +35,28 @@
 	flex-direction: column;
 
 	.project-name {
-		color: rgb(0, 255, 137);
 		font-size: 1.3rem;
 		width: fit-content;
 		margin-bottom: 1rem;
 
-		&:hover {
+		&.dark {
 			color: rgb(0, 255, 137);
-			text-decoration: underline;
-			cursor: pointer;
+
+			&:hover {
+				color: rgb(0, 255, 137);
+				text-decoration: underline;
+				cursor: pointer;
+			}
+		}
+
+		&.light {
+			color: rgb(0, 255, 157);
+
+			&:hover {
+				color: rgb(0, 255, 137);
+				text-decoration: underline;
+				cursor: pointer;
+			}
 		}
 	}
 

@@ -14,7 +14,7 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 				addSidebarItemVisibility(item.name);
 				return (
 					<SideBarItem key={item._id} item={item.name} show>
-						<div
+						<ul
 							className="sidebar-item"
 							onClick={() => {
 								setProjectId(item._id);
@@ -23,9 +23,9 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 						>
 							<i className="fas fa-caret-right" />
 							<li>Issues</li>
-						</div>
+						</ul>
 
-						<div
+						<ul
 							className="sidebar-item"
 							onClick={() => {
 								setProjectId(item._id);
@@ -34,7 +34,7 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 						>
 							<i className="fas fa-caret-right" />
 							<li>Board</li>
-						</div>
+						</ul>
 
 						{/* TODO: Implement Backlog Page
 						<div
