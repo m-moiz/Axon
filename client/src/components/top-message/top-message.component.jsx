@@ -11,9 +11,9 @@ import {
 function TopMessage({ messageContent, isOpeningMessage, isClosingMessage, shouldRenderMessage }) {
 	let className = '';
 	if (isOpeningMessage && !isClosingMessage) {
-		className = 'top-message fadeIn';
+		className = 'top-message starting';
 	} else if (isClosingMessage && !isOpeningMessage) {
-		className = 'top-message fadeOut';
+		className = 'top-message ending';
 	} else if (!isClosingMessage && !isOpeningMessage) {
 		className = 'top-message';
 	}
@@ -22,6 +22,7 @@ function TopMessage({ messageContent, isOpeningMessage, isClosingMessage, should
 		<React.Fragment>
 			{shouldRenderMessage ? (
 				<div className={className}>
+					<i className="fas fa-check-circle" />
 					<p className="top-message__text">{messageContent}</p>
 				</div>
 			) : (

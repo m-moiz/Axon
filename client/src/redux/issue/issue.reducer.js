@@ -18,6 +18,7 @@ const INITIAL_STATE = {
 	labelFilter: '',
 	isSorting: false,
 	sortType: '',
+	isFetching: false,
 	issues: []
 };
 

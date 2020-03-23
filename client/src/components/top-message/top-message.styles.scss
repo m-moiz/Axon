@@ -1,46 +1,53 @@
 .top-message {
+	position: absolute;
+	right: 1rem;
 	display: flex;
-	width: 100vw;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	justify-content: center;
-	background-color: #4cd475;
-	color: white;
-	font-size: 1.4rem;
+	align-items: center;
+	background-color: #3b3b3b;
+	border: 10px solid #13a300;
+	min-width: 200px;
+	height: 50px;
+	border: 1px solid #5eff00;
+	padding-left: 1rem;
+	padding-right: 1rem;
 
-	box-shadow: 1px 1px 3px 1px #c9c9c9;
-	z-index: 100;
-
-	&.fadeIn {
-		animation: fadeIn 1.5s 1 cubic-bezier(.25, .69, .62, .96) forwards;
+	&.starting {
+		animation: slide-in 800ms 1 cubic-bezier(.17, .67, .49, .95) forwards;
 	}
 
-	&.fadeOut {
-		animation: fadeOut 1.5s 1 cubic-bezier(.25, .69, .62, .96) forwards;
+	&.ending {
+		animation: slide-out 800ms 1 cubic-bezier(.17, .67, .49, .95) forwards;
+	}
+
+	p {
+		margin-top: .7rem;
+		color: white;
+	}
+
+	.fa-check-circle {
+		color: #72c202;
+		background-color: white;
+		border-radius: 5rem;
+		margin-right: .6rem;
 	}
 }
 
-.top-message__text {
-	padding-top: 10px;
-}
-
-@keyframes fadeIn {
+@keyframes slide-in {
 	0% {
-		opacity: 0;
+		transform: translateX(300px);
 	}
 
 	100% {
-		opacity: 1;
+		transform: transalteX(0px);
 	}
 }
 
-@keyframes fadeOut {
+@keyframes slide-out {
 	0% {
-		opacity: 1;
+		transform: translateX(0px);
 	}
 
 	100% {
-		opacity: 0;
+		transform: translateX(300px);
 	}
 }

@@ -11,6 +11,10 @@
 	--dark: #292929;
 }
 
+body {
+	overflow-x: hidden;
+}
+
 .navbar,
 .navbar-default {
 	transition: background-color .25s ease-in;

@@ -24,7 +24,7 @@ export const toggleNotificationModal = () => ({
 
 export const openingMessage = () => (dispatch) =>
 	new Promise((resolve, reject) => {
-		const openingTime = 1500;
+		const openingTime = 3000;
 		batch(() => {
 			dispatch(toggleShouldRenderMessage());
 			dispatch(toggleIsOpeningMessage());
@@ -37,7 +37,7 @@ export const openingMessage = () => (dispatch) =>
 
 export function closingMessage() {
 	return (dispatch) => {
-		const closingTime = 1500;
+		const closingTime = 2000;
 		dispatch(toggleIsClosingMessage());
 		setTimeout(() => {
 			batch(() => {

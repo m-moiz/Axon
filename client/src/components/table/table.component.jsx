@@ -21,6 +21,7 @@ const Table = ({ title, items, top, left, bottom, isDarkTheme }) => {
 		<div className="wrapper">
 			<div style={{ height: '100%' }}>
 				<TableHeader count={items.length} />
+
 				<div className={isDarkTheme ? 'table-wrapper dark' : 'table-wrapper light'}>
 					<div className="table" style={{ top: top, left: left, bottom: bottom }}>
 						{title ? (
