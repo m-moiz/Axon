@@ -37,6 +37,10 @@ class ProjectsPage extends Component {
 		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
 			window.location = '/sign-in';
 		}
+		this.fetchProjects();
+	}
+
+	fetchProjects = () => {
 		axios({
 			method: 'get',
 			url: `api/projects/${this.props.teamId}`,
@@ -51,24 +55,11 @@ class ProjectsPage extends Component {
 				}
 			})
 			.catch((err) => console.log(err));
-	}
+	};
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.teamId !== this.props.teamId) {
-			axios({
-				method: 'get',
-				url: `api/projects/${this.props.teamId}`,
-				headers: {
-					Authorization: window.sessionStorage.getItem('token')
-				}
-			})
-				.then((resp) => {
-					if (resp.data.result[0].projects === undefined) {
-					} else {
-						this.props.setProjectsArray(resp.data.result[0].projects);
-					}
-				})
-				.catch((err) => console.log(err));
+			this.fetchProjects();
 		}
 	}
 
