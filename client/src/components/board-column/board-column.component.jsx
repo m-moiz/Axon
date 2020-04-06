@@ -24,6 +24,8 @@ const TaskList = styled.div`
 	transition: background-color .2s ease;
 	background-color: ${(props) => (props.isDraggingOver ? 'grey' : 'inherit')};
 	flex-grow: 1;
+	overflow-y: auto;
+	max-height: 450px;
 	min-height: 100px;
 `;
 

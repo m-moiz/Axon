@@ -74,18 +74,6 @@
 		transition: background-color .1s ease-in-out;
 	}
 
-	.table__row--delete {
-		color: rgb(149, 149, 149);
-		align-self: center;
-		margin-right: 1rem;
-		padding-left: 1rem;
-
-		&:hover {
-			color: black;
-			cursor: pointer;
-		}
-	}
-
 	.table__item--content {
 		font-weight: 500;
 		margin-bottom: .15rem;
@@ -103,6 +91,18 @@
 
 	.table__row:last-child {
 		border-bottom: none;
+	}
+}
+
+.table__row--delete {
+	color: rgb(255, 255, 255);
+	align-self: center;
+	margin-right: 1rem;
+	padding-left: 1rem;
+
+	&:hover {
+		color: rgb(199, 199, 199);
+		cursor: pointer;
 	}
 }
 

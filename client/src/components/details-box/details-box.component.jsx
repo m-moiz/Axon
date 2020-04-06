@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Label from '../label/label.component';
 import PriorityIcon from '../priority-icon/priority-icon.component';
 import ToggleItem from '../toggle-item/toggle-item.component';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { animated } from 'react-spring';
 import { Transition } from 'react-spring/renderprops';
 import { connect } from 'react-redux';
@@ -77,14 +77,14 @@ function DetailsBox({
 							{dueDate && (
 								<span>
 									Due Date:{' '}
-									<span className="issue-details">{moment(dueDate).format('MMMM Do YYYY')}</span>{' '}
+									<span className="issue-details">{dayjs(dueDate).format('d MMM YYYY')}</span>{' '}
 								</span>
 							)}
 							{creationDate && (
 								<span>
 									Creation Date:{' '}
 									<span className="issue-details">
-										{moment(creationDate).format('MMMM Do YYYY')}
+										{dayjs(creationDate).format('d MMM YYYY')}
 									</span>{' '}
 								</span>
 							)}

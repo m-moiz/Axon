@@ -18,7 +18,7 @@ const changeStyle = (style) => {
 	return className;
 };
 
-const ModalPage = ({ newStyle, style, children }) => {
+const ModalPage = ({ newStyle, typeOfPage, style, children }) => {
 	const className = changeStyle(style);
 
 	return (

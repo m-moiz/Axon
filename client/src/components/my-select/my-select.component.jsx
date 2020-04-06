@@ -23,6 +23,7 @@ class MySelect extends React.Component {
 					onChange={this.handleChange}
 					onBlur={this.handleBlur}
 					value={this.props.value}
+					styles={this.props.styles}
 					placeholder={this.props.placeholder}
 				/>
 				{!!this.props.error &&

@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import CustomButton from '../../components/custom-button/custom-button.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
-import CloseButton from '../../components/close-button/close-button.component';
-import Form from 'react-bootstrap/Form';
-import DatePicker from 'react-datepicker';
-import FormInput from '../../components/form-input/form-input.component';
-import { issueTypes, statusTypes, priorityTypes } from '../../types/types';
+import IssueForm from '../../components/issue-form/issue-form.component';
 import { selectTeamId } from '../../redux/team/team.selectors';
-import { Formik, Field } from 'formik';
-import RichEditor from '../../components/editor/editor.component';
+import { Formik } from 'formik';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { connect } from 'react-redux';
 import { toggleEditIssueModal } from '../../redux/issue/issue.actions';
@@ -51,6 +45,7 @@ class EditIssue extends Component {
 		let {
 			issueType,
 			reporter,
+			assignee,
 			dueDate,
 			summary,
 			description,
@@ -75,12 +70,13 @@ class EditIssue extends Component {
 				{(show) =>
 					show &&
 					((props) => (
-						<ModalPage newStyle={props} style="full">
+						<ModalPage newStyle={props} style="full" typeOfPage="edit">
 							<Formik
 								initialValues={{
 									username: this.props.username,
 									issueType: issueType,
 									reporter: reporter,
+									assignee: assignee,
 									summary: summary,
 									priorityType: priorityType,
 									startDate: Date.parse(dueDate),
@@ -107,6 +103,7 @@ class EditIssue extends Component {
 											createdBy: values.username,
 											issueType: values.issueType,
 											reporter: values.reporter,
+											assignee: values.assignee,
 											status: values.status,
 											summary: values.summary,
 											description: convertedData,
@@ -126,115 +123,17 @@ class EditIssue extends Component {
 										.catch((err) => console.log(err));
 								}}
 							>
-								{({ values, errors, handleSubmit, touched, setFieldValue }) => (
-									<Form
-										onSubmit={handleSubmit}
-										style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
-									>
-										<div className="form-head">
-											<h3 className="modal-page-title">Edit Issue</h3>
-											<CloseButton
-												fontSize="1.3rem"
-												left="70%"
-												color="grey"
-												hoverBackground="#6b6b6b"
-												action={this.props.toggleEditIssueModal}
-											/>
-										</div>
-
-										<Field
-											inputName="Issue Type"
-											name="issueType"
-											as={FormInput}
-											isSelectInput
-											error={errors.issueType}
-											touched={touched.issueType}
-										>
-											{issueTypes.map((item) => <option>{item}</option>)}
-										</Field>
-
-										<Field
-											inputName="Reporter"
-											name="reporter"
-											as={FormInput}
-											placeholder="Reporter name"
-											error={errors.reporter}
-											touched={touched.reporter}
-										/>
-
-										<Field
-											inputName="Status"
-											name="status"
-											as={FormInput}
-											isSelectInput
-											error={errors.status}
-											touched={touched.status}
-										>
-											{statusTypes.map((item) => <option>{item}</option>)}
-										</Field>
-
-										<Field
-											inputName="Summary"
-											name="summary"
-											as={FormInput}
-											placeholder="Enter summary"
-											error={errors.summary}
-											touched={touched.summary}
-										/>
-
-										<label>Description</label>
-
-										<RichEditor editorState={values.editorState} onChange={setFieldValue} />
-
-										<Field
-											inputName="Priority"
-											name="priorityType"
-											as={FormInput}
-											isSelectInput
-											error={errors.priorityType}
-											touched={touched.priorityType}
-										>
-											{priorityTypes.map((item) => <option>{item}</option>)}
-										</Field>
-
-										<div className="due-date">
-											<label>Due Date</label>
-											<DatePicker
-												selected={values.startDate}
-												dateFormat="MMMM d, yyyy"
-												name="startDate"
-												onChange={(date) => setFieldValue('startDate', date)}
-											/>
-										</div>
-
-										<Field
-											inputName="Environment"
-											name="environment"
-											placeholder="Enter environment"
-											as={FormInput}
-											error={errors.enivironment}
-											touched={touched.enivironment}
-										/>
-
-										<Field
-											inputName="Version"
-											name="version"
-											placeholder="Enter version"
-											as={FormInput}
-											error={errors.version}
-											touched={touched.version}
-										/>
-
-										<CustomButton
-											type="submit"
-											width="25%"
-											left="20rem"
-											marginBottom="4rem"
-											top="2rem"
-										>
-											Edit
-										</CustomButton>
-									</Form>
+								{({ values, errors, handleSubmit, touched, setFieldValue, setFieldTouched }) => (
+									<IssueForm
+										type="edit"
+										values={values}
+										errors={errors}
+										handleSubmit={handleSubmit}
+										touched={touched}
+										setFieldValue={setFieldValue}
+										setFieldTouched={setFieldTouched}
+										modalAction={toggleEditIssueModal}
+									/>
 								)}
 							</Formik>
 						</ModalPage>

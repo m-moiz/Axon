@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import MySelect from '../../components/my-select/my-select.component';
+import ModalFooter from '../../components/modal-footer/modal-footer.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 import { Formik, Field } from 'formik';
@@ -75,7 +76,7 @@ class CreateTeam extends Component {
 
 	render() {
 		return (
-			<ModalPage width="100%" height="100%">
+			<ModalPage width="100%" height="100%" typeOfPage="create">
 				<Formik
 					initialValues={{ name: '', usernames: '' }}
 					validationSchema={schema}
@@ -135,9 +136,11 @@ class CreateTeam extends Component {
 								width="50%"
 							/>
 
-							<CustomButton type="submit" isSubmitting={isSubmitting} width="20%" top="20%" left="25rem">
-								Create
-							</CustomButton>
+							<ModalFooter>
+								<CustomButton type="submit" width="100%">
+									Create
+								</CustomButton>
+							</ModalFooter>
 						</form>
 					)}
 				</Formik>

@@ -14,6 +14,7 @@ exports.createIssue = async (req, res) => {
 		createdBy,
 		issueType,
 		reporter,
+		assignee,
 		status,
 		summary,
 		description,
@@ -27,6 +28,7 @@ exports.createIssue = async (req, res) => {
 		createdBy: createdBy,
 		issueType: issueType,
 		reporter: reporter,
+		assignee: assignee,
 		status: status,
 		summary: summary,
 		description: description,
@@ -49,6 +51,7 @@ exports.createIssue = async (req, res) => {
 	issue.createdBy = createdBy;
 	issue.summary = summary;
 	issue.issueType = issueType;
+	issue.assignee = assignee;
 	issue.version = version;
 	issue.status = status;
 	issue.reporter = reporter;
@@ -87,6 +90,7 @@ exports.updateIssue = (req, res) => {
 		createdBy,
 		issueType,
 		reporter,
+		assignee,
 		status,
 		summary,
 		description,
@@ -99,6 +103,7 @@ exports.updateIssue = (req, res) => {
 		createdBy: createdBy,
 		issueType: issueType,
 		reporter: reporter,
+		assignee: assignee,
 		status: status,
 		summary: summary,
 		description: description,
@@ -120,6 +125,7 @@ exports.updateIssue = (req, res) => {
 				'projects.$[i].issues.$[j].issueType': issueType,
 				'projects.$[i].issues.$[j].summary': summary,
 				'projects.$[i].issues.$[j].reporter': reporter,
+				'projects.$[i].issues.$[j].assignee': assignee,
 				'projects.$[i].issues.$[j].description': description,
 				'projects.$[i].issues.$[j].priorityType': priorityType,
 				'projects.$[i].issues.$[j].dueDate': dueDate,

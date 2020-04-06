@@ -73,7 +73,7 @@ class EditTeam extends Component {
 
 	render() {
 		return (
-			<ModalPage width="100%" height="100%">
+			<ModalPage width="100%" height="100%" typeOfPage="edit">
 				<Formik
 					initialValues={{ name: '', usernames: '' }}
 					validationSchema={schema}
@@ -131,10 +131,6 @@ class EditTeam extends Component {
 								options={this.state.users[0]}
 								width="50%"
 							/>
-
-							<CustomButton type="submit" isSubmitting={isSubmitting} width="20%" top="20%" left="25rem">
-								Create
-							</CustomButton>
 						</form>
 					)}
 				</Formik>

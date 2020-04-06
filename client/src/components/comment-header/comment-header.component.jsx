@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import './comment-header.styles.scss';
 
 function CommentHeader({ username, date, isCreator, hasEdited }) {
@@ -8,7 +8,7 @@ function CommentHeader({ username, date, isCreator, hasEdited }) {
 		<div className="comment-header">
 			<button className="button">{username}</button>
 			{isCreator ? '' : <div style={{ marginRight: '.4rem' }}>commented on </div>}
-			{isCreator ? '' : <div>{moment(date).format('DD-MM-YYYY')}</div>}
+			{isCreator ? '' : <div>{dayjs(date).format('d MMMM YYYY')}</div>}
 			{isCreator ? '' : <div>{hasEdited}</div>}
 		</div>
 	);

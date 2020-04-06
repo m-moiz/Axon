@@ -7,7 +7,14 @@ import { setProjectId } from '../../redux/project/project.actions';
 import { withRouter } from 'react-router-dom';
 import './sidebar-items-list.styles.scss';
 
-const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisibility, setProjectId, history }) => (
+const SideBarItemsList = ({
+	items,
+	isSidebarSubcategoryOpen,
+	addSidebarItemVisibility,
+	setProjectId,
+	history,
+	isDarkTheme
+}) => (
 	<div className={isSidebarSubcategoryOpen ? 'sidebar-items-list' : 'sidebar-items-list closed'}>
 		{Array.isArray(items) &&
 			items.map((item) => {
@@ -15,18 +22,18 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 				return (
 					<SideBarItem key={item._id} item={item.name} show>
 						<ul
-							className="sidebar-item"
+							className={isDarkTheme ? 'sidebar-item dark' : 'sidebar-item light'}
 							onClick={() => {
 								setProjectId(item._id);
 								history.push('/user/issues');
 							}}
 						>
 							<i className="fas fa-caret-right" />
-							<li>Issues</li>
+							<li>Backlog</li>
 						</ul>
 
 						<ul
-							className="sidebar-item"
+							className={isDarkTheme ? 'sidebar-item dark' : 'sidebar-item light'}
 							onClick={() => {
 								setProjectId(item._id);
 								history.push('/kanban');
@@ -55,6 +62,12 @@ const SideBarItemsList = ({ items, isSidebarSubcategoryOpen, addSidebarItemVisib
 	</div>
 );
 
+const mapStateToProps = (state) => {
+	return {
+		isDarkTheme: state.user.isDarkTheme
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		addSidebarItemVisibility: (itemName) => dispatch(addSidebarItemVisibiliy(itemName)),
@@ -69,4 +82,4 @@ SideBarItem.propTypes = {
 	setProjectId: PropTypes.func
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(SideBarItemsList));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SideBarItemsList));

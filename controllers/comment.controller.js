@@ -2,6 +2,25 @@ const Comment = require('../models/comment.model').Comment;
 const Team = require('../models/team.model').Team;
 const validateComment = require('../validators/validators').validateComment;
 
+const incNumOfComments = (teamId, projectId, issueId) => {
+	Team.findOneAndUpdate(
+		{ _id: teamId },
+		{
+			$inc: {
+				'projects.$[i].issues.$[j].numOfComments': 1
+			}
+		},
+		{
+			arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
+		}
+	)
+		.then(() => {})
+		.catch((err) => {
+			console.log(err);
+			return res.status(500).json('Failed');
+		});
+};
+
 exports.getComments = (req, res) => {
 	let { issueId } = req.params;
 
@@ -42,22 +61,7 @@ exports.createComment = (req, res) => {
 			return res.status(500).json({ message: 'Failed creating comment' });
 		});
 
-	Team.findOneAndUpdate(
-		{ _id: teamId },
-		{
-			$inc: {
-				'projects.$[i].issues.$[j].numOfComments': 1
-			}
-		},
-		{
-			arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-		}
-	)
-		.then(() => {})
-		.catch((err) => {
-			console.log(err);
-			return res.status(500).json('Failed');
-		});
+	incNumOfComments(teamId, projectId, issueId);
 };
 
 exports.updateComment = (req, res) => {

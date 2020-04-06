@@ -5,6 +5,14 @@ const Team = require('../models/team.model').Team;
 const validateSignIn = require('../validators/validators').validateSignIn;
 const validateSignUp = require('../validators/validators').validateSignUp;
 
+const handleValidation = (res, validateObject, validateFn) => {
+	const [ isInvalid, error ] = validateFn(validateObject);
+
+	if (isInvalid) {
+		return res.status(500).json({ error: error });
+	}
+};
+
 const handleSignIn = (req, res) => {
 	const { username, password } = req.body;
 	if (!username || !password) {
@@ -16,11 +24,7 @@ const handleSignIn = (req, res) => {
 		password: password
 	};
 
-	const [ isInvalid, error ] = validateSignIn(validateObject);
-
-	if (isInvalid) {
-		return res.status(500).json({ error: error });
-	}
+	handleValidation(res, validateObject, validateSignIn);
 
 	User.findOne({ username })
 		.then((user) => {
@@ -57,19 +61,7 @@ const userController = {
 			password: password
 		};
 
-		const [ isInvalid, error ] = validateSignUp(validateObject);
-
-		if (isInvalid) {
-			return res.status(500).json({ error: error });
-		}
-
-		User.findOne({ username: username }, (err, user) => {
-			if (user) {
-				return res
-					.status(400)
-					.json({ message: `User ${username} already exists`, error: 'User already exists' });
-			}
-		});
+		this.handleValidation(res, validateObject, validateSignUp);
 
 		user.username = username;
 		user.email = email;

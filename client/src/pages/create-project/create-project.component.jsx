@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
+import ModalFooter from '../../components/modal-footer/modal-footer.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import CloseButton from '../../components/close-button/close-button.component';
 import Form from 'react-bootstrap/Form';
@@ -51,7 +52,7 @@ const schema = (teamId) =>
 class CreateProject extends Component {
 	render() {
 		return (
-			<ModalPage>
+			<ModalPage typeOfPage="create">
 				<Formik
 					initialValues={{ name: '', description: '' }}
 					onSubmit={(values, { setSubmitting }) => {
@@ -114,9 +115,19 @@ class CreateProject extends Component {
 								bottomStyle
 							/>
 
-							<CustomButton type="submit" width="25%" left="20rem" top="7.5rem">
-								Create
-							</CustomButton>
+							<ModalFooter>
+								<CustomButton
+									isSecondary
+									width="100%"
+									handleClick={this.props.toggleCreateProjectModal}
+								>
+									Cancel
+								</CustomButton>
+
+								<CustomButton type="submit" width="100%">
+									Create
+								</CustomButton>
+							</ModalFooter>
 						</Form>
 					)}
 				</Formik>

@@ -1,10 +1,13 @@
 # Axon
 An issue tracker for teams
+[![codebeat badge](https://codebeat.co/badges/3ec227aa-6a8f-4024-bae8-84f69eb5be71)](https://codebeat.co/projects/github-com-m-moiz-axon-master)
 
 # Features
-1. Fast
-2. Kanban Board
-3. 
+1. Create and edit issues
+2. Comment and assign issues
+3. Kanban Board
+4. Dark/Light Theme
+5. Create various projects
 
 # Usage
 

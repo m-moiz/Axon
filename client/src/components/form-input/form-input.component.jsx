@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import './form-input.styles.scss';
 
 const FormInput = ({
+	small,
 	error,
 	touched,
 	value,
@@ -22,10 +23,14 @@ const FormInput = ({
 	var className = 'form-input';
 	if (isSelectInput) {
 		className += ' dropdown';
-	} else if (!as && bottomStyle) {
-		className += ' original';
 	} else if (!as && !bottomStyle) {
 		className += ' border';
+	}
+
+	if (small) {
+		className += ' small';
+	} else {
+		className += ' large';
 	}
 
 	if (error) {

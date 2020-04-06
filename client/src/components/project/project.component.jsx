@@ -51,7 +51,8 @@ const Project = ({
 			)}
 
 			<div className="project">
-				<h4
+				<a
+					href="#"
 					value={children}
 					onClick={(e) => {
 						setProjectId(projectId);
@@ -60,7 +61,7 @@ const Project = ({
 					className={isDarkTheme ? 'project-name dark' : 'project-name light'}
 				>
 					{children}
-				</h4>
+				</a>
 				<h5 className="project-desc">{projectDesc}</h5>
 			</div>
 		</div>

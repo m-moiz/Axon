@@ -64,11 +64,7 @@ class IssuesPage extends Component {
 		};
 	}
 
-	componentDidMount() {
-		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
-			window.location = '/sign-in';
-		}
-
+	fetchIssues = () => {
 		axios({
 			method: 'get',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
@@ -80,21 +76,19 @@ class IssuesPage extends Component {
 				this.props.setIssuesArray(resp.data.result.projects[0].issues);
 			})
 			.catch((err) => console.log(err));
+	};
+
+	componentDidMount() {
+		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
+			window.location = '/sign-in';
+		}
+
+		this.fetchIssues();
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.projectName !== this.props.projectName) {
-			axios({
-				method: 'get',
-				url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
-				headers: {
-					Authorization: window.sessionStorage.getItem('token')
-				}
-			})
-				.then((resp) => {
-					this.props.setIssuesArray(resp.data.result.projects[0].issues);
-				})
-				.catch((err) => console.log(err));
+			this.fetchIssues();
 		}
 	}
 

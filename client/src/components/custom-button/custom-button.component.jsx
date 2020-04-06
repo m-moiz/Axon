@@ -13,7 +13,7 @@ const Button = styled.button`
 	margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : '')};
 	position: relative;
 	border: none;
-	background-color: #007bff;
+	background-color: ${(props) => (props.danger ? '#dc3545' : '#007bff')};
 	padding-top: .4rem;
 	padding-bottom: .4rem;
 	padding-left: .4rem;
@@ -21,7 +21,15 @@ const Button = styled.button`
 	color: white;
 	border-radius: .3rem;
 
-	&:hover {
+	${(props) => {
+		if (props.isSecondary) {
+			return `
+			 background-color: white;
+			 color: black;
+			 border: 1px solid black;
+		   `;
+		}
+	}} &:hover {
 		box-shadow: 1px 1px 5px 1px rgb(56, 56, 56);
 	}
 
@@ -46,7 +54,9 @@ const CustomButton = ({
 	marginRight,
 	marginBottom,
 	marginLeft,
-	isSign
+	isSign,
+	isSecondary,
+	danger
 }) => (
 	<div className="custom-button">
 		<Button
@@ -61,6 +71,8 @@ const CustomButton = ({
 			marginBottom={marginBottom}
 			top={top}
 			isSign={isSign}
+			isSecondary={isSecondary}
+			danger={danger}
 		>
 			{children}
 		</Button>

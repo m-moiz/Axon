@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
-const IssueSchema = require('./issue.model').IssueSchema;
+const { UserSchema } = require('./user.model');
+const { IssueSchema } = require('./issue.model');
 
 const ProjectSchema = mongoose.Schema({
 	name: { type: String, required: true },
 	teamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+	projectMembers: { type: [ UserSchema ], default: undefined },
 	description: { type: String },
 	numOfIssues: { type: Number, default: 0 },
 	issues: { type: [ IssueSchema ], default: undefined }

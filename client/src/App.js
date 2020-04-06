@@ -15,6 +15,27 @@ const ProjectsPage = React.lazy(() => import('./pages/projects/projects.componen
 const SettingsPage = React.lazy(() => import('./pages/settings-page/settings.component'));
 
 class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isWorkingOnOverlayOpen: false
+		};
+	}
+
+	handleKeyDown = (e) => {
+		if (e.keyCode === 192) {
+			this.setState({ isWorkingOnOverlayOpen: !this.state.isWorkingOnOverlayOpen });
+		}
+	};
+
+	componentDidMount() {
+		window.addEventListener('keydown', this.handleKeyDown);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('keydown', this.handleKeyDown);
+	}
+
 	render() {
 		return (
 			<div className="App">
