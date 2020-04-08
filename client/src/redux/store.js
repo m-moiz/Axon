@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
+
 import thunk from 'redux-thunk';
 import rootReducer from './root-reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -10,6 +11,11 @@ if (process.env.NODE_ENV === 'development') {
 	const createLogger = require('redux-logger').createLogger;
 	const logger = createLogger();
 	middlewares.push(logger);
+}
+
+if (process.env.NODE_ENV === 'production') {
+	const LogRocket = require('logrocket');
+	middlewares.push(LogRocket.reduxMiddleware());
 }
 
 export default () => {

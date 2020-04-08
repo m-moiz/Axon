@@ -9,7 +9,6 @@ const uploadController = require('../controllers/upload.controller');
 const requireAuth = require('../middleware/authorization').requireAuth;
 
 router.get('/upload/:userId', requireAuth, uploadController.upload);
-
 router.get('/issue/:teamId&:projectId', requireAuth, issueController.getIssues);
 router.post('/issue/:teamId&:projectId/create', requireAuth, issueController.createIssue);
 router.put('/issue/:teamId&:projectId&:issueId/updateBoardColumn', requireAuth, issueController.updateIssueBoardColumn);

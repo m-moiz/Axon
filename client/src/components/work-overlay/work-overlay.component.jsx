@@ -1,9 +1,14 @@
 import React from 'react';
+import './work-overlay.styles.scss';
 
-function WorkOverlay() {
+function WorkOverlay({ task }) {
 	return (
-		<div className="work-overlay">
-			<p>You are working on ...</p>
+		<div className="work-wrapper">
+			<div className="work-overlay">
+				<p className="working-on">You are working on </p>
+				<p className="task">{task}</p>
+				<div className="overlay-border" />
+			</div>
 		</div>
 	);
 }

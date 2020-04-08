@@ -99,13 +99,20 @@ class KanbanBoardPage extends Component {
 
 				var boardIssues = {};
 				issuesWithBoardColumnField.forEach((issue) => {
-					boardIssues[issue._id] = { id: issue._id, content: issue.summary, issueType: issue.issueType };
+					boardIssues[issue._id] = {
+						id: issue._id,
+						content: issue.summary,
+						issueType: issue.issueType,
+						isWorkingOn: false
+					};
 				});
 
 				this.updateState(column1TaskIds, column2TaskIds, column3TaskIds, boardIssues, issues);
 			})
 			.catch((err) => console.log(err));
 	}
+
+	setWorkingOn = (id) => {};
 
 	componentDidMount() {
 		this.fetchAndUpdateState();
@@ -277,6 +284,7 @@ class KanbanBoardPage extends Component {
 										return (
 											<ColumnContainer>
 												<BoardColumn
+													setWorkingOn={this.setWorkingOn}
 													key={column.id}
 													column={column}
 													tasks={tasks}

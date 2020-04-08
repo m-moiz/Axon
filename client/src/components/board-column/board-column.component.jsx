@@ -14,6 +14,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h5`
+	padding-left: 1rem;
 	padding: 8px;
 	background-color: #d70afd;
 	color: white;
@@ -46,7 +47,12 @@ class BoardColumn extends Component {
 									isDraggingOver={snapshot.isDraggingOver}
 								>
 									{this.props.tasks.map((task, index) => (
-										<BoardTask key={task.id} task={task} index={index} />
+										<BoardTask
+											setWorkingOn={this.props.setWorkingOn}
+											key={task.id}
+											task={task}
+											index={index}
+										/>
 									))}
 
 									{provided.placeholder}

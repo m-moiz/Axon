@@ -43,29 +43,18 @@ const Wrapper = styled.div`
 `;
 
 class BoardTask extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isWorkingOn: false
-		};
-	}
-
-	toggleWorkingOn = (e) => {
-		this.setState({ isWorkingOn: !this.state.isWorkingOn });
-	};
-
 	render() {
 		return (
 			<Draggable draggableId={this.props.task.id} index={this.props.index}>
 				{(provided, snapshot) => (
 					<Container
-						onDoubleClick={this.toggleWorkingOn}
+						onDoubleClick={() => this.props.setWorkingOn(this.props.task.id)}
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
 						ref={provided.innerRef}
 						isDragging={snapshot.isDragging}
 					>
-						{this.state.isWorkingOn ? <Border /> : ''}
+						{this.props.task.isWorkingOn ? <Border /> : ''}
 						<Wrapper>
 							{this.props.task.content}
 							<Label labelType={this.props.task.issueType} inBoardTask />
