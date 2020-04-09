@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import IssueForm from '../../components/issue-form/issue-form.component';
-import { selectTeamId } from '../../redux/team/team.selectors';
+import { selectTeamId } from '../../store/team/team.selectors';
 import { Formik } from 'formik';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { connect } from 'react-redux';
