@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { PersistGate } from 'redux-persist/integration/react';
-import configureStore from './redux/store';
+import configureStore from './store/store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const { store, persistor } = configureStore();
