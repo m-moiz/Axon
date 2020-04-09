@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.component';
 import PageContainer from '../../components/page-container/page-container.component';
 import PageContentContainer from '../../components/page-content-container/page-content-container.component';
-import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
+import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
 
 // Add or change user name, email

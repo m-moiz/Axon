@@ -6,9 +6,9 @@ import SideBarSubCategory from '../../components/sidebar-subcategory/sidebar-sub
 import SideBarItemsList from '../../components/sidebar-items-list/sidebar-items-list.component';
 import Tool from '../tool/tool.component';
 import withOpen from '../with-open/with-open.component';
-import { toggleProjectsSubcategory, toggleToolsSubcategory } from '../../redux/sidebar/sidebar.actions';
-import { selectToggleProjectsSubcategory, selectToggleToolsSubcategory } from '../../redux/sidebar/sidebar.selectors';
-import { selectProjects } from '../../redux/project/project.selectors';
+import { toggleProjectsSubcategory, toggleToolsSubcategory } from '../../store/sidebar/sidebar.actions';
+import { selectToggleProjectsSubcategory, selectToggleToolsSubcategory } from '../../store/sidebar/sidebar.selectors';
+import { selectProjects } from '../../store/project/project.selectors';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './shared-sidebar.styles.scss';

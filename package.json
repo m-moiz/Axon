@@ -26,7 +26,6 @@
 		"forever": "^2.0.0",
 		"helmet": "^3.21.2",
 		"jsonwebtoken": "^8.5.1",
-		"logrocket": "^1.0.7",
 		"mongoose": "^5.7.6",
 		"node-redis-retry-strategy": "^1.0.10",
 		"passport": "^0.4.1",

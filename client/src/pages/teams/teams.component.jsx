@@ -10,7 +10,7 @@ import TopMessage from '../../components/top-message/top-message.component';
 import CreateTeam from '../create-team/create-team.component';
 import EditTeam from '../edit-team/edit-team.component';
 import DeleteTeam from '../delete-team/delete-team.component.jsx';
-import { setTeamArray, toggleCreateTeamModal, toggleDeleteTeams, toggleEditTeams } from '../../redux/team/team.actions';
+import { setTeamArray, toggleCreateTeamModal, toggleDeleteTeams, toggleEditTeams } from '../../store/team/team.actions';
 import {
 	selectTeamArray,
 	selectIsCreateTeamModalOpen,
@@ -18,11 +18,11 @@ import {
 	selectIsEditTeamModalOpen,
 	selectShouldDeleteTeams,
 	selectShouldEditTeams
-} from '../../redux/team/team.selectors';
-import { setTeamArray } from '../../redux/team/team.selectors';
-import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
-import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
-import { selectShouldRenderMessage, selectMessageText } from '../../redux/message/message.selectors';
+} from '../../store/team/team.selectors';
+import { setTeamArray } from '../../store/team/team.selectors';
+import { selectUserId, selectIsUserSignedIn } from '../../store/user/user.selectors';
+import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
+import { selectShouldRenderMessage, selectMessageText } from '../../store/message/message.selectors';
 import { connect } from 'react-redux';
 import axios from 'axios';
 

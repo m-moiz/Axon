@@ -1,5 +1,5 @@
 import React from 'react';
-import { selectIsNotificationModalOpen } from '../../redux/message/message.selectors';
+import { selectIsNotificationModalOpen } from '../../store/message/message.selectors';
 import { connect } from 'react-redux';
 import './notification-modal.styles.scss';
 

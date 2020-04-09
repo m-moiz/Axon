@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import Notification from '../notification/notification.component';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
-import { signOut, toggleAppTheme } from '../../redux/user/user.actions';
+import { signOut, toggleAppTheme } from '../../store/user/user.actions';
 import { withRouter } from 'react-router-dom';
-import { selectIsUserSignedIn } from '../../redux/user/user.selectors';
+import { selectIsUserSignedIn } from '../../store/user/user.selectors';
 import logo from './PixelArt.png';
 import './header.styles.scss';
 

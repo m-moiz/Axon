@@ -1,6 +1,6 @@
 import React from 'react';
 import TableHeaderFilter from '../tabel-header-filter/tabel-header-filter.component';
-import { toggleSortOptionsBox, toggleLabelOptionsBox, toggleStatusOptionsBox } from '../../redux/issue/issue.actions';
+import { toggleSortOptionsBox, toggleLabelOptionsBox, toggleStatusOptionsBox } from '../../store/issue/issue.actions';
 import { connect } from 'react-redux';
 import './table-header.styles.scss';
 

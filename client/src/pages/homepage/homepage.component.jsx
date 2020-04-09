@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import CreateTeam from '../create-team/create-team.component';
 import FindTeam from '../find-team/find-team.component';
 import ProjectsPage from '../projects/projects.component';
-import { signOut } from '../../redux/user/user.actions';
-import { selectTeamId } from '../../redux/team/team.selectors';
+import { signOut } from '../../store/user/user.actions';
+import { selectTeamId } from '../../store/team/team.selectors';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 

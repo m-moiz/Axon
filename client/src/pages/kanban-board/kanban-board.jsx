@@ -7,8 +7,8 @@ import SharedSidebar from '../../components/sidebar-shared/shared-sidebar.compon
 import styled from 'styled-components';
 import CreateTaskForm from '../../components/create-task-form/create-task-form.component';
 import v4 from 'uuid';
-import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
-import { setIssuesArray } from '../../redux/issue/issue.actions';
+import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
+import { setIssuesArray } from '../../store/issue/issue.actions';
 import axios from 'axios';
 import { connect } from 'react-redux';
 

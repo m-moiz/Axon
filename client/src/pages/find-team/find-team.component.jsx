@@ -4,7 +4,7 @@ import MySelect from '../../components/my-select/my-select.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
-import { setTeamId, setTeamArray } from '../../redux/team/team.actions';
+import { setTeamId, setTeamArray } from '../../store/team/team.actions';
 import { withRouter } from 'react-router-dom';
 import './find-team.styles.scss';
 import axios from 'axios';

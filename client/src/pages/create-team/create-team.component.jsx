@@ -6,8 +6,8 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import FormInput from '../../components/form-input/form-input.component';
 import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
-import { setTeamId } from '../../redux/team/team.actions';
-import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
+import { setTeamId } from '../../store/team/team.actions';
+import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';

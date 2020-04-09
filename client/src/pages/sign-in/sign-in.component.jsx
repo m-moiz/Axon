@@ -5,8 +5,8 @@ import { Formik, Field } from 'formik';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import SignLink from '../../components/sign-link/sign-link.component';
 import axios from 'axios';
-import { setTeamId, setTeamArray } from '../../redux/team/team.actions';
-import { setUserId, setUsername, setIsAdmin, signIn } from '../../redux/user/user.actions';
+import { setTeamId, setTeamArray } from '../../store/team/team.actions';
+import { setUserId, setUsername, setIsAdmin, signIn } from '../../store/user/user.actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 

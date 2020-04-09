@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './search-bar.styles.scss';
 import { connect } from 'react-redux';
-import { setSearchText } from '../../redux/issue/issue.actions';
+import { setSearchText } from '../../store/issue/issue.actions';
 
 function SearchBar({ setSearchText, isDarkTheme }) {
 	const handleSubmit = (event) => {

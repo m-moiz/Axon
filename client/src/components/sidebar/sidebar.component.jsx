@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './sidebar.styles.scss';
-import { closeSidebar } from '../../redux/sidebar/sidebar.actions';
-import { selectIsSidebarClosing, selectIsSidebarOpening } from '../../redux/sidebar/sidebar.selectors';
+import { closeSidebar } from '../../store/sidebar/sidebar.actions';
+import { selectIsSidebarClosing, selectIsSidebarOpening } from '../../store/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
 
 function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSidebar, isDarkTheme }) {

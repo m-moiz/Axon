@@ -1,7 +1,7 @@
 import React from 'react';
 import SidebarOpenButton from '../sidebar-open-button/sidebar-open-button.component';
 import { connect } from 'react-redux';
-import { openSidebar } from '../../redux/sidebar/sidebar.actions';
+import { openSidebar } from '../../store/sidebar/sidebar.actions';
 
 const withOpen = (Component) => {
 	const Wrapper = (props) =>

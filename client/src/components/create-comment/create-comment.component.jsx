@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import CommentHeader from '../comment-header/comment-header.component';
 import CommentFooter from '../comment-footer/comment-footer.component';
-import { setMessageText, closingMessageAfterOpening } from '../../redux/message/message.actions';
+import { setMessageText, closingMessageAfterOpening } from '../../store/message/message.actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './create-comment.styles.scss';

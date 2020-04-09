@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getRandomColor } from '../../utils/utils';
-import { setTeamId } from '../../redux/team/team.actions';
+import { setTeamId } from '../../store/team/team.actions';
 import './tab.styles.scss';
 
 function Tab({ title, id, setTeamId }) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { toggleSidebarItemVisibility } from '../../redux/sidebar/sidebar.actions';
-import { selectSidebarItemHiddenProperty } from '../../redux/sidebar/sidebar.selectors';
+import { toggleSidebarItemVisibility } from '../../store/sidebar/sidebar.actions';
+import { selectSidebarItemHiddenProperty } from '../../store/sidebar/sidebar.selectors';
 import { connect } from 'react-redux';
 import './sidebar-item.styles.scss';
 

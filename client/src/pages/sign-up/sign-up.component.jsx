@@ -5,8 +5,8 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import SignLink from '../../components/sign-link/sign-link.component';
 import { Formik, Field } from 'formik';
 import { withRouter } from 'react-router-dom';
-import { setTeamId, setTeamArray } from '../../redux/team/team.actions';
-import { setUserId, setUsername, signIn, setIsAdmin } from '../../redux/user/user.actions';
+import { setTeamId, setTeamArray } from '../../store/team/team.actions';
+import { setUserId, setUsername, signIn, setIsAdmin } from '../../store/user/user.actions';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import axios from 'axios';

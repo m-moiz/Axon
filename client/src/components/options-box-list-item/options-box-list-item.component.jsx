@@ -11,8 +11,8 @@ import {
 	toggleLabelOptionsBoxItem,
 	toggleSortOptionsBoxItem,
 	toggleStatusOptionsBoxItem
-} from '../../redux/issue/issue.actions';
-import { selectLabelFilter, selectStatusFilter, selectSortType } from '../../redux/issue/issue.selectors';
+} from '../../store/issue/issue.actions';
+import { selectLabelFilter, selectStatusFilter, selectSortType } from '../../store/issue/issue.selectors';
 import { connect } from 'react-redux';
 
 function OptionsBoxListItem({

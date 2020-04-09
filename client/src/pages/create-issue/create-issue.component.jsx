@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import ModalPage from '../../components/modal-page/modal-page.component';
-import { toggleCreateIssueModal } from '../../redux/issue/issue.actions';
-import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions.js';
-import { selectTeamId } from '../../redux/team/team.selectors';
+import { toggleCreateIssueModal } from '../../store/issue/issue.actions';
+import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions.js';
+import { selectTeamId } from '../../store/team/team.selectors';
 import { EditorState, convertToRaw } from 'draft-js';
 import IssueForm from '../../components/issue-form/issue-form.component';
 import { Formik } from 'formik';

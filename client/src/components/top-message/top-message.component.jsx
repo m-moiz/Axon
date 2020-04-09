@@ -6,7 +6,7 @@ import {
 	selectIsOpeningMessage,
 	selectIsClosingMessage,
 	selectShouldRenderMessage
-} from '../../redux/message/message.selectors';
+} from '../../store/message/message.selectors';
 
 function TopMessage({ messageContent, isOpeningMessage, isClosingMessage, shouldRenderMessage }) {
 	let className = '';

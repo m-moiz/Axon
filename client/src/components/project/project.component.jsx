@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import './project.styles.scss';
 import CloseButton from '../close-button/close-button.component';
 import EditButon from '../edit-button/edit-button.component';
-import { setProjectId, toggleDeleteProjectModal, toggleEditProjectModal } from '../../redux/project/project.actions';
-import { selectShouldDeleteProjects, selectShouldEditProjects } from '../../redux/project/project.selectors';
+import { setProjectId, toggleDeleteProjectModal, toggleEditProjectModal } from '../../store/project/project.actions';
+import { selectShouldDeleteProjects, selectShouldEditProjects } from '../../store/project/project.selectors';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 

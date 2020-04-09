@@ -4,12 +4,12 @@ import ModalFooter from '../../components/modal-footer/modal-footer.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import CloseButton from '../../components/close-button/close-button.component';
 import Form from 'react-bootstrap/Form';
-import { selectTeamId } from '../../redux/team/team.selectors';
+import { selectTeamId } from '../../store/team/team.selectors';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
-import { toggleDeleteProjectModal } from '../../redux/project/project.actions';
+import { toggleDeleteProjectModal } from '../../store/project/project.actions';
 import { withRouter } from 'react-router-dom';
-import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
+import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions';
 import axios from 'axios';
 import './delete-project.styles.scss';
 

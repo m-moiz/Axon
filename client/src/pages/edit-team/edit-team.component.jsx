@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import MySelect from '../../components/my-select/my-select.component';
-import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
-import { closingMessageAfterOpening, setMessageText } from '../../redux/message/message.actions';
+import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';

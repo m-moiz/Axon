@@ -16,9 +16,9 @@ import {
 	toggleCreateProjectModal,
 	toggleDeleteProjects,
 	toggleEditProjects
-} from '../../redux/project/project.actions';
-import { selectTeamId, selectTeamArray } from '../../redux/team/team.selectors';
-import { selectUserId, selectIsUserSignedIn } from '../../redux/user/user.selectors';
+} from '../../store/project/project.actions';
+import { selectTeamId, selectTeamArray } from '../../store/team/team.selectors';
+import { selectUserId, selectIsUserSignedIn } from '../../store/user/user.selectors';
 import {
 	selectProjects,
 	selectIsCreateProjectModalOpen,
@@ -26,9 +26,9 @@ import {
 	selectIsEditProjectModalOpen,
 	selectShouldDeleteProjects,
 	selectShouldEditProjects
-} from '../../redux/project/project.selectors';
-import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
-import { selectShouldRenderMessage, selectMessageText } from '../../redux/message/message.selectors';
+} from '../../store/project/project.selectors';
+import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
+import { selectShouldRenderMessage, selectMessageText } from '../../store/message/message.selectors';
 import { connect } from 'react-redux';
 import axios from 'axios';
 

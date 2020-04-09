@@ -13,14 +13,14 @@ import CommentList from '../../components/comment-list/comment-list.component';
 import CreateComment from '../../components/create-comment/create-comment.component';
 import axios from 'axios';
 import styled from 'styled-components';
-import { toggleDeleteIssueModal, toggleEditIssues } from '../../redux/issue/issue.actions';
-import { selectIsDeleteIssueModalOpen, selectIsEditIssueModalOpen } from '../../redux/issue/issue.selectors';
-import { selectProjectName } from '../../redux/project/project.selectors';
-import { selectIssueId, selectCurrentIssue } from '../../redux/issue/issue.selectors';
-import { selectUsername } from '../../redux/user/user.selectors';
-import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
-import { selectMessageText } from '../../redux/message/message.selectors';
-import { setCommentsArray } from '../../redux/comment/comment.actions';
+import { toggleDeleteIssueModal, toggleEditIssues } from '../../store/issue/issue.actions';
+import { selectIsDeleteIssueModalOpen, selectIsEditIssueModalOpen } from '../../store/issue/issue.selectors';
+import { selectProjectName } from '../../store/project/project.selectors';
+import { selectIssueId, selectCurrentIssue } from '../../store/issue/issue.selectors';
+import { selectUsername } from '../../store/user/user.selectors';
+import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
+import { selectMessageText } from '../../store/message/message.selectors';
+import { setCommentsArray } from '../../store/comment/comment.actions';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`

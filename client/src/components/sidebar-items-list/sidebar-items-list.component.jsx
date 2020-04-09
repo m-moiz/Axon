@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SideBarItem from '../sidebar-item/sidebar-item.component';
 import { connect } from 'react-redux';
-import { addSidebarItemVisibiliy } from '../../redux/sidebar/sidebar.actions';
-import { setProjectId } from '../../redux/project/project.actions';
+import { addSidebarItemVisibiliy } from '../../store/sidebar/sidebar.actions';
+import { setProjectId } from '../../store/project/project.actions';
 import { withRouter } from 'react-router-dom';
 import './sidebar-items-list.styles.scss';
 

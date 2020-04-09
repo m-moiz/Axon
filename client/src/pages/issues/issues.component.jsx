@@ -18,9 +18,9 @@ import {
 	toggleCreateIssueModal,
 	toggleEditIssues,
 	toggleDeleteIssues
-} from '../../redux/issue/issue.actions';
-import { selectTeamId } from '../../redux/team/team.selectors';
-import { selectUserId } from '../../redux/user/user.selectors';
+} from '../../store/issue/issue.actions';
+import { selectTeamId } from '../../store/team/team.selectors';
+import { selectUserId } from '../../store/user/user.selectors';
 import {
 	selectIsCreateIssueModalOpen,
 	selectIsDeleteIssueModalOpen,
@@ -31,10 +31,10 @@ import {
 	selectIsShowingDeleteButton,
 	selectIsShowingEditButton,
 	selectSearchFilteredIssues
-} from '../../redux/issue/issue.selectors';
-import { selectProjectName, selectProjectId } from '../../redux/project/project.selectors';
-import { selectIsSidebarOpen } from '../../redux/sidebar/sidebar.selectors';
-import { selectMessageText } from '../../redux/message/message.selectors';
+} from '../../store/issue/issue.selectors';
+import { selectProjectName, selectProjectId } from '../../store/project/project.selectors';
+import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
+import { selectMessageText } from '../../store/message/message.selectors';
 import { issueTypes, statusTypes } from '../../types/types';
 import { connect } from 'react-redux';
 import './issues.styles.scss';

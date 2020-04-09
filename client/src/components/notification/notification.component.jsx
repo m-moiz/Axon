@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './notification.styles.scss';
-import { toggleNotificationModal } from '../../redux/message/message.actions';
+import { toggleNotificationModal } from '../../store/message/message.actions';
 import { connect } from 'react-redux';
 
 class Notification extends Component {
