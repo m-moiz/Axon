@@ -1,5 +1,3 @@
-const LogRocket = require('logrocket');
-LogRocket.init('4mtv49/axon');
 const express = require('express');
 const compression = require('compression');
 const path = require('path');
