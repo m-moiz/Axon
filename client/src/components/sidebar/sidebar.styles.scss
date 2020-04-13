@@ -6,7 +6,6 @@
 	flex-direction: column;
 	flex-shrink: 0;
 	transform-origin: top left;
-	transition: background-color .25s ease-in, box-shadow .25s ease-in;
 	overflow-x: visible;
 
 	&.dark {

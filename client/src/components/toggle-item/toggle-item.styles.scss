@@ -3,7 +3,6 @@
 .toggle-item {
 	display: flex;
 	margin-bottom: 1rem;
-	transition: color .25s ease-in;
 	@include remove-select;
 
 	&.dark {
