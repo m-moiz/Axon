@@ -1,6 +1,6 @@
 @import '../../mixins.scss';
 .sidebar-items-list {
-	@include removeSelect;
+	@include remove-select;
 
 	&.closed {
 		display: none;
