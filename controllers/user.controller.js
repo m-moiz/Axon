@@ -61,27 +61,32 @@ const userController = {
 			password: password
 		};
 
-		this.handleValidation(res, validateObject, validateSignUp);
+		handleValidation(res, validateObject, validateSignUp);
 
-		user.username = username;
-		user.email = email;
-		user.password = password;
+		User.findOne({ username }).then((doc) => {
+			if (doc) return res.status(404).json({ message: 'User already exists' });
+			if (!doc) {
+				user.username = username;
+				user.email = email;
+				user.password = password;
 
-		bcrypt.genSalt(10, (err, salt) => {
-			bcrypt.hash(user.password, salt, (err, hash) => {
-				if (err) throw err;
-				user.password = hash;
+				bcrypt.genSalt(10, (err, salt) => {
+					bcrypt.hash(user.password, salt, (err, hash) => {
+						if (err) throw err;
+						user.password = hash;
 
-				user
-					.save()
-					.then((user) => {
-						jwtToken.createSession(user, res);
-					})
-					.catch((err) => {
-						console.log(err);
-						res.status(404).json({ success: false, message: "Couldn't create token" });
+						user
+							.save()
+							.then((user) => {
+								jwtToken.createSession(user, res);
+							})
+							.catch((err) => {
+								console.log(err);
+								res.status(404).json({ success: false, message: "Couldn't create token" });
+							});
 					});
-			});
+				});
+			}
 		});
 	},
 
