@@ -2,9 +2,10 @@
 	"name": "axon-tracker",
 	"version": "1.0.0",
 	"description": "",
-	"main": "server.js",
+	"main": "dist/server.js",
 	"scripts": {
 		"start": "cross-env NODE_ENV=production node server.js",
+		"build": "tsc",
 		"dev": "cross-env NODE_ENV=development concurrently \"nodemon server.js\" \"cd client && npm start\"",
 		"test": "cross-env NODE_ENV=test jest --verbose --runInBand",
 		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -26,19 +27,29 @@
 		"forever": "^2.0.0",
 		"helmet": "^3.21.2",
 		"jsonwebtoken": "^8.5.1",
+		"metadata": "^0.1.0",
 		"mongoose": "^5.7.6",
 		"node-redis-retry-strategy": "^1.0.10",
 		"passport": "^0.4.1",
 		"passport-github2": "^0.1.11",
 		"redis": "2.8.0",
+		"typeodm.io": "^1.2.0",
+		"typeorm": "^0.2.24",
+		"typescript": "^3.8.3",
 		"uuid": "^7.0.2",
 		"winston": "^3.2.1"
 	},
 	"devDependencies": {
+		"@types/express": "^4.17.6",
+		"@types/mongoose": "^5.7.14",
+		"@types/node": "^13.13.4",
 		"concurrently": "^5.0.0",
 		"jest": "^24.9.0",
 		"nodemon": "1.19.4",
-		"supertest": "^4.0.2"
+		"supertest": "^4.0.2",
+		"ts-jest": "^25.4.0",
+		"tslint": "^6.1.2",
+		"typescript": "^3.8.3"
 	},
 	"jest": {
 		"testEnvironment": "node"

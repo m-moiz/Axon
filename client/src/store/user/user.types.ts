@@ -1,0 +1,8 @@
+export enum userActionTypes {
+	SET_USER_ID,
+	SET_IS_ADMIN,
+	SET_USER_NAME,
+	TOGGLE_APP_THEME,
+	SIGN_IN,
+	SIGN_OUT
+}

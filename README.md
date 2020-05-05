@@ -26,6 +26,7 @@ Ans: You can change teams from the settings page. To go to the settings page, si
 # Built With
 - React
 - Redux
+- Typescript
 - Express
 - MongoDB
 - Formik
