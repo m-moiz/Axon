@@ -55,7 +55,36 @@ const Title = styled.h3`
 	}
 `;
 
-class IssuesPage extends Component {
+interface IIssuesPageProps {
+	isShowingDeleteButton: boolean;
+	isShowingEditButton: boolean;
+	isCreateIssueModalOpen: boolean;
+	isDeleteIssueModalOpen: boolean;
+	isEditIssueModalOpen: boolean;
+	isSortOptionsBoxOpen: boolean;
+	isLabelOptionsBoxOpen: boolean;
+	isStatusOptionsBoxOpen: boolean;
+	isSignedIn: boolean;
+	userId: string;
+	teamId: string;
+	projectId: string;
+	issues: Issue[];
+	projectName: string;
+	isSidebarOpen: boolean;
+	messageText: string;
+	isDarkTheme: boolean;
+	setIssuesArray(issues: Issue[]): void;
+	toggleCreateIssueModal(): void;
+	toggleEditIssues(): void;
+	toggleDeleteIssues(): void;
+}
+
+interface IIssuesPageState {
+	statusOptions: 'OPEN' | 'CLOSED';
+	labelOptions: 'EPIC' | 'TASK' | 'IMPROVEMENT';
+}
+
+class IssuesPage extends Component<IIssuesPageProps, IIssuesPageState> {
 	constructor(props) {
 		super(props);
 		this.state = {

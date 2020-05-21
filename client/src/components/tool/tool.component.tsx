@@ -4,7 +4,7 @@ import './tool.styles.scss';
 interface ITool {
 	children: React.ReactNode;
 	tooltipText?: string;
-	isToolOpen?: Boolean;
+	isToolOpen?: boolean;
 	action: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 

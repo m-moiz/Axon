@@ -2,18 +2,17 @@ import React from 'react';
 import './status-icon.styles.scss';
 
 interface IStatusIcon {
-	isInteractible: Boolean;
+	isInteractible: boolean;
 	handleClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	status: string;
 }
 
 function StatusIcon({ isInteractible, handleClick, status }: IStatusIcon) {
 	let className = 'status-icon';
-	if (status === 'Open') {
-		className += ' green';
-	} else if (status === 'Closed') {
-		className += ' red';
-	}
+	className += {
+		Open: ' green',
+		Closed: ' red'
+	}[status];
 
 	if (isInteractible) {
 		className += ' interactible';

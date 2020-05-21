@@ -16,7 +16,7 @@ import { selectLabelFilter, selectStatusFilter, selectSortType } from '../../sto
 import { connect } from 'react-redux';
 
 interface IOptionsBoxListItem {
-	isActive: Boolean;
+	isActive: boolean;
 	type: string;
 	item: string;
 	setStatusFilter: (text: string) => void;

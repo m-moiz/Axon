@@ -5,11 +5,11 @@ import WorkOverlay from '../work-overlay/work-overlay.component';
 import { connect } from 'react-redux';
 
 interface IPageContainerProps {
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 interface IPageContainerState {
-	isWorkingOnOverlayOpen: Boolean;
+	isWorkingOnOverlayOpen: boolean;
 }
 
 class PageContainer extends React.Component<IPageContainerProps, IPageContainerState> {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import IssueForm from '../../components/issue-form/issue-form.component';
 import { selectTeamId } from '../../store/team/team.selectors';
@@ -27,8 +28,21 @@ const schema = yup.object().shape({
 	description: yup.string()
 });
 
+interface IIssue {
+	issueType: string;
+	reporter: string;
+	assignee: string;
+	dueDate: string;
+	summary: string;
+	description: string;
+	priorityType: 'HIGH' | 'MEDIUM' | 'LOW';
+	environment: string;
+	status: 'OPEN' | 'CLOSED';
+	version: string;
+}
+
 interface EditIssue {
-	currentIssue: [];
+	currentIssue: IIssue[];
 	isEditIssueModalOpen: boolean;
 	username: string;
 	teamId: string;
@@ -47,7 +61,7 @@ class EditIssue extends Component<EditIssue> {
 	render() {
 		let currentIssueArray = Object.entries(this.props.currentIssue[0]);
 
-		for (let [ key, value ] of currentIssueArray) {
+		for (let [ _, value ] of currentIssueArray) {
 			if (!value) {
 				value = '';
 			}
@@ -83,7 +97,7 @@ class EditIssue extends Component<EditIssue> {
 				{(show) =>
 					show &&
 					((props) => (
-						<ModalPage newStyle={props} style="full" typeOfPage="edit">
+						<ModalPage anim={props} style="full">
 							<Formik
 								initialValues={{
 									username: this.props.username,

@@ -3,8 +3,8 @@ import PageContentContainer from '../page-content-container/page-content-contain
 import './modal-page.styles.scss';
 
 interface IModalPage {
-	newStyle: string;
-	style: string;
+	anim?: React.CSSProperties;
+	style?: string;
 	children: React.ReactNode;
 }
 
@@ -18,11 +18,11 @@ const changeStyle = (style) => {
 	return className;
 };
 
-const ModalPage = ({ newStyle, style, children }: IModalPage) => {
+const ModalPage = ({ anim, style, children }: IModalPage) => {
 	const className = changeStyle(style);
 
 	return (
-		<div style={newStyle} className="modal-page-container">
+		<div style={anim} className="modal-page-container">
 			<div className={className}>
 				<div className="left-box" />
 				<PageContentContainer>{children}</PageContentContainer>

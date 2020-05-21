@@ -7,27 +7,21 @@ import { connect } from 'react-redux';
 interface ISidebar {
 	children: React.ReactNode;
 	title: string;
-	isSidebarOpening: Boolean;
-	isSidebarClosing: Boolean;
+	isSidebarOpening: boolean;
+	isSidebarClosing: boolean;
 	closeSidebar: () => void;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 function Sidebar({ children, title, isSidebarOpening, isSidebarClosing, closeSidebar, isDarkTheme }: ISidebar) {
-	let className;
+	let className = 'sidebar';
 	if (isSidebarClosing) {
-		className = 'sidebar sidebar-close';
+		className = ' sidebar-close';
 	} else if (isSidebarOpening) {
-		className = 'sidebar sidebar-open';
-	} else {
-		className = 'sidebar';
+		className = ' sidebar-open';
 	}
 
-	if (isDarkTheme) {
-		className += ' dark';
-	} else {
-		className += ' light';
-	}
+	className += isDarkTheme ? ' dark' : ' light';
 
 	return (
 		<div role="navigation" className={className}>

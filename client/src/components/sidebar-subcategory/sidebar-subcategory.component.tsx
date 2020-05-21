@@ -6,7 +6,7 @@ interface ISideBarSubcategory {
 	children: React.ReactNode;
 	subcategoryName?: string;
 	toggleSidebarSubcategory: (event: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => void;
-	isDarkTheme: Boolean;
+	isDarkTheme: boolean;
 }
 
 const SideBarSubCategory = ({

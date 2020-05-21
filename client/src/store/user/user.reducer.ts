@@ -11,9 +11,9 @@ const INITIAL_STATE = {
 interface UserState {
 	userId: string;
 	username: string;
-	isAdmin: Boolean;
-	isSignedIn: Boolean;
-	isDarkTheme: Boolean;
+	isAdmin: boolean;
+	isSignedIn: boolean;
+	isDarkTheme: boolean;
 }
 
 export const userReducer = (state: UserState = INITIAL_STATE, action = {}) => {

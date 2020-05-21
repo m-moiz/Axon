@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import './toggle-item.styles.scss';
 
 interface IToggleItem {
-	isOpen: Boolean;
-	handleClick: () => void;
+	isOpen: boolean;
+	handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void;
 	title: string;
 	marginTop?: string;
 	isDarkTheme?: string;
@@ -12,11 +12,7 @@ interface IToggleItem {
 
 function ToggleItem({ isOpen, handleClick, title, marginTop, isDarkTheme }: IToggleItem) {
 	let className = '';
-	if (isOpen) {
-		className = 'fas fa-caret-down';
-	} else {
-		className = 'fas fa-caret-right';
-	}
+	className = isOpen ? 'fas fa-caret-down' : 'fas fa-caret-right';
 
 	return (
 		<div

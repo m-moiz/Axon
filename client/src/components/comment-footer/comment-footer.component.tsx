@@ -3,8 +3,8 @@ import CustomButton from '../custom-button/custom-button.component';
 import './comment-footer.styles.scss';
 
 interface CommentFooter {
-	showCreateButton: Boolean;
-	likes: number;
+	showCreateButton?: boolean;
+	likes?: number;
 }
 
 function CommentFooter({ showCreateButton, likes }: CommentFooter) {

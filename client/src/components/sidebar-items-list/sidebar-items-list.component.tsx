@@ -1,4 +1,5 @@
 import React from 'react';
+import { History } from 'history';
 import SideBarItem from '../sidebar-item/sidebar-item.component';
 import { connect } from 'react-redux';
 import { addSidebarItemVisibiliy } from '../../store/sidebar/sidebar.actions';
@@ -8,11 +9,11 @@ import './sidebar-items-list.styles.scss';
 
 interface ISideBarItemsList {
 	items: string;
-	isSidebarSubcategoryOpen: Boolean;
+	isSidebarSubcategoryOpen: boolean;
 	addSidebarItemVisibility: (itemName: string) => void;
 	setProjectId: (id: string) => void;
 	history: History;
-	isDarkTheme: Boolean;
+	isDarkTheme: boolean;
 }
 
 const SideBarItemsList = ({
@@ -50,20 +51,6 @@ const SideBarItemsList = ({
 							<i className="fas fa-caret-right" />
 							<li>Board</li>
 						</ul>
-
-						{/* TODO: Implement Backlog Page
-						<div
-							className="sidebar-item"
-							onClick={() => {
-								setProjectId(item.name);
-								history.push('/backlog');
-							}}
-						>
-							<i className="fas fa-caret-right" />
-							<li>Backlog</li>
-						</div>
-
-						*/}
 					</SideBarItem>
 				);
 			})}

@@ -1,9 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import './comment-header.styles.scss';
 
-function CommentHeader({ username, date, isCreator, hasEdited }) {
+interface ICommentHeader {
+	username?: string;
+	date?: string;
+	isCreator?: boolean;
+	hasEdited?: boolean;
+}
+
+function CommentHeader({ username, date, isCreator, hasEdited }: ICommentHeader) {
 	const deleteComment = (e) => {};
 
 	return (
@@ -16,12 +22,5 @@ function CommentHeader({ username, date, isCreator, hasEdited }) {
 		</div>
 	);
 }
-
-CommentHeader.propTypes = {
-	username: PropTypes.string,
-	date: PropTypes.string,
-	hasEdited: PropTypes.bool,
-	isCreator: PropTypes.bool
-};
 
 export default CommentHeader;

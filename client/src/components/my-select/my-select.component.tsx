@@ -3,13 +3,13 @@ import Select from 'react-select';
 
 interface IMySelect {
 	name: string;
-	options: [];
+	options: string;
 	width: string;
 	label: string;
 	styles: string;
 	error: string;
-	touched: string;
-	isMulti: Boolean;
+	touched: boolean;
+	isMulti: boolean;
 	onChange: (name: string, value: string) => void;
 	onBlur: (name: string, value: Boolean) => void;
 	value: string;

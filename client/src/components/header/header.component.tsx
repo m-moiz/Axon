@@ -10,14 +10,14 @@ import { connect } from 'react-redux';
 import { signOut, toggleAppTheme } from '../../store/user/user.actions';
 import { withRouter } from 'react-router-dom';
 import { selectIsUserSignedIn } from '../../store/user/user.selectors';
-import logo from './PixelArt.png';
+const logo = require('./PixelArt.png');
 import './header.styles.scss';
 
 interface IHeader {
-	isSignedIn: Boolean;
+	isSignedIn: boolean;
 	signOut: (text: string) => void;
 	toggleAppTheme: () => void;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 const Header = ({ isSignedIn, signOut, toggleAppTheme, isDarkTheme }: IHeader) => (

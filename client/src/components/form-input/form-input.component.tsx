@@ -15,9 +15,9 @@ interface IFormInput {
 	placeholder: string;
 	type: string;
 	children: React.ReactNode;
-	isFieldValid?: Boolean;
-	bottomStyle?: Boolean;
-	isSelectInput?: Boolean;
+	isFieldValid?: boolean;
+	bottomStyle?: boolean;
+	isSelectInput?: boolean;
 }
 
 const FormInput = ({
@@ -36,17 +36,14 @@ const FormInput = ({
 	children
 }: IFormInput) => {
 	var className = 'form-input';
+
 	if (isSelectInput) {
 		className += ' dropdown';
 	} else if (!bottomStyle) {
 		className += ' border';
 	}
 
-	if (small) {
-		className += ' small';
-	} else {
-		className += ' large';
-	}
+	className += small ? 'small' : 'large';
 
 	if (error) {
 		className += ' invalid';

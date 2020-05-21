@@ -9,7 +9,7 @@ interface ITableHeader {
 	toggleLabelOptionsBox: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	toggleSortOptionsBox: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	toggleStatusOptionsBox: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 function TableHeader({

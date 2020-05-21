@@ -20,7 +20,10 @@ const Title = styled.h5`
 	color: white;
 `;
 
-const TaskList = styled.div`
+const TaskList =
+	styled.div <
+	{ isDraggingOver: boolean } >
+	`
 	padding: 8px;
 	transition: background-color .2s ease;
 	background-color: ${(props) => (props.isDraggingOver ? 'grey' : 'inherit')};
@@ -30,40 +33,44 @@ const TaskList = styled.div`
 	min-height: 100px;
 `;
 
-class BoardColumn extends Component {
-	render() {
-		return (
-			<Draggable draggableId={this.props.column.id} index={this.props.index}>
-				{(provided) => (
-					<Container {...provided.draggableProps} ref={provided.innerRef}>
-						<Title index={this.props.index} {...provided.dragHandleProps}>
-							{this.props.column.title}
-						</Title>
-						<Droppable droppableId={this.props.column.id} type="task">
-							{(provided, snapshot) => (
-								<TaskList
-									ref={provided.innerRef}
-									{...provided.droppableProps}
-									isDraggingOver={snapshot.isDraggingOver}
-								>
-									{this.props.tasks.map((task, index) => (
-										<BoardTask
-											setWorkingOn={this.props.setWorkingOn}
-											key={task.id}
-											task={task}
-											index={index}
-										/>
-									))}
-
-									{provided.placeholder}
-								</TaskList>
-							)}
-						</Droppable>
-					</Container>
-				)}
-			</Draggable>
-		);
-	}
+interface IColumn {
+	id: string;
+	title: string;
 }
+
+interface IBoardColumn {
+	column: IColumn;
+	index: number;
+	setWorkingOn(id: string): void;
+}
+
+const BoardColumn = ({ column, index, setWorkingOn }: IBoardColumn) => {
+	return (
+		<Draggable draggableId={column.id} index={index}>
+			{(provided) => (
+				<Container {...provided.draggableProps} ref={provided.innerRef}>
+					<Title index={index} {...provided.dragHandleProps}>
+						{column.title}
+					</Title>
+					<Droppable droppableId={column.id} type="task">
+						{(provided, snapshot) => (
+							<TaskList
+								ref={provided.innerRef}
+								{...provided.droppableProps}
+								isDraggingOver={snapshot.isDraggingOver}
+							>
+								{this.props.tasks.map((task, index) => (
+									<BoardTask setWorkingOn={setWorkingOn} key={task.id} task={task} index={index} />
+								))}
+
+								{provided.placeholder}
+							</TaskList>
+						)}
+					</Droppable>
+				</Container>
+			)}
+		</Draggable>
+	);
+};
 
 export default BoardColumn;

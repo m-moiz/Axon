@@ -5,7 +5,20 @@ import { animated } from 'react-spring';
 import { Transition } from 'react-spring/renderprops';
 import './comment-list.styles.scss';
 
-function CommentList({ isCommentsVisible, toggleComments, comments }) {
+interface Comment {
+	id: string;
+	text: string;
+	nameOfPoster: string;
+	post_time: string;
+}
+
+interface ICommentList {
+	isCommentsVisible: boolean;
+	toggleComments(): void;
+	comments: Comment;
+}
+
+function CommentList({ isCommentsVisible, toggleComments, comments }: ICommentList) {
 	return (
 		<div className="comment-list">
 			<ToggleItem isOpen={isCommentsVisible} handleClick={toggleComments} title="Comments" />

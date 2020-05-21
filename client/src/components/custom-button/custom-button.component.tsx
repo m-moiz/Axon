@@ -1,8 +1,11 @@
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import './custom-button.styles.scss';
 
-const Button = styled.button`
+const Button =
+	styled.button <
+	ICustomButton >
+	`
 	width: ${(props) => (props.width ? props.width : '70%')};
 	left: ${(props) => (props.left ? props.left : '')};
 	bottom: ${(props) => (props.bottom ? props.bottom : '')};
@@ -41,9 +44,9 @@ const Button = styled.button`
 	}
 `;
 
-interface CustomButton {
+interface ICustomButton {
 	children: React.ReactNode;
-	type?: string;
+	type?: 'button' | 'submit' | 'reset';
 	handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 	isSubmitting?: boolean;
 	width?: string;
@@ -53,9 +56,9 @@ interface CustomButton {
 	marginRight?: string;
 	marginBottom?: string;
 	marginLeft?: string;
-	isSign?: Boolean;
-	isSecondary?: Boolean;
-	danger?: string;
+	isSign?: boolean;
+	isSecondary?: boolean;
+	danger?: boolean;
 }
 
 const CustomButton = ({
@@ -73,7 +76,7 @@ const CustomButton = ({
 	isSign,
 	isSecondary,
 	danger
-}: CustomButton) => (
+}: ICustomButton) => (
 	<div className="custom-button">
 		<Button
 			type={type}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import MySelect from '../../components/my-select/my-select.component';
 import FormInput from '../../components/form-input/form-input.component';
@@ -42,7 +43,19 @@ const schema = yup.object().shape({
 		.required('Required')
 });
 
-class EditTeam extends Component {
+interface IEditTeamProps {
+	username: string;
+	setTeamId(teamId: string): void;
+	setMessageText(message: string): void;
+	closingMessageAfterOpening(): void;
+	history: History;
+}
+
+interface IEditTeamState {
+	users: IUser[];
+}
+
+class EditTeam extends Component<IEditTeamProps, IEditTeamState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -72,7 +85,7 @@ class EditTeam extends Component {
 
 	render() {
 		return (
-			<ModalPage width="100%" height="100%" typeOfPage="edit">
+			<ModalPage>
 				<Formik
 					initialValues={{ name: '', usernames: '' }}
 					validationSchema={schema}

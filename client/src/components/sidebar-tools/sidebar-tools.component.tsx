@@ -3,7 +3,7 @@ import './sidebar-tools.styles.scss';
 
 interface ISideBarTools {
 	children: React.ReactNode;
-	isSidebarSubcategoryOpen?: Boolean;
+	isSidebarSubcategoryOpen?: boolean;
 }
 
 const SideBarTools = ({ children, isSidebarSubcategoryOpen }: ISideBarTools) => (

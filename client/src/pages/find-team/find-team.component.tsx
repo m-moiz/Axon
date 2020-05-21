@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import MySelect from '../../components/my-select/my-select.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
@@ -9,7 +10,22 @@ import { withRouter } from 'react-router-dom';
 import './find-team.styles.scss';
 import axios from 'axios';
 
-class FindTeam extends Component {
+interface Team {
+	name: string;
+}
+
+interface IFindTeamProps {
+	userId: string;
+	setTeamId(teamId: string): void;
+	setTeamArray(teams: Team[]): void;
+	history: History;
+}
+
+interface IFindTeamState {
+	teams: Team[];
+}
+
+class FindTeam extends Component<IFindTeamProps, IFindTeamState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -39,7 +55,7 @@ class FindTeam extends Component {
 
 	render() {
 		return (
-			<ModalPage width="100%" height="100%">
+			<ModalPage>
 				<Formik
 					initialValues={{ teams: '' }}
 					onSubmit={(values, { setSubmitting }) => {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as H from 'history';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import MySelect from '../../components/my-select/my-select.component';
 import ModalFooter from '../../components/modal-footer/modal-footer.component';
@@ -46,7 +47,25 @@ const schema = yup.object().shape({
 		.required('Required')
 });
 
-class CreateTeam extends Component {
+interface ICreateTeamProps {
+	username: string;
+	setTeamId(teamId: string): void;
+	setMessageText(message: string): void;
+	closingMessageAfterOpening(): void;
+	history: H.History;
+}
+
+interface IUser {
+	username: string;
+	email: string;
+	password: string;
+}
+
+interface ICreateTeamState {
+	users: IUser[];
+}
+
+class CreateTeam extends Component<ICreateTeamProps, ICreateTeamState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -76,7 +95,7 @@ class CreateTeam extends Component {
 
 	render() {
 		return (
-			<ModalPage width="100%" height="100%" typeOfPage="create">
+			<ModalPage>
 				<Formik
 					initialValues={{ name: '', usernames: '' }}
 					validationSchema={schema}

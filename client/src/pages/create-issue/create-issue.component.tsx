@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as H from 'history';
 import { connect } from 'react-redux';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { toggleCreateIssueModal } from '../../store/issue/issue.actions';
@@ -25,14 +26,14 @@ const schema = yup.object().shape({
 });
 
 interface ICreateIssue {
-	isCreateIssueModalOpen: Boolean;
+	isCreateIssueModalOpen: boolean;
 	username: string;
 	projectId: string;
 	teamId: string;
 	toggleCreateIssueModal: () => void;
 	setMessageText: (text: string) => void;
 	closingMessageAfterOpening: () => void;
-	history: History;
+	history: H.History;
 }
 
 const CreateIssue = ({
@@ -62,7 +63,7 @@ const CreateIssue = ({
 			{(show) =>
 				show &&
 				((props) => (
-					<ModalPage newStyle={props} typeOfPage="create" style="full">
+					<ModalPage anim={props} style="full">
 						<Formik
 							initialValues={{
 								username: username,

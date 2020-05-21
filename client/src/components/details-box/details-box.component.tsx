@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import './details-box.styles.scss';
 
 interface IDetailsBox {
-	isDetailsVisible: Boolean;
-	toggleDetails: React.MouseEvent;
+	isDetailsVisible: boolean;
+	toggleDetails(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void;
 	type?: string;
 	label?: string;
 	reporter?: string;
@@ -20,7 +20,7 @@ interface IDetailsBox {
 	version?: string;
 	dueDate?: string;
 	creationDate?: string;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 function DetailsBox({

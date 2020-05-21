@@ -32,7 +32,27 @@ import { selectShouldRenderMessage, selectMessageText } from '../../store/messag
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-class ProjectsPage extends Component {
+interface IProjectsPage {
+	userId: string;
+	teamId: string;
+	teams: Team[];
+	isSignedIn: boolean;
+	projects: Project[];
+	isCreateProjectModalOpen: boolean;
+	isDeleteProjectModalOpen: boolean;
+	isEditProjectModalOpen: boolean;
+	shouldDeleteProjects: boolean;
+	shouldEditProjects: boolean;
+	shouldRenderMessage: boolean;
+	messageText: string;
+	isSidebarOpen: boolean;
+	setProjectsArray(projects: Project[]): void;
+	toggleCreateProjectModal(): void;
+	toggleDeleteProjects(): void;
+	toggleEditProjects(): void;
+}
+
+class ProjectsPage extends Component<IProjectsPage> {
 	componentDidMount() {
 		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
 			window.location = '/sign-in';

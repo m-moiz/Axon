@@ -11,7 +11,7 @@ interface ProjectArray {
 interface IItemList {
 	items: ProjectArray;
 	itemName: string;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 interface Project {

@@ -26,7 +26,25 @@ import { selectShouldRenderMessage, selectMessageText } from '../../store/messag
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-class TeamsPage extends Component {
+interface ITeamsPage {
+	userId: string;
+	teams: Team[];
+	isSignedIn: boolean;
+	isCreateTeamModalOpen: boolean;
+	isDeleteTeamModalOpen: boolean;
+	isEditTeamModalOpen: boolean;
+	shouldDeleteTeams: boolean;
+	shouldEditTeams: boolean;
+	shouldRenderMessage: boolean;
+	messageText: string;
+	isSidebarOpen: boolean;
+	setTeamsArray(teams: Team[]): void;
+	toggleCreateTeamModal(): void;
+	toggleDeleteTeams(): void;
+	toggleEditTeams(): void;
+}
+
+class TeamsPage extends Component<ITeamsPage> {
 	componentDidMount() {
 		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
 			window.location = '/sign-in';

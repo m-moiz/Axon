@@ -3,7 +3,10 @@ import styled, { css } from 'styled-components';
 import Label from '../label/label.component';
 import { Draggable } from 'react-beautiful-dnd';
 
-const Container = styled.div`
+const Container =
+	styled.div <
+	{ isDragging: boolean } >
+	`
 	padding-bottom: 24px;
 	border-radius: 2px;
 	margin-bottom: 8px;
@@ -42,7 +45,20 @@ const Wrapper = styled.div`
 	white-space: nowrap;
 `;
 
-class BoardTask extends Component {
+interface ITask {
+	id: string;
+	isWorkingOn: boolean;
+	content: string;
+	issueType: any;
+}
+
+interface IBoardTask {
+	task: ITask;
+	index: string;
+	setWorkingOn(id: string): void;
+}
+
+class BoardTask extends Component<IBoardTask> {
 	render() {
 		return (
 			<Draggable draggableId={this.props.task.id} index={this.props.index}>

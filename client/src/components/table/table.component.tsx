@@ -13,7 +13,7 @@ interface ITable {
 	top?: string;
 	left?: string;
 	bottom?: string;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 const Table = ({ title, items, top, left, bottom, isDarkTheme }: ITable) => {

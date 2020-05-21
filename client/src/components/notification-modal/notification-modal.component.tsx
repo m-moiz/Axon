@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './notification-modal.styles.scss';
 
 interface INotificationModal {
-	isNotificationModalOpen: Boolean;
+	isNotificationModalOpen: boolean;
 }
 
 function NotificationModal({ isNotificationModalOpen }: INotificationModal) {

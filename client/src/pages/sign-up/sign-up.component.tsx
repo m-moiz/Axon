@@ -59,7 +59,17 @@ const schema = Yup.object().shape({
 		.required('Required')
 });
 
-class SignUpPage extends Component {
+interface ISignUp {
+	setUserId(userId: string): void;
+	setUsername(username: string): void;
+	signIn(): void;
+	setTeamId(teamId: string): void;
+	setIsAdmin(isTeamAdmin: boolean): void;
+	setTeamArray(teams: Team[]): void;
+	history: History;
+}
+
+class SignUpPage extends Component<ISignUp> {
 	saveAuthTokenInSession = (token) => {
 		window.sessionStorage.setItem('token', token);
 	};

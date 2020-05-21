@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { History } from 'history';
 import CommentHeader from '../comment-header/comment-header.component';
 import CommentFooter from '../comment-footer/comment-footer.component';
 import { setMessageText, closingMessageAfterOpening } from '../../store/message/message.actions';
@@ -7,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './create-comment.styles.scss';
 
-interface CreateComment {
+interface ICreateComment {
 	issueId: string;
 	userId: string;
 	projectId: string;
@@ -15,14 +16,16 @@ interface CreateComment {
 	username: string;
 	setMessageText: (text: string) => void;
 	closingMessageAfterOpening: () => void;
+	history: History;
+	wrapperRef: any;
 }
 
-interface CommentState {
+interface ICommentState {
 	commentText: string;
 	isFocused: boolean;
 }
 
-class CreateComment extends React.Component<CreateComment, CommentState> {
+class CreateComment extends React.Component<ICreateComment, ICommentState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -30,6 +33,8 @@ class CreateComment extends React.Component<CreateComment, CommentState> {
 			isFocused: false
 		};
 	}
+
+	wrapperRef: any = null;
 
 	componentDidMount() {
 		document.addEventListener('mousedown', this.handleClick, false);

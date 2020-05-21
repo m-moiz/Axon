@@ -48,7 +48,33 @@ const Title = styled.h3`
 	}
 `;
 
-class IssuePage extends Component {
+interface IIssuePageProps {
+	teamId: string;
+	issueId: string;
+	projectId: string;
+	username: string;
+	comments: Comment[];
+	projectName: string;
+	isDeleteIssueModalOpen(): void;
+	setCommentsArray(comments: Comment[]): void;
+	toggleDeleteIssues(): void;
+	toggleEditIssues(): void;
+	currentIssue: Issue[];
+	isEditIssueModalOpen: boolean;
+	isSidebarOpen: boolean;
+	isDarkTheme: boolean;
+	messageText: string;
+	isSignedIn: boolean;
+}
+
+interface IIssuePageState {
+	commentText: string;
+	isDescriptionVisible: boolean;
+	isDetailsVisible: boolean;
+	isCommentsVisible: boolean;
+}
+
+class IssuePage extends Component<IIssuePageProps, IIssuePageState> {
 	constructor(props) {
 		super(props);
 		this.state = {

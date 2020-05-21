@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import ModalFooter from '../../components/modal-footer/modal-footer.component';
@@ -48,17 +49,40 @@ const schema = (teamId) =>
 		})
 	});
 
-const EditProject: React.FC<{}> = () => {
-	const { name, description } = this.props.currentProject[0];
+interface Project {
+	name: string;
+	description: string;
+}
+
+interface IEditProject {
+	currentProject: Project[];
+	teamId: string;
+	projectId: string;
+	toggleEditProjectModal(): void;
+	setMessageText(message: string): void;
+	closingMessageAfterOpening(): void;
+	history: History;
+}
+
+const EditProject = ({
+	currentProject,
+	teamId,
+	projectId,
+	toggleEditProjectModal,
+	setMessageText,
+	closingMessageAfterOpening,
+	history
+}: IEditProject) => {
+	const { name, description } = currentProject[0];
 	return (
-		<ModalPage typeOfPage="edit">
+		<ModalPage>
 			<Formik
 				initialValues={{ name: name, description: description }}
 				onSubmit={(values, { setSubmitting }) => {
 					setSubmitting(true);
 					axios({
 						method: 'put',
-						url: `/api/project/${this.props.teamId}&${this.props.projectId}/update`,
+						url: `/api/project/${teamId}&${projectId}/update`,
 						headers: {
 							'Content-Type': 'application/json',
 							Authorization: window.sessionStorage.getItem('token')
@@ -69,12 +93,12 @@ const EditProject: React.FC<{}> = () => {
 						}
 					})
 						.then((resp) => {
-							this.props.toggleEditProjectModal();
-							this.props.setMessageText('Project edited successfully');
-							this.props.closingMessageAfterOpening();
-							this.props.history.push('/empty');
+							toggleEditProjectModal();
+							setMessageText('Project edited successfully');
+							closingMessageAfterOpening();
+							history.push('/empty');
 							setSubmitting(false);
-							this.props.history.replace('/projects');
+							history.replace('/projects');
 						})
 						.catch((err) => console.log(err));
 				}}
@@ -84,13 +108,7 @@ const EditProject: React.FC<{}> = () => {
 						onSubmit={handleSubmit}
 						style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
 					>
-						<CloseButton
-							fontSize="1.1rem"
-							fontSize="1.1rem"
-							bottom=".5rem"
-							color="grey"
-							action={this.props.toggleEditProjectModal}
-						/>
+						<CloseButton fontSize="1.1rem" bottom=".5rem" color="grey" action={toggleEditProjectModal} />
 						<div className="form-head">
 							<h3 className="modal-page-title">Edit Project</h3>
 						</div>

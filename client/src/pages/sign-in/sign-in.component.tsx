@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { History } from 'history';
 import Card from 'react-bootstrap/Card';
 import FormInput from '../../components/form-input/form-input.component';
 import { Formik, Field } from 'formik';
@@ -9,10 +10,19 @@ import { setTeamId, setTeamArray } from '../../store/team/team.actions';
 import { setUserId, setUsername, setIsAdmin, signIn } from '../../store/user/user.actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import './sign-in.styles.scss';
 
-class SignInPage extends Component {
+interface ISignIn {
+	setUserId(userId: string): void;
+	setUsername(username: string): void;
+	signIn(): void;
+	setTeamId(teamId: string): void;
+	setIsAdmin(isTeamAdmin: boolean): void;
+	setTeamArray(teams: Team[]): void;
+	history: History;
+}
+
+class SignInPage extends Component<ISignIn> {
 	saveAuthTokenInSession = (token) => {
 		window.sessionStorage.setItem('token', token);
 	};

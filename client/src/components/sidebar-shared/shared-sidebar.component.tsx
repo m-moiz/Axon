@@ -1,4 +1,5 @@
 import React from 'react';
+import { History } from 'history';
 import SideBar from '../sidebar/sidebar.component';
 import SideBarTools from '../sidebar-tools/sidebar-tools.component';
 import SideBarSubCategory from '../sidebar-subcategory/sidebar-subcategory.component';
@@ -13,25 +14,25 @@ import { withRouter } from 'react-router-dom';
 import './shared-sidebar.styles.scss';
 
 interface ISharedSidebar {
-	showGoBack?: Boolean;
-	toggleProjectsSubcategory: () => void;
-	isProjectsSubcategoryOpen: Boolean;
-	projects: string;
-	toggleToolsSubcategory: () => void;
-	isToolsSubcategoryOpen?: Boolean;
+	showGoBack?: boolean;
+	toggleProjectsSubcategory?: () => void;
+	isProjectsSubcategoryOpen?: boolean;
+	projects?: string;
+	toggleToolsSubcategory?: () => void;
+	isToolsSubcategoryOpen?: boolean;
 	title: string;
 	goBackTo?: string;
 	toggleCreate?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	toggleDelete?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	toggleEdit?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-	showEditTool?: Boolean;
-	showDeleteTool?: Boolean;
-	showAddTool?: Boolean;
+	showEditTool?: boolean;
+	showDeleteTool?: boolean;
+	showAddTool?: boolean;
 	deleteToolTipText?: string;
 	editToolTipText?: string;
 	addToolTipText?: string;
-	isDeleting?: Boolean;
-	isEditing?: Boolean;
+	isDeleting?: boolean;
+	isEditing?: boolean;
 	history: History;
 }
 

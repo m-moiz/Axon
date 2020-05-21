@@ -1,15 +1,16 @@
 import React from 'react';
+import * as CSS from 'csstype';
 import './label.styles.scss';
 
 interface ILabel {
 	labelType: 'Bug' | 'Improvement' | 'Feature' | 'Epic' | 'Task' | 'Review';
 	marginLeft?: string;
-	position?: string;
+	position?: CSS.PositionProperty;
 	bottom?: string;
 	fontSize?: string;
 	boxShadow?: string;
-	inTableRow?: Boolean;
-	inBoardTask?: Boolean;
+	inTableRow?: boolean;
+	inBoardTask?: boolean;
 }
 
 function Label({ labelType, marginLeft, position, bottom, fontSize, boxShadow, inTableRow, inBoardTask }: ILabel) {

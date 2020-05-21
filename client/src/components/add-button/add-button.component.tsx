@@ -4,7 +4,7 @@ import './add-button.styles.scss';
 
 interface AddButton {
 	toggleModal: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 const AddButton = ({ toggleModal, isDarkTheme }: AddButton) => {

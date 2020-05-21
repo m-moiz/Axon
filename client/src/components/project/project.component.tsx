@@ -1,4 +1,5 @@
 import React from 'react';
+import { History } from 'history';
 import './project.styles.scss';
 import CloseButton from '../close-button/close-button.component';
 import EditButon from '../edit-button/edit-button.component';
@@ -10,14 +11,14 @@ import { connect } from 'react-redux';
 interface IProject {
 	children: React.ReactNode;
 	projectDesc: string;
-	shouldDeleteProjects?: Boolean;
-	shouldEditProjects?: Boolean;
+	shouldDeleteProjects?: boolean;
+	shouldEditProjects?: boolean;
 	toggleEditProjectModal: () => void;
 	toggleDeleteProjectModal: () => void;
 	setProjectId: (id: string) => void;
 	history: History;
 	projectId: string;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 const Project = ({
@@ -65,7 +66,6 @@ const Project = ({
 			<div className="project">
 				<a
 					href="#"
-					value={children}
 					onClick={(e) => {
 						setProjectId(projectId);
 						history.push('/user/issues');

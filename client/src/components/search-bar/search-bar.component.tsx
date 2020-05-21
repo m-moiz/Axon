@@ -5,7 +5,7 @@ import { setSearchText } from '../../store/issue/issue.actions';
 
 interface ISearchBar {
 	setSearchText: (text: string) => void;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 function SearchBar({ setSearchText, isDarkTheme }: ISearchBar) {

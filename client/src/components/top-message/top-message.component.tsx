@@ -9,19 +9,18 @@ import {
 
 interface ITopMessage {
 	messageContent: string;
-	isOpeningMessage?: Boolean;
-	isClosingMessage?: Boolean;
-	shouldRenderMessage?: Boolean;
+	isOpeningMessage?: boolean;
+	isClosingMessage?: boolean;
+	shouldRenderMessage?: boolean;
 }
 
 function TopMessage({ messageContent, isOpeningMessage, isClosingMessage, shouldRenderMessage }: ITopMessage) {
-	let className = '';
+	let className = 'top-message';
+
 	if (isOpeningMessage && !isClosingMessage) {
 		className = 'top-message starting';
 	} else if (isClosingMessage && !isOpeningMessage) {
 		className = 'top-message ending';
-	} else if (!isClosingMessage && !isOpeningMessage) {
-		className = 'top-message';
 	}
 
 	return (

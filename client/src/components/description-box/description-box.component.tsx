@@ -4,7 +4,14 @@ import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import './description-box.styles.scss';
 
-function DescriptionBox({ isDescriptionVisible, toggleDescription, content, isDarkTheme }) {
+interface IDescriptionBox {
+	isDescriptionVisible: boolean;
+	toggleDescription(): void;
+	content: string;
+	isDarkTheme: boolean;
+}
+
+function DescriptionBox({ isDescriptionVisible, toggleDescription, content, isDarkTheme }: IDescriptionBox) {
 	let hasContent = content.blocks[0].text;
 	return (
 		<React.Fragment>

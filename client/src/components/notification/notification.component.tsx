@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 interface INotification {
 	toggleNotificationModal: () => void;
-	isDarkTheme: Boolean;
+	isDarkTheme: boolean;
 }
 
 class Notification extends Component<INotification> {

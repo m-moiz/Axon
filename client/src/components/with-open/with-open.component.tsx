@@ -3,9 +3,14 @@ import SidebarOpenButton from '../sidebar-open-button/sidebar-open-button.compon
 import { connect } from 'react-redux';
 import { openSidebar } from '../../store/sidebar/sidebar.actions';
 
+interface IProps {
+	openSidebar(): void;
+	isSidebarOpen: boolean;
+}
+
 const withOpen = (Component) => {
-	const Wrapper = (props) =>
-		class extends React.Component {
+	const Wrapper = () =>
+		class extends React.Component<IProps> {
 			handleClick = () => {
 				this.props.openSidebar();
 			};

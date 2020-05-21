@@ -7,10 +7,10 @@ import './sidebar-item.styles.scss';
 interface ISideBarItem {
 	item?: string;
 	children: React.ReactNode;
-	show: Boolean;
+	show: boolean;
 	toggleSidebarItemVisibility: (item: string) => void;
-	isSidebarItemVisible: Boolean;
-	isDarkTheme: Boolean;
+	isSidebarItemVisible: boolean;
+	isDarkTheme: boolean;
 }
 
 function SideBarItem({
@@ -27,15 +27,9 @@ function SideBarItem({
 		className = 'fas fa-caret-right';
 	} else if (show && isSidebarItemVisible === true) {
 		className = 'fas fa-caret-down';
-	} else {
-		className = '';
 	}
 
-	if (isSidebarItemVisible) {
-		classOfRecurseItem = 'sidebar-recurse-item';
-	} else {
-		classOfRecurseItem = 'sidebar-recurse-item closed';
-	}
+	classOfRecurseItem = isSidebarItemVisible ? 'sidebar-recurse-item' : 'sidebar-recurse-item closed';
 
 	return (
 		<div>

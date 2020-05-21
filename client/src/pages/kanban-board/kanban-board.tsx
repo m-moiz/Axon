@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { BoardManager } from './BoardManager';
 import PageContainer from '../../components/page-container/page-container.component';
@@ -20,36 +20,37 @@ const ColumnContainer = styled.div`
 	flex-direction: column;
 `;
 
-class KanbanBoardPage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			tasks: {},
+interface IKanbanProps {
+	issues: Issue[];
+	teamId: string;
+	projectId: string;
+	isSidebarOpen: boolean;
+	setIssuesArray(issues: Issue[]): void;
+}
 
-			columns: {
-				'column-1': {
-					id: 'column-1',
-					title: 'To Do',
-					taskIds: []
-				},
-				'column-2': {
-					id: 'column-2',
-					title: 'In Progress',
-					taskIds: []
-				},
-				'column-3': {
-					id: 'column-3',
-					title: 'Done',
-					taskIds: []
-				}
-			},
+const KanbanBoardPage = ({ teamId, projectId, issues, isSidebarOpen, setIssuesArray }: IKanbanProps) => {
+	const [ tasks, setTasks ] = useState({});
+	const [ columns, setColumns ] = useState({
+		'column-1': {
+			id: 'column-1',
+			title: 'To Do',
+			taskIds: []
+		},
+		'column-2': {
+			id: 'column-2',
+			title: 'In Progress',
+			taskIds: []
+		},
+		'column-3': {
+			id: 'column-3',
+			title: 'Done',
+			taskIds: []
+		}
+	});
+	const [ columnOrder, setColumnOrder ] = useState([ 'column-1', 'column-2', 'column-3' ]);
+	const [ options, setOptions ] = useState(issues);
 
-			columnOrder: [ 'column-1', 'column-2', 'column-3' ],
-			options: this.props.issues
-		};
-	}
-
-	fetchAndUpdateState() {
+	const fetchAndUpdateState = () => {
 		axios({
 			method: 'get',
 			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
@@ -61,34 +62,31 @@ class KanbanBoardPage extends Component {
 				this.fillBoard();
 			})
 			.catch((err) => console.log(err));
-	}
+	};
 
-	setWorkingOn = (id) => {};
+	useEffect(
+		() => {
+			fetchAndUpdateState();
+		},
+		[ projectId ]
+	);
 
-	componentDidMount() {
-		this.fetchAndUpdateState();
-	}
+	const setWorkingOn = (id) => {};
 
-	componentDidUpdate(prevProps) {
-		if (prevProps.projectId !== this.props.projectId) {
-			this.fetchAndUpdateState();
-		}
-	}
-
-	reduceOptionsOnSubmit = (task) => {
+	const reduceOptionsOnSubmit = (task) => {
 		let options = Array.from(this.state.options);
 		options = options.filter((item) => item._id !== task.id);
 		return options;
 	};
 
-	handleSubmit = (e, columnId, task) => {
+	const handleSubmit = (e, columnId, task) => {
 		e.preventDefault();
 		let newTaskId = task.id;
 		columnId = columnId.id;
 		//request issue column update
 		axios({
 			method: 'put',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${newTaskId}/updateBoardColumn`,
+			url: `/api/issue/${teamId}&${projectId}&${newTaskId}/updateBoardColumn`,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: window.sessionStorage.getItem('token')
@@ -102,7 +100,7 @@ class KanbanBoardPage extends Component {
 		this.addTaskToColumn();
 	};
 
-	onDragEnd = (result) => {
+	const onDragEnd = (result) => {
 		const { destination, source, draggableId, type } = result;
 		const droppedInSamePosition =
 			destination.droppableId === source.droppableId && destination.index === source.index;
@@ -128,57 +126,55 @@ class KanbanBoardPage extends Component {
 		this.dropToDifferentColumn();
 	};
 
-	render() {
-		return (
-			<PageContainer>
-				<SharedSidebar
-					showGoBack
-					goBackTo="/user/issues"
-					title="Board"
-					addToolTipText="Create Issue"
-					editToolTipText="Edit Issue"
-					deleteToolTipText="Delete Issues"
-					isSidebarOpen={this.props.isSidebarOpen}
-				/>
-				<PageContentContainer overflowX="auto">
-					<DragDropContext onDragEnd={this.onDragEnd} onDragUpdate={this.onDragUpdate}>
-						<Droppable droppableId="all-columns" direction="horizontal" type="column">
-							{(provided, snapshot) => (
-								<Container {...provided.droppableProps} ref={provided.innerRef}>
-									{this.state.columnOrder.map((columnId, index) => {
-										const column = this.state.columns[columnId];
-										const tasks = column.taskIds.map((taskId) => this.state.tasks[taskId]);
-										return (
-											<ColumnContainer>
-												<BoardColumn
-													setWorkingOn={this.setWorkingOn}
-													key={column.id}
-													column={column}
-													tasks={tasks}
-													index={index}
-												/>
-												<CreateTaskForm
-													key={v4()}
-													newTask={this.state.newTask}
-													column={column}
-													handleSubmit={this.handleSubmit}
-													handleChange={this.handleChange}
-													options={this.state.options}
-													isDragging={snapshot.isDraggingOver}
-												/>
-											</ColumnContainer>
-										);
-									})}
-									{provided.placeholder}
-								</Container>
-							)}
-						</Droppable>
-					</DragDropContext>
-				</PageContentContainer>
-			</PageContainer>
-		);
-	}
-}
+	return (
+		<PageContainer>
+			<SharedSidebar
+				showGoBack
+				goBackTo="/user/issues"
+				title="Board"
+				addToolTipText="Create Issue"
+				editToolTipText="Edit Issue"
+				deleteToolTipText="Delete Issues"
+				isSidebarOpen={this.props.isSidebarOpen}
+			/>
+			<PageContentContainer overflowX="auto">
+				<DragDropContext onDragEnd={this.onDragEnd} onDragUpdate={this.onDragUpdate}>
+					<Droppable droppableId="all-columns" direction="horizontal" type="column">
+						{(provided, snapshot) => (
+							<Container {...provided.droppableProps} ref={provided.innerRef}>
+								{this.state.columnOrder.map((columnId, index) => {
+									const column = this.state.columns[columnId];
+									const tasks = column.taskIds.map((taskId) => this.state.tasks[taskId]);
+									return (
+										<ColumnContainer>
+											<BoardColumn
+												setWorkingOn={this.setWorkingOn}
+												key={column.id}
+												column={column}
+												tasks={tasks}
+												index={index}
+											/>
+											<CreateTaskForm
+												key={v4()}
+												newTask={this.state.newTask}
+												column={column}
+												handleSubmit={this.handleSubmit}
+												handleChange={this.handleChange}
+												options={this.state.options}
+												isDragging={snapshot.isDraggingOver}
+											/>
+										</ColumnContainer>
+									);
+								})}
+								{provided.placeholder}
+							</Container>
+						)}
+					</Droppable>
+				</DragDropContext>
+			</PageContentContainer>
+		</PageContainer>
+	);
+};
 
 const mapStateToProps = (state) => {
 	return {

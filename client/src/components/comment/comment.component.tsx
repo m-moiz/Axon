@@ -1,7 +1,11 @@
 import React from 'react';
 import './comment.styles.scss';
 
-function Comment({ children }) {
+interface IComment {
+	children: React.ReactNode;
+}
+
+function Comment({ children }: IComment) {
 	return (
 		<div className="comment">
 			<p>{children}</p>

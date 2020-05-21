@@ -7,15 +7,12 @@ interface IPriority {
 
 function PriorityIcon({ priority }: IPriority) {
 	let className = 'priority-icon ';
-	if (priority === 'High') {
-		className += 'red';
-	} else if (priority === 'Medium') {
-		className += 'orange';
-	} else if (priority === 'Low') {
-		className += 'yellow';
-	} else if (priority === 'Lowest') {
-		className += 'green';
-	}
+	className += {
+		High: 'red',
+		Medium: 'orange',
+		Low: 'yellow',
+		Lowest: 'green'
+	}[priority];
 
 	return (
 		<div className={className}>

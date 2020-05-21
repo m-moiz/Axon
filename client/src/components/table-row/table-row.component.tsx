@@ -1,4 +1,5 @@
 import React from 'react';
+import { History } from 'history';
 import Label from '../label/label.component';
 import EditButton from '../edit-button/edit-button.component';
 import { getDate } from '../../utils/date';
@@ -9,16 +10,16 @@ import { connect } from 'react-redux';
 import './table-row.styles.scss';
 
 interface ITableRow {
-	data: string;
+	data: Issue[];
 	style: string;
 	index: number;
 	history: History;
 	setIssueId: (id: string) => void;
-	isShowingDeleteButton: Boolean;
-	isShowingEditButton: Boolean;
+	isShowingDeleteButton: boolean;
+	isShowingEditButton: boolean;
 	toggleDeleteIssueModal: () => void;
 	toggleEditIssueModal: () => void;
-	isDarkTheme?: Boolean;
+	isDarkTheme?: boolean;
 }
 
 const TableRow = ({

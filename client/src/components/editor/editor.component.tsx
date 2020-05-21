@@ -1,12 +1,12 @@
 import React from 'react';
-import { Editor } from 'react-draft-wysiwyg';
+import { Editor, EditorState } from 'react-draft-wysiwyg';
 import './editor.styles.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 interface IRichEditor {
 	description?: string;
 	onChange: (text: string, editorState: string) => void;
-	editorState: string;
+	editorState: EditorState;
 }
 
 class RichEditor extends React.Component<IRichEditor> {

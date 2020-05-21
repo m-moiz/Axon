@@ -7,23 +7,19 @@ import { connect } from 'react-redux';
 
 // Add or change user name, email
 // Change team
-export class SettingsPage extends Component {
-	render() {
-		return (
-			<PageContainer>
-				<SharedSidebar
-					showGoBack
-					goBackTo="/projects"
-					title="Settings"
-					isSidebarOpen={this.props.isSidebarOpen}
-				/>
-				<PageContentContainer>
-					<div> Yo there</div>
-				</PageContentContainer>
-			</PageContainer>
-		);
-	}
+interface ISettingsPage {
+	isSidebarOpen: boolean;
 }
+const SettingsPage = ({ isSidebarOpen }: ISettingsPage) => {
+	return (
+		<PageContainer>
+			<SharedSidebar showGoBack goBackTo="/projects" title="Settings" isSidebarOpen={isSidebarOpen} />
+			<PageContentContainer>
+				<div> Yo there</div>
+			</PageContentContainer>
+		</PageContainer>
+	);
+};
 
 const mapStateToProps = (state) => {
 	return {

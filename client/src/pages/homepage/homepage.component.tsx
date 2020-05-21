@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { History } from 'history';
 import CreateTeam from '../create-team/create-team.component';
 import FindTeam from '../find-team/find-team.component';
 import ProjectsPage from '../projects/projects.component';
@@ -7,28 +8,32 @@ import { selectTeamId } from '../../store/team/team.selectors';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-class Hompepage extends Component {
-	componentDidMount() {
-		if (this.props.isSignedIn === false || !window.sessionStorage.getItem('token')) {
-			this.props.signOut(window.sessionStorage.getItem('token'));
-			this.props.history.push('/sign-in');
-		}
-	}
-
-	render() {
-		let component;
-
-		if (this.props.isAdmin && !this.props.teamId) {
-			component = <CreateTeam />;
-		} else if (!this.props.isAdmin && !this.props.teamId) {
-			component = <FindTeam />;
-		} else if (this.props.teamId) {
-			component = <ProjectsPage />;
-		}
-
-		return <React.Fragment>{component}</React.Fragment>;
-	}
+interface IHomepage {
+	isSignedIn: boolean;
+	signOut(token: string): void;
+	history: History;
 }
+
+const Homepage = ({ isSignedIn, signOut, history }: IHomepage) => {
+	useEffect(() => {
+		if (isSignedIn === false || !window.sessionStorage.getItem('token')) {
+			signOut(window.sessionStorage.getItem('token'));
+			history.push('/sign-in');
+		}
+	}, []);
+
+	let component;
+
+	if (this.props.isAdmin && !this.props.teamId) {
+		component = <CreateTeam />;
+	} else if (!this.props.isAdmin && !this.props.teamId) {
+		component = <FindTeam />;
+	} else if (this.props.teamId) {
+		component = <ProjectsPage />;
+	}
+
+	return <React.Fragment>{component}</React.Fragment>;
+};
 
 const mapStateToProps = (state) => {
 	return {
@@ -44,4 +49,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Hompepage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Homepage));

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as H from 'history';
 import FormInput from '../../components/form-input/form-input.component';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import ModalFooter from '../../components/modal-footer/modal-footer.component';
@@ -49,10 +50,18 @@ const schema = (teamId) =>
 		})
 	});
 
-class CreateProject extends Component {
+interface ICreateProjectProps {
+	teamId: string;
+	toggleCreateProjectModal(): void;
+	setMessageText(message: string): void;
+	closingMessageAfterOpening(): void;
+	history: H.History;
+}
+
+class CreateProject extends Component<ICreateProjectProps> {
 	render() {
 		return (
-			<ModalPage typeOfPage="create">
+			<ModalPage>
 				<Formik
 					initialValues={{ name: '', description: '' }}
 					onSubmit={(values, { setSubmitting }) => {

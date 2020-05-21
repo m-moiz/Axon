@@ -25,6 +25,18 @@ const customStyles = {
 	})
 };
 
+interface IIssueForm {
+	type: 'create' | 'edit';
+	handleSubmit(e?: React.FormEvent<HTMLFormElement>): void;
+	modalAction(): void;
+	errors: any;
+	touched: any;
+	values: any;
+	setFieldValue(field: string, value: any, shouldValidate?: boolean): void;
+	setFieldTouched(field: string, isTouched?: boolean, shouldValidate?: boolean): void;
+	projectMembers?: [];
+}
+
 function IssueForm({
 	type,
 	handleSubmit,
@@ -35,9 +47,10 @@ function IssueForm({
 	setFieldValue,
 	setFieldTouched,
 	projectMembers
-}) {
+}: IIssueForm) {
 	let title = '';
 	let buttonText = '';
+
 	if (type === 'create') {
 		title = 'Create Issue';
 		buttonText = 'Create';
@@ -45,6 +58,7 @@ function IssueForm({
 		title = 'Edit Issue';
 		buttonText = 'Edit';
 	}
+
 	return (
 		<form
 			onSubmit={handleSubmit}
