@@ -7,7 +7,7 @@
 		"start": "cross-env NODE_ENV=production node server.js",
 		"dev": "cross-env NODE_ENV=development concurrently \"nodemon server.js\" \"cd client && npm start\"",
 		"test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm install --only=dev && npm install && npm run build"
 	},
 	"keywords": [],
 	"author": "",
