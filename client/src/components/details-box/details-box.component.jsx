@@ -77,14 +77,14 @@ function DetailsBox({
 							{dueDate && (
 								<span>
 									Due Date:{' '}
-									<span className="issue-details">{dayjs(dueDate).format('d MMM YYYY')}</span>{' '}
+									<span className="issue-details">{dayjs(dueDate).format('D MMM YYYY')}</span>{' '}
 								</span>
 							)}
 							{creationDate && (
 								<span>
 									Creation Date:{' '}
 									<span className="issue-details">
-										{dayjs(creationDate).format('d MMM YYYY')}
+										{dayjs(creationDate).format('D MMM YYYY')}
 									</span>{' '}
 								</span>
 							)}

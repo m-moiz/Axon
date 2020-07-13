@@ -12,8 +12,9 @@ import StatusIcon from '../../components/status-icon/status-icon.component';
 import CommentList from '../../components/comment-list/comment-list.component';
 import CreateComment from '../../components/create-comment/create-comment.component';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { toggleDeleteIssueModal, toggleEditIssues } from '../../store/issue/issue.actions';
+import { toggleDeleteIssueModal, toggleEditIssues, setCurrentIssue } from '../../store/issue/issue.actions';
 import { selectIsDeleteIssueModalOpen, selectIsEditIssueModalOpen } from '../../store/issue/issue.selectors';
 import { selectProjectName } from '../../store/project/project.selectors';
 import { selectIssueId, selectCurrentIssue } from '../../store/issue/issue.selectors';
@@ -84,7 +85,8 @@ class IssuePage extends Component {
 
 		axios({
 			method: 'put',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/toggleStatus`,
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}&
+			${this.props.userId}/toggleStatus`,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: window.sessionStorage.getItem('token')
@@ -95,41 +97,34 @@ class IssuePage extends Component {
 		}).catch((err) => console.log(err));
 	};
 
-	componentDidMount() {
-		axios({
+	async componentDidMount() {
+		const rep = await axios({
 			method: 'get',
-			url: `/api/comment/${this.props.issueId}`,
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.match.params.issueId}`,
 			headers: {
 				Authorization: window.sessionStorage.getItem('token')
 			}
-		})
-			.then((resp) => {
-				this.props.setCommentsArray(resp.data.comments);
-			})
-			.catch((err) => console.log(err));
+		});
+
+		this.props.setCurrentIssue(
+			rep.data.issue.projects[0].issues.find((issue) => issue._id === this.props.match.params.issueId)
+		);
+
+		const resp = await axios({
+			method: 'get',
+			url: `/api/comment/${this.props.match.params.issueId}`,
+			headers: {
+				Authorization: window.sessionStorage.getItem('token')
+			}
+		});
+
+		this.props.setCommentsArray(resp.data.comments);
 	}
 
 	render() {
-		const {
-			createdBy,
-			description,
-			priorityType,
-			environment,
-			issueType,
-			status,
-			version,
-			dueDate,
-			creationDate,
-			summary,
-			reporter
-		} = this.props.currentIssue[0];
-
 		const { username, comments, projectName } = this.props;
 
-		let isInteractible = false;
-		if (createdBy === username) {
-			isInteractible = true;
-		}
+		const isCreator = this.props.userId === this.props.currentIssue.creator;
 
 		return (
 			<PageContainer>
@@ -149,43 +144,50 @@ class IssuePage extends Component {
 
 				<SharedSidebar
 					showGoBack
-					goBackTo="/user/issues"
+					goBackTo="/project/issues"
 					title="Issues"
 					toggleDelete={this.props.toggleDeleteIssues}
 					toggleEdit={this.props.toggleEditIssues}
 					editToolTipText="Edit Issue"
 					deleteToolTipText="Delete Issue"
-					showEditTool
-					showDeleteTool
+					showEditTool={isCreator}
+					showDeleteTool={isCreator}
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
 				<PageContentContainer>
 					<div style={{ position: 'relative', left: '2%', display: 'flex', flexDirection: 'column' }}>
 						<Title isDarkTheme={this.props.isDarkTheme}>
 							{' '}
-							{projectName}/{summary}{' '}
+							{projectName}/{this.props.currentIssue.summary}{' '}
 						</Title>
 						<StatusIcon
-							isInteractible={isInteractible}
+							isInteractible={true}
 							handleClick={this.handleStatusClick}
-							status={status}
+							status={this.props.currentIssue.status}
 						/>
+
 						<DetailsBox
 							isDetailsVisible={this.state.isDetailsVisible}
 							toggleDetails={this.toggleDetails}
-							label={issueType}
-							priority={priorityType}
-							environment={environment}
-							dueDate={dueDate}
-							version={version}
-							creationDate={creationDate}
-							reporter={reporter}
+							label={this.props.currentIssue.issueType}
+							priority={this.props.currentIssue.priorityType}
+							environment={this.props.currentIssue.environment}
+							dueDate={this.props.currentIssue.dueDate}
+							version={this.props.currentIssue.version}
+							creationDate={this.props.currentIssue.creationDate}
+							reporter={this.props.currentIssue.reporter}
 						/>
-						<DescriptionBox
-							isDescriptionVisible={this.state.isDescriptionVisible}
-							toggleDescription={this.toggleDescription}
-							content={JSON.parse(description)}
-						/>
+
+						{this.props.currentIssue.description ? (
+							<DescriptionBox
+								isDescriptionVisible={this.state.isDescriptionVisible}
+								toggleDescription={this.toggleDescription}
+								content={JSON.parse(this.props.currentIssue.description)}
+							/>
+						) : (
+							''
+						)}
+
 						<CommentList
 							isCommentsVisible={this.state.isCommentsVisible}
 							toggleComments={this.toggleComments}
@@ -203,13 +205,14 @@ const mapStateToProps = (state) => {
 	return {
 		isDeleteIssueModalOpen: selectIsDeleteIssueModalOpen(state),
 		isEditIssueModalOpen: selectIsEditIssueModalOpen(state),
+		userId: state.user.userId,
 		issueId: selectIssueId(state),
 		teamId: state.team.teamId,
 		projectId: state.project.projectId,
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state),
-		currentIssue: selectCurrentIssue(state),
+		currentIssue: state.issue.currentIssue,
 		username: selectUsername(state),
 		comments: state.comment.comments,
 		isDarkTheme: state.user.isDarkTheme
@@ -219,9 +222,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleDeleteIssueModal: () => dispatch(toggleDeleteIssueModal()),
+		setCurrentIssue: (issue) => dispatch(setCurrentIssue(issue)),
 		toggleEditIssues: () => dispatch(toggleEditIssues()),
 		setCommentsArray: (comments) => dispatch(setCommentsArray(comments))
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IssuePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(IssuePage));

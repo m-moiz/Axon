@@ -6,9 +6,11 @@ const ProjectSchema = require('./project.model').ProjectSchema;
 // exceed the 16MB mongoDB document size limit. (best case scenario)
 
 const TeamSchema = mongoose.Schema({
-	_id: { type: String, required: true },
+	_id: { type: mongoose.Schema.Types.ObjectId, required: true },
 	name: { type: String, required: true },
-	users: [ { type: String } ],
+	users: [ { type: mongoose.Schema.Types.ObjectId, ref: 'User' } ],
+	manager: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+	members: { type: [ mongoose.Schema.Types.ObjectId ], default: undefined },
 	projects: { type: [ ProjectSchema ], default: undefined }
 });
 

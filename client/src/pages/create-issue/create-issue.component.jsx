@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ModalPage from '../../components/modal-page/modal-page.component';
 import { toggleCreateIssueModal } from '../../store/issue/issue.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions.js';
+import { addRoles } from '../../store/user/user.actions';
 import { selectTeamId } from '../../store/team/team.selectors';
 import { EditorState, convertToRaw } from 'draft-js';
 import IssueForm from '../../components/issue-form/issue-form.component';
@@ -26,11 +27,13 @@ const schema = yup.object().shape({
 
 const CreateIssue = ({
 	isCreateIssueModalOpen,
+	userId,
 	username,
 	projectId,
 	teamId,
 	toggleCreateIssueModal,
 	setMessageText,
+	addRoles,
 	closingMessageAfterOpening,
 	history
 }) => {
@@ -43,9 +46,9 @@ const CreateIssue = ({
 			enter={{ transform: 'translateY(0)' }}
 			leave={{ transform: 'translateY(800px)' }}
 			config={{
-				mass: 1.6,
-				tension: 202,
-				friction: 32
+				mass: 0.4,
+				tension: 250,
+				friction: 21
 			}}
 		>
 			{(show) =>
@@ -75,13 +78,14 @@ const CreateIssue = ({
 								setSubmitting(true);
 								axios({
 									method: 'post',
-									url: `/api/issue/${teamId}&${projectId}/create`,
+									url: `/api/issue/${teamId}&${projectId}&${userId}/create`,
 									headers: {
 										'Content-Type': 'application/json',
 										Authorization: window.sessionStorage.getItem('token')
 									},
 									data: {
 										createdBy: values.username,
+										creator: userId,
 										issueType: values.issueType,
 										reporter: values.reporter,
 										assignee: values.assignee,
@@ -96,10 +100,11 @@ const CreateIssue = ({
 								})
 									.then((resp) => {
 										toggleCreateIssueModal();
+										addRoles(resp.data.roles);
 										setMessageText('Issue created successfully');
 										closingMessageAfterOpening();
 										history.push('/empty');
-										history.replace('/user/issues');
+										history.replace('/project/issues');
 									})
 									.catch((err) => console.log(err));
 							}}
@@ -128,12 +133,14 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleCreateIssueModal: () => dispatch(toggleCreateIssueModal()),
 		setMessageText: (message) => dispatch(setMessageText(message)),
+		addRoles: (roles) => dispatch(addRoles(roles)),
 		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening())
 	};
 };
 
 const mapStateToProps = (state) => {
 	return {
+		userId: state.user.userId,
 		isCreateIssueModalOpen: state.issue.isCreateIssueModalOpen,
 		username: state.user.username,
 		projectId: state.project.projectId,

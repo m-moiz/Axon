@@ -19,6 +19,7 @@ const INITIAL_STATE = {
 	isSorting: false,
 	sortType: '',
 	isFetching: false,
+	currentIssue: {},
 	issues: []
 };
 
@@ -66,6 +67,8 @@ export const issueReducer = (state = INITIAL_STATE, action = {}) => {
 			return { ...state, sortType: action.payload };
 		case IssueActionTypes.SET_STATUS_FILTER:
 			return { ...state, statusFilter: action.payload };
+		case IssueActionTypes.SET_CURRENT_ISSUE:
+			return { ...state, currentIssue: action.payload };
 		default:
 			return state;
 	}

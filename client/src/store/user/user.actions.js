@@ -6,9 +6,34 @@ export const setUserId = (userId) => ({
 	payload: userId
 });
 
-export const setIsAdmin = (isAdmin) => ({
-	type: userActionTypes.SET_IS_ADMIN,
-	payload: isAdmin
+export const setRoles = (roles) => ({
+	type: userActionTypes.SET_ROLES,
+	payload: roles
+});
+
+export const addRoles = (roles) => ({
+	type: userActionTypes.ADD_ROLES,
+	payload: roles
+});
+
+export const setTeamManager = (teamManager) => ({
+	type: userActionTypes.SET_TEAM_MANAGER,
+	payload: teamManager
+});
+
+export const setProjectManager = (projectManager) => ({
+	type: userActionTypes.SET_PROJECT_MANAGER,
+	payload: projectManager
+});
+
+export const setIssueCreator = (issueCreator) => ({
+	type: userActionTypes.SET_ISSUE_CREATOR,
+	payload: issueCreator
+});
+
+export const setCommentCreator = (commentCreator) => ({
+	type: userActionTypes.SET_COMMENT_CREATOR,
+	payload: commentCreator
 });
 
 export const setUsername = (username) => ({

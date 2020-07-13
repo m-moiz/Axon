@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
+const redisClient = require('../redis');
 const jwtToken = require('../helpers/jwtToken').jwtToken;
+const winston = require('../log');
 const User = require('../models/user.model').User;
-const Team = require('../models/team.model').Team;
+const UserRepository = require('../repositories/user.repository');
 const validateSignIn = require('../validators/validators').validateSignIn;
 const validateSignUp = require('../validators/validators').validateSignUp;
 
@@ -13,166 +15,125 @@ const handleValidation = (res, validateObject, validateFn) => {
 	}
 };
 
-const handleSignIn = (req, res) => {
+const handleSignIn = async (req, res) => {
 	const { username, password } = req.body;
 	if (!username || !password) {
-		return res.status(400).json({ message: 'Incorrect form submission' });
+		return res.status(500).json({ message: 'Error' });
 	}
 
-	const validateObject = {
-		username: username,
-		password: password
-	};
+	handleValidation(res, req.body, validateSignIn);
 
-	handleValidation(res, validateObject, validateSignIn);
+	const user = await UserRepository.get(username);
 
-	User.findOne({ username })
-		.then((user) => {
-			if (!user) {
-				return res.status(404).json({ message: 'User not found' });
-			}
+	if (!user) {
+		return res.status(404).json({ message: 'User not found' });
+	}
 
-			bcrypt
-				.compare(password, user.password)
-				.then((isMatch) => {
-					if (isMatch) {
-						jwtToken.createSession(user, res);
-					} else {
-						return res.status(404).json({ message: 'Password is wrong, Try again! ' });
-					}
-				})
-				.catch((err) => console.log(err));
-		})
-		.catch((err) => console.log(err));
+	const passwordsMatch = await bcrypt.compare(password, user.password);
+
+	if (passwordsMatch) {
+		const token = jwtToken.createSession(user);
+		return res.status(200).json({
+			success: 'true',
+			username: user.username,
+			userId: user._id,
+			roles: user.roles,
+			token: token
+		});
+	} else {
+		return res.status(500).json({ message: 'Failed ' });
+	}
 };
 
 const userController = {
-	createUser(req, res) {
-		let user = new User();
+	async createUser(req, res) {
 		const { username, email, password } = req.body;
 
 		if (!username || !password) {
 			return res.status(400).json({ message: 'Incorrect form submission' });
 		}
 
-		const validateObject = {
-			email: email,
-			username: username,
-			password: password
-		};
+		handleValidation(res, req.body, validateSignUp);
 
-		handleValidation(res, validateObject, validateSignUp);
+		let user = await UserRepository.get(username);
+		if (user) return res.status(404).json({ message: 'User already exists' });
+		if (!user) {
+			const salt = await bcrypt.genSalt(10);
+			const hash = await bcrypt.hash(password, salt);
+			if (!hash) throw err;
 
-		User.findOne({ username }).then((doc) => {
-			if (doc) return res.status(404).json({ message: 'User already exists' });
-			if (!doc) {
-				user.username = username;
-				user.email = email;
-				user.password = password;
-
-				bcrypt.genSalt(10, (err, salt) => {
-					bcrypt.hash(user.password, salt, (err, hash) => {
-						if (err) throw err;
-						user.password = hash;
-
-						user
-							.save()
-							.then((user) => {
-								jwtToken.createSession(user, res);
-							})
-							.catch((err) => {
-								console.log(err);
-								res.status(404).json({ success: false, message: "Couldn't create token" });
-							});
-					});
+			try {
+				user = await UserRepository.add(req.body, hash);
+				const token = jwtToken.createSession(user);
+				return res.status(200).json({
+					success: 'true',
+					username: user.username,
+					userId: user._id,
+					token: token
 				});
+			} catch (err) {
+				console.log(err);
+				winston.log('5', err);
+				res.status(500).json({ success: false, message: "Couldn't create token" });
 			}
-		});
+		}
 	},
 
 	handleSignOut(req, res) {
-		jwtToken.removeTokenFromDb(req.body.token);
+		jwtToken.removeTokenFromDb(req.body.token, redisClient);
 		return res.status(200).json({ message: 'success' });
 	},
 
 	//for handling sign in/up taking username, email etc
 	getUser(req, res) {
 		const { token } = req.headers;
-		token ? jwtToken.checkTokenInDb(req, res) : handleSignIn(req, res);
+		token ? jwtToken.checkTokenInDb(req, res, redisClient) : handleSignIn(req, res);
 	},
 
 	//only takes username
-	findUserWithUsername(req, res) {
+	async findUserWithUsername(req, res) {
 		const { username } = req.body;
-		User.find({ username: username }, (err, doc) => {
-			if (doc.length > 0) {
-				return res.status(200).json({ message: 'User already exists' });
-			}
+		const user = await User.findOne({ username: username });
+		if (user) {
+			return res.status(200).json({ message: 'User already exists' });
+		}
 
-			if (doc.length === 0) {
-				return res.status(200).json({ message: 'User not found' });
-			}
-		});
+		if (!user) {
+			return res.status(200).json({ message: 'User not found' });
+		}
 	},
 
-	getUsers(req, res) {
-		User.find({}, { _id: 0, username: 1 }, (err, doc) => {
-			if (err) return res.status(500).json({ message: "Couldn't get users" });
-			doc = doc.map((item) => ({ value: item.username, label: item.username.toUpperCase() }));
-			return res.status(200).json({ doc: doc });
-		});
+	async getUsers(req, res) {
+		try {
+			const users = await User.find({}, { _id: 0, username: 1 });
+			//service?
+			users = users.map((user) => ({ value: user.username, label: user.username.toUpperCase() }));
+			return res.status(200).json({ doc: users });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ message: "Couldn't get users" });
+		}
 	},
 
-	updateUser(req, res) {
-		const { userId } = req.params;
-
-		User.updateOne({ _id: userId }, (err, res) => {
-			if (!err) return res.status(200).json({ message: 'success' });
-			if (err) return res.status(404).json({ message: err });
-		});
+	async updateUser(req, res) {
+		try {
+			await UserRepository.update(req.params);
+			return res.status(200).json({ message: 'success' });
+		} catch (err) {
+			console.log(err);
+			winston.log('5', err);
+			return res.status(500).json({ message: 'Something went wrong' });
+		}
 	},
 
-	addTeamToUser(req, res) {
-		const { id } = req.params;
-		let { name } = req.body;
-		name = name.value;
-
-		Team.find({ name: name }, (err, team) => {
-			if (err) return res.status(500).json({ message: 'No such team exists' });
-			console.log(team);
-
-			User.findOneAndUpdate(
-				{ _id: id },
-				{
-					$push: {
-						teams: {
-							teamId: team[0]._id,
-							name: team[0].name
-						}
-					}
-				},
-				{ new: true },
-				(err, user) => {
-					if (err) return res.status(500).json({ message: "Couldn't update user", error: err });
-					console.log(user);
-
-					return res.status(200).json({
-						message: 'Successfully updated user',
-						_teamId: user.teams[0].teamId,
-						teams: user.teams
-					});
-				}
-			);
-		});
-	},
-
-	deleteUser(req, res) {
-		const { userId } = req.params;
-
-		User.deleteOne({ _id: userId }, (err) => {
-			if (!err) return res.status(200).json({ message: 'Deleted user successfully' });
-			if (err) return res.status(404).json({ message: err });
-		});
+	async deleteUser(req, res) {
+		try {
+			await UserRepository.delete(req.params);
+			return res.status(200).json({ message: 'Deleted user successfully' });
+		} catch (err) {
+			winston.log('5', err);
+			return res.status(500).json({ message: 'Something went wrong' });
+		}
 	}
 };
 

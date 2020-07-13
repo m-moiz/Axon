@@ -6,10 +6,9 @@ import CustomButton from '../../components/custom-button/custom-button.component
 import SignLink from '../../components/sign-link/sign-link.component';
 import axios from 'axios';
 import { setTeamId, setTeamArray } from '../../store/team/team.actions';
-import { setUserId, setUsername, setIsAdmin, signIn } from '../../store/user/user.actions';
+import { setUserId, setUsername, signIn, setRoles } from '../../store/user/user.actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import './sign-in.styles.scss';
 
 class SignInPage extends Component {
@@ -38,7 +37,7 @@ class SignInPage extends Component {
 							<Card.Title>Sign In</Card.Title>
 						</Card.Body>
 						<Formik
-							initialValues={{ username: 'user2', password: 'Truthordare-123@' }}
+							initialValues={{ username: 'user5', password: 'StateTransaction123@' }}
 							validate={(values) => {
 								const errors = {};
 								if (!values.username) {
@@ -67,13 +66,11 @@ class SignInPage extends Component {
 										if (response.data.success === 'true') {
 											this.saveAuthTokenInSession(response.data.token);
 											this.props.signIn();
-											if (response.data.teams.length > 0) {
-												this.props.setTeamId(response.data.teams[0].teamId);
-											}
-											this.props.setTeamArray(response.data.teams);
-											this.props.setIsAdmin(response.data.isTeamAdmin);
 											this.props.setUserId(response.data.userId);
 											this.props.setUsername(response.data.username);
+											if (Array.isArray(response.data.roles)) {
+												this.props.setRoles(response.data.roles);
+											}
 											this.props.history.push(`/`);
 											setSubmitting(false);
 										}
@@ -132,7 +129,7 @@ const mapDispatchToProps = (dispatch) => {
 		setUsername: (username) => dispatch(setUsername(username)),
 		signIn: () => dispatch(signIn()),
 		setTeamId: (id) => dispatch(setTeamId(id)),
-		setIsAdmin: (isTeamAdmin) => dispatch(setIsAdmin(isTeamAdmin)),
+		setRoles: (roles) => dispatch(setRoles(roles)),
 		setTeamArray: (array) => dispatch(setTeamArray(array))
 	};
 };

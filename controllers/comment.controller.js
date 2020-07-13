@@ -1,90 +1,68 @@
-const Comment = require('../models/comment.model').Comment;
-const Team = require('../models/team.model').Team;
-const validateComment = require('../validators/validators').validateComment;
+const winston = require('../log');
+const CommentRepository = require('../repositories/comment.repository');
+const mongoose = require('mongoose');
+const RoleAssigner = require('../roles/RoleAssigner');
+const RoleRemover = require('../roles/RoleRemover');
 
-const incNumOfComments = (teamId, projectId, issueId) => {
-	Team.findOneAndUpdate(
-		{ _id: teamId },
-		{
-			$inc: {
-				'projects.$[i].issues.$[j].numOfComments': 1
-			}
-		},
-		{
-			arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-		}
-	)
-		.then(() => {})
-		.catch((err) => {
-			console.log(err);
-			return res.status(500).json('Failed');
-		});
+const incNumOfComments = async (teamId, projectId, issueId) => {
+	try {
+		await CommentRepository.updateNumOfComments(teamId, projectId, issueId);
+	} catch (err) {
+		console.log(err);
+		winston.log(err);
+	}
 };
 
-exports.getComments = (req, res) => {
+exports.getComments = async (req, res) => {
 	let { issueId } = req.params;
 
-	Comment.find({ discussion_id: issueId }, (err, doc) => {
-		if (err) return res.status(500).json({ error: err });
-		return res.status(200).json({ comments: doc });
-	});
-};
-
-exports.createComment = (req, res) => {
-	const comment = new Comment();
-	let { issueId, userId } = req.params;
-	let { commentText, username, projectId, teamId } = req.body;
-
-	let validationObject = {
-		commentText
-	};
-
-	let [ isInvalid, errors ] = validateComment(validationObject);
-
-	if (isInvalid) {
-		return res.status(500).json({ error: errors });
+	try {
+		const comments = await CommentRepository.getAllInIssue(issueId);
+		return res.status(200).json({ comments: comments });
+	} catch (err) {
+		winston.log('5', err);
+		console.log(err);
+		return res.status(500).json({ error: 'Failed' });
 	}
-
-	comment.discussion_id = issueId;
-	comment.nameOfPoster = username;
-	comment.postedBy = userId;
-	comment.text = commentText;
-	comment.post_time = Date.now();
-
-	comment
-		.save()
-		.then(() => {
-			return res.status(200).json({ message: 'Comment created successfully' });
-		})
-		.catch((err) => {
-			console.log(err);
-			return res.status(500).json({ message: 'Failed creating comment' });
-		});
-
-	incNumOfComments(teamId, projectId, issueId);
 };
 
-exports.updateComment = (req, res) => {
+exports.createComment = async (req, res) => {
+	const { issueId, userId } = req.params;
+	const { projectId, teamId } = req.body;
+	const id = new mongoose.Types.ObjectId();
+	const fields = { ...req.params, ...req.body, id };
+	const ids = { ...req.body, issueId, id };
+
+	try {
+		await CommentRepository.add(fields);
+		const commentCreator = await RoleAssigner.assignCommentCreatorRole(userId, ids);
+		await incNumOfComments(teamId, projectId, issueId);
+		return res.status(200).json({ message: 'Comment created successfully', roles: commentCreator });
+	} catch (err) {
+		winston.log('5', err);
+		console.log(err);
+		return res.status(500).json({ message: 'Failed creating comment' });
+	}
+};
+
+exports.updateComment = async (req, res) => {
 	const { commentId } = req.params;
 	let { commentText } = req.body;
 
-	let [ isInvalid, errors ] = validateComment(objectText);
-
-	if (isInvalid) {
-		return res.status(500).json({ error: errors });
-	}
-
-	Comment.findOneAndUpdate({ _id: commentId }, { text: commentText }, (err) => {
-		if (err) return res.status(500).json({ message: 'Failed updating comment', error: err });
-		return res.status(200).json({ message: 'Comment updated successfully' });
-	});
+	const comment = await CommentRepository.update(commentId, commentText);
+	if (!comment) return res.status(500).json({ message: 'Failed updating comment', error: err });
+	return res.status(200).json({ message: 'Comment updated successfully' });
 };
 
-exports.deleteComment = (req, res) => {
+exports.deleteComment = async (req, res) => {
 	const { commentId } = req.params;
 
-	Comment.findByIdAndDelete({ _id: commentId }, (err) => {
-		if (err) return res.status(500).json({ message: 'Failed', error: err });
+	try {
+		await CommentRepository.delete(commentId);
+		await RoleRemover.removeCommentCreatorRole(userId, commentId);
 		return res.status(200).json({ message: 'Comment deleted successfully' });
-	});
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Failed', error: err });
+	}
 };

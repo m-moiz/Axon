@@ -6,6 +6,11 @@ export const setIssueId = (id) => ({
 	payload: id
 });
 
+export const setCurrentIssue = (issue) => ({
+	type: IssueActionTypes.SET_CURRENT_ISSUE,
+	payload: issue
+});
+
 export const toggleDeleteIssues = () => ({
 	type: IssueActionTypes.TOGGLE_DELETE_ISSUES
 });

@@ -11,7 +11,12 @@ const ItemList = ({ items, itemName, isDarkTheme }) => (
 				<div>You don't have any {itemName}. Create one by clicking the add button</div>
 			) : (
 				items.map((item) => (
-					<Project key={item._id} projectId={item._id} projectDesc={item.description}>
+					<Project
+						key={item._id}
+						projectId={item._id}
+						projectDesc={item.description}
+						projectManager={item.manager}
+					>
 						{item.name}
 					</Project>
 				))

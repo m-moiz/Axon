@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { toggleDeleteProjectModal } from '../../store/project/project.actions';
 import { withRouter } from 'react-router-dom';
 import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions';
+import { setRoles } from '../../store/user/user.actions';
 import axios from 'axios';
 import './delete-project.styles.scss';
 
@@ -22,7 +23,8 @@ class DeleteProject extends Component {
 					onSubmit={() => {
 						axios({
 							method: 'delete',
-							url: `/api/project/${this.props.teamId}&${this.props.projectId}/delete`,
+							url: `/api/project/${this.props.teamId}&${this.props.projectId}&
+							${this.props.userId}/delete`,
 							headers: {
 								Authorization: window.sessionStorage.getItem('token')
 							}
@@ -85,6 +87,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening()),
 		setMessageText: (message) => dispatch(setMessageText(message)),
+		setRoles: (roles) => dispatch(setRoles(roles)),
 		toggleDeleteProjectModal: () => dispatch(toggleDeleteProjectModal())
 	};
 };

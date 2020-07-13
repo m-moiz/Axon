@@ -1,67 +1,64 @@
 const Team = require('../models/team.model').Team;
-const Project = require('../models/project.model').Project;
+const mongoose = require('mongoose');
+const RoleAssigner = require('../roles/RoleAssigner');
+const RoleRemover = require('../roles/RoleRemover');
+const ProjectRepository = require('../repositories/project.repository');
+const UserRepository = require('../repositories/user.repository');
 
 exports.createProject = async (req, res) => {
-	let project = new Project();
-	const { teamId } = req.params;
-	const { projectName, projectDesc } = req.body;
+	const { teamId, userId } = req.params;
+	const { projectName } = req.body;
 
-	Team.findOne({ _id: teamId, 'projects.name': projectName }, async (result) => {
-		if (result === null) {
-			project.name = projectName;
-			project.description = projectDesc;
+	let id = new mongoose.Types.ObjectId();
+	id = mongoose.Types.ObjectId(id);
 
-			try {
-				let result = await Team.findOneAndUpdate({ _id: teamId }, { $push: { projects: project } });
-				return res.status(200).json({ message: 'Successfully created project' });
-			} catch (ex) {
-				console.log(ex);
-				return res.status(404).json({ message: "Couldn't create project" });
-			}
+	const result = await Team.findOne({ _id: teamId, 'projects.name': projectName });
+	if (result === null) {
+		try {
+			await ProjectRepository.add(id, teamId, req.body);
+			const ids = { teamId, id };
+			console.log(ids);
+			const [ projectManager, projectMember ] = await RoleAssigner.assignProjectManagerRole(userId, ids);
+			return res
+				.status(200)
+				.json({ message: 'Successfully created project', roles: [ projectManager, projectMember ] });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ message: "Couldn't create project" });
 		}
-	});
+	}
 };
 
 exports.getProjects = async (req, res) => {
 	const { teamId } = req.params;
-
-	let projects = await Team.find(
-		{ _id: teamId },
-		{ 'projects._id': 1, 'projects.name': 1, 'projects.description': 1 }
-	);
-
+	const projects = await ProjectRepository.getAllByTeam(teamId);
 	return res.status(200).json({ result: projects });
 };
 
-exports.getProject = (req, res) => {
+exports.getProject = async (req, res) => {
 	const { teamId } = req.params;
 	const { projectName } = req.body;
 
-	Team.findOne({ _id: teamId, 'projects.name': projectName }, (err, team) => {
-		if (err) return res.status(200).json({ message: 'Project not found' });
-		if (team) return res.status(200).json({ message: 'Project already exists' });
-	});
+	const team = await ProjectRepository.getByName(teamId, projectName);
+	if (!team) return res.status(200).json({ message: 'Project not found' });
+	if (team) return res.status(200).json({ message: 'Project already exists' });
 };
 
-exports.updateProject = (req, res) => {
-	const { teamId, projectId } = req.params;
-	const { name, description } = req.body;
-	Team.updateOne(
-		{ _id: teamId, 'projects._id': projectId },
-		{ $set: { 'projects.$.name': name, 'projects.$.description': description } },
-		(err) => {
-			if (err) return res.status(500).json({ message: err });
-			return res.status(200).json({ message: 'Project updated successfully' });
-		}
-	);
+exports.updateProject = async (req, res) => {
+	try {
+		await ProjectRepository.update(req.params, req.body);
+		return res.status(200).json({ message: 'Project updated successfully' });
+	} catch (err) {
+		winson.log(err);
+		console.log(err);
+		return res.status(500).json({ error: err });
+	}
 };
 
-exports.deleteProject = (req, res) => {
-	const { teamId, projectId } = req.params;
+exports.deleteProject = async (req, res) => {
+	const { userId, projectId } = req.params;
 
-	Team.findByIdAndUpdate({ _id: teamId }, { $pull: { projects: { _id: projectId } } }, (err) => {
-		if (err) return res.status(404).json({ message: "Couldn't delete project" });
-
-		return res.status(200).json({ message: 'Successfully deleted project' });
-	});
+	const team = await ProjectRepository.delete(req.params);
+	if (!team) return res.status(500).json({ message: "Couldn't delete project" });
+	return res.status(200).json({ message: 'Successfully deleted project' });
 };

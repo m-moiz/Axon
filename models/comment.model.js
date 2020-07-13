@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const CommentSchema = mongoose.Schema({
+	_id: { type: mongoose.Schema.Types.ObjectId, required: true },
 	discussion_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Issue' },
 	post_time: mongoose.Schema.Types.Date,
 	postedBy: {

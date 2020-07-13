@@ -1,50 +1,15 @@
 import React, { Component } from 'react';
 import ModalPage from '../../components/modal-page/modal-page.component';
-import MySelect from '../../components/my-select/my-select.component';
-import ModalFooter from '../../components/modal-footer/modal-footer.component';
-import CustomButton from '../../components/custom-button/custom-button.component';
-import FormInput from '../../components/form-input/form-input.component';
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { setTeamId } from '../../store/team/team.actions';
 import { closingMessageAfterOpening, setMessageText } from '../../store/message/message.actions';
+import { addRoles } from '../../store/user/user.actions';
 import { withRouter } from 'react-router-dom';
+import { schema } from './create-team-validator';
+import CreateTeamForm from './create-team-form';
 import axios from 'axios';
-import * as yup from 'yup';
 import './create-team.styles.scss';
-
-const schema = yup.object().shape({
-	name: yup
-		.string()
-		.test('checkDuplicate', 'Team name already exists', function(value) {
-			return new Promise((resolve, reject) => {
-				axios({
-					method: 'post',
-					url: `/api/team/find`,
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: window.sessionStorage.getItem('token')
-					},
-					data: {
-						name: value
-					}
-				})
-					.then((resp) => {
-						if (resp.data.message === 'Team name already exists') {
-							resolve(false);
-						}
-
-						if (resp.data.message === 'Team not found') {
-							resolve(true);
-						}
-
-						resolve(true);
-					})
-					.catch(() => resolve(true));
-			});
-		})
-		.required('Required')
-});
 
 class CreateTeam extends Component {
 	constructor(props) {
@@ -92,11 +57,17 @@ class CreateTeam extends Component {
 							data: {
 								name: values.name,
 								username: this.props.username,
-								usernames: values.usernames
+								usernames: values.usernames.value,
+								userId: this.props.userId
 							}
 						})
 							.then((resp) => {
 								this.props.setTeamId(resp.data.doc._id);
+								if (Array.isArray(resp.data.roles)) {
+									resp.data.roles.forEach((role) => {
+										this.props.addRoles(role);
+									});
+								}
 								this.props.setMessageText('Team created successfully');
 								this.props.closingMessageAfterOpening();
 								setSubmitting(false);
@@ -106,43 +77,7 @@ class CreateTeam extends Component {
 							.catch((err) => console.log(err));
 					}}
 				>
-					{({ values, errors, handleSubmit, touched, setFieldValue, setFieldTouched, isSubmitting }) => (
-						<form
-							onSubmit={handleSubmit}
-							style={{ paddingLeft: '1.7rem', paddingTop: '2.5rem', marginBottom: '1rem' }}
-						>
-							<div className="form-head">
-								<h3 className="modal-page-title">Create Team</h3>
-							</div>
-
-							<Field
-								name="name"
-								placeholder="Enter Team Name"
-								as={FormInput}
-								bottomStyle
-								error={errors.name}
-								touched={touched.name}
-							/>
-
-							<MySelect
-								label="Select team members"
-								name="usernames"
-								value={values.usernames}
-								onChange={setFieldValue}
-								onBlur={setFieldTouched}
-								error={errors.usernames}
-								touched={touched.usernames}
-								options={this.state.users[0]}
-								width="50%"
-							/>
-
-							<ModalFooter>
-								<CustomButton type="submit" width="100%">
-									Create
-								</CustomButton>
-							</ModalFooter>
-						</form>
-					)}
+					{({ ...props }) => <CreateTeamForm {...props} users={this.state.users[0]} />}
 				</Formik>
 			</ModalPage>
 		);
@@ -153,13 +88,15 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		closingMessageAfterOpening: () => dispatch(closingMessageAfterOpening()),
 		setMessageText: (message) => dispatch(setMessageText(message)),
+		addRoles: (roles) => dispatch(addRoles(roles)),
 		setTeamId: (teamId) => dispatch(setTeamId(teamId))
 	};
 };
 
 const mapStateToProps = (state) => {
 	return {
-		username: state.user.username
+		username: state.user.username,
+		userId: state.user.userId
 	};
 };
 

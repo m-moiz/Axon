@@ -10,10 +10,6 @@ if (process.env.NODE_ENV === 'production') {
 	});
 } else {
 	redisClient = redis.createClient();
-
-	redisClient.on('connect', function(err) {
-		console.log('Connected to Redis');
-	});
 }
 
 module.exports = redisClient;

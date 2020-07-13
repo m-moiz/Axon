@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from './components/header/header.component';
 import NotificationModal from './components/notification-modal/notification-modal.component';
 import Loading from './components/loading/loading.component';
+import Dashboard from './pages/dashboard/dashboard';
 import './App.scss';
 
 const Homepage = React.lazy(() => import('./pages/homepage/homepage.component'));
@@ -24,12 +25,12 @@ class App extends Component {
 					<Suspense fallback={<Loading />}>
 						<Switch>
 							<Route exact path="/" component={() => <Homepage />} />
-							<Route exact path="/user/issue" component={() => <IssuePage />} />
-							<Route exact path="/user/issues" component={() => <IssuesPage />} />
+							<Route exact path="/projects/issues/:issueId" component={() => <IssuePage />} />
+							<Route exact path="/project/issues" component={() => <IssuesPage />} />
 							<Route exact path="/user/settings" component={() => <SettingsPage />} />
 							<Route exact path="/sign-up" component={() => <SignUpPage />} />
 							<Route exact path="/sign-in" component={() => <SignInPage />} />
-							<Route exact path="/kanban" component={() => <KanbanBoardPage />} />
+							<Route exact path="/project/kanban" component={() => <KanbanBoardPage />} />
 							<Route exact path="/projects" component={() => <ProjectsPage />} />
 						</Switch>
 					</Suspense>

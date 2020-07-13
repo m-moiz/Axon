@@ -22,7 +22,8 @@ class DeleteIssue extends Component {
 					onSubmit={() => {
 						axios({
 							method: 'delete',
-							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}/delete`,
+							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}&
+							${this.props.issueId}/delete`,
 							headers: {
 								Authorization: window.sessionStorage.getItem('token')
 							}
@@ -31,7 +32,7 @@ class DeleteIssue extends Component {
 							this.props.setMessageText('Deleted issue successfully');
 							this.props.closingMessageAfterOpening();
 							this.props.history.push('/empty');
-							this.props.history.replace('/user/issues');
+							this.props.history.replace('/project/issues');
 						});
 					}}
 				>

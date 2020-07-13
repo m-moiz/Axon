@@ -6,7 +6,7 @@ import SignLink from '../../components/sign-link/sign-link.component';
 import { Formik, Field } from 'formik';
 import { withRouter } from 'react-router-dom';
 import { setTeamId, setTeamArray } from '../../store/team/team.actions';
-import { setUserId, setUsername, signIn, setIsAdmin } from '../../store/user/user.actions';
+import { setUserId, setUsername, signIn } from '../../store/user/user.actions';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -41,8 +41,6 @@ const schema = Yup.object().shape({
 						if (resp.data.message === 'User not found') {
 							resolve(true);
 						}
-
-						resolve(true);
 					})
 					.catch(() => resolve(true));
 			});
@@ -94,14 +92,9 @@ class SignUpPage extends Component {
 									.then((response) => {
 										if (response.data.success === 'true') {
 											this.saveAuthTokenInSession(response.data.token);
-											if (response.data.teams.length > 0) {
-												this.props.setTeamId(response.data.teams[0].teamId);
-											}
 											this.props.signIn();
-											this.props.setTeamArray(response.data.teams);
 											this.props.setUserId(response.data.userId);
 											this.props.setUsername(response.data.username);
-											this.props.setIsAdmin(response.data.isTeamAdmin);
 											this.props.history.push(`/`);
 										}
 									})
@@ -168,7 +161,6 @@ const mapDispatchToProps = (dispatch) => {
 		setUsername: (username) => dispatch(setUsername(username)),
 		signIn: () => dispatch(signIn()),
 		setTeamId: (id) => dispatch(setTeamId(id)),
-		setIsAdmin: (isTeamAdmin) => dispatch(setIsAdmin(isTeamAdmin)),
 		setTeamArray: (array) => dispatch(setTeamArray(array))
 	};
 };

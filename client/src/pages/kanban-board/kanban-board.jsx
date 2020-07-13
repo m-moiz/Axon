@@ -76,7 +76,7 @@ class KanbanBoardPage extends Component {
 	fetchAndUpdateState() {
 		axios({
 			method: 'get',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
+			url: `/api/issues/${this.props.teamId}&${this.props.projectId}`,
 			headers: {
 				Authorization: window.sessionStorage.getItem('token')
 			}
@@ -139,7 +139,8 @@ class KanbanBoardPage extends Component {
 
 		axios({
 			method: 'put',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${newTaskId}/updateBoardColumn`,
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${newTaskId}&${this.props
+				.userId}/updateBoardColumn`,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: window.sessionStorage.getItem('token')
@@ -223,7 +224,8 @@ class KanbanBoardPage extends Component {
 
 		axios({
 			method: 'put',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${draggableId}/updateBoardColumn`,
+			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${draggableId}&${this.props
+				.userId}/updateBoardColumn`,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: window.sessionStorage.getItem('token')
@@ -266,7 +268,7 @@ class KanbanBoardPage extends Component {
 			<PageContainer>
 				<SharedSidebar
 					showGoBack
-					goBackTo="/user/issues"
+					goBackTo="/projects"
 					title="Board"
 					addToolTipText="Create Issue"
 					editToolTipText="Edit Issue"
@@ -318,7 +320,8 @@ const mapStateToProps = (state) => {
 		isSidebarOpen: selectIsSidebarOpen(state),
 		teamId: state.team.teamId,
 		projectId: state.project.projectId,
-		issues: state.issue.issues
+		issues: state.issue.issues,
+		userId: state.user.userId
 	};
 };
 

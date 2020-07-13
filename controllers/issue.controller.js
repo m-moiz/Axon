@@ -1,263 +1,122 @@
 const mongoose = require('mongoose');
-const Issue = require('../models/issue.model').Issue;
-const Team = require('../models/team.model').Team;
+const winston = require('winston');
+const IssueRepository = require('../repositories/issue.repository');
+const RoleAssigner = require('../roles/RoleAssigner');
+const RoleRemover = require('../roles/RoleRemover');
+const UserRepository = require('../repositories/user.repository');
 const validateIssue = require('../validators/validators').validateIssue;
 
 exports.createIssue = async (req, res) => {
-	let issue = new Issue();
-
-	let { teamId, projectId } = req.params;
+	let { teamId, projectId, userId } = req.params;
+	const issueId = new mongoose.Types.ObjectId();
 	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 
-	const {
-		createdBy,
-		issueType,
-		reporter,
-		assignee,
-		status,
-		summary,
-		description,
-		priorityType,
-		dueDate,
-		environment,
-		version
-	} = req.body;
-
-	const validationObject = {
-		createdBy: createdBy,
-		issueType: issueType,
-		reporter: reporter,
-		assignee: assignee,
-		status: status,
-		summary: summary,
-		description: description,
-		priorityType: priorityType,
-		dueDate: dueDate,
-		environment: environment,
-		version: version
-	};
-
-	/*
-
-	const [ isInvalid, error ] = validateIssue(validationObject);
-
-	if (isInvalid) {
-		return res.status(500).json({ error: error });
+	try {
+		await IssueRepository.add(req.params, req.body, issueId);
+		const ids = { ...req.params, issueId };
+		const issueCreator = await RoleAssigner.assignIssueCreatorRole(userId, ids);
+		return res.status(200).json({ message: 'Issue added successfully', roles: issueCreator });
+	} catch (err) {
+		winston.log('5', err);
+		console.log(err);
+		return res.status(500).json({ nessage: 'Failed' });
 	}
-
-	*/
-
-	issue.createdBy = createdBy;
-	issue.summary = summary;
-	issue.issueType = issueType;
-	issue.assignee = assignee;
-	issue.version = version;
-	issue.status = status;
-	issue.reporter = reporter;
-	issue.description = description;
-	issue.priorityType = priorityType;
-	issue.dueDate = dueDate;
-	issue.environment = environment;
-
-	Team.findOneAndUpdate(
-		{ _id: teamId, 'projects._id': projectId },
-		{
-			$push: {
-				'projects.$.issues': issue
-			}
-		},
-		(err) => {
-			if (err) return res.status(500).json({ err: err });
-			return res.status(200).json({ message: 'Issue added successfully' });
-		}
-	);
 };
 
-exports.getIssues = (req, res) => {
-	let { teamId, projectId } = req.params;
-	Team.findOne({ _id: teamId, 'projects._id': projectId }, { 'projects.$.issues': 1 }, (err, doc) => {
-		if (err) res.status(500).json({ message: "Couldn't fetch issues" });
+exports.getIssues = async (req, res) => {
+	try {
+		const team = await IssueRepository.getAll(req.params);
+		return res.status(200).json({ result: team });
+	} catch (err) {
+		res.status(500).json({ message: "Couldn't fetch issues" });
+	}
+};
 
-		return res.status(200).json({ result: doc });
-	});
+exports.getIssue = async (req, res) => {
+	try {
+		const issue = await IssueRepository.get(req.params);
+		return res.status(200).json({ issue: issue });
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ message: 'Error' });
+	}
 };
 
 //Use findOneAndUpdate for arrayFilters feature in mongoose?
-exports.updateIssue = (req, res) => {
+exports.updateIssue = async (req, res) => {
 	let { teamId, projectId, issueId } = req.params;
-	const {
-		createdBy,
-		issueType,
-		reporter,
-		assignee,
-		status,
-		summary,
-		description,
-		priorityType,
-		dueDate,
-		environment,
-		version
-	} = req.body;
-	const validationObject = {
-		createdBy: createdBy,
-		issueType: issueType,
-		reporter: reporter,
-		assignee: assignee,
-		status: status,
-		summary: summary,
-		description: description,
-		priorityType: priorityType,
-		dueDate: dueDate,
-		environment: environment,
-		version: version
-	};
 
 	//validateIssue(validationObject);
 	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
 
-	Team.findOneAndUpdate(
-		{ _id: teamId },
-		{
-			$set: {
-				'projects.$[i].issues.$[j].issueType': issueType,
-				'projects.$[i].issues.$[j].summary': summary,
-				'projects.$[i].issues.$[j].reporter': reporter,
-				'projects.$[i].issues.$[j].assignee': assignee,
-				'projects.$[i].issues.$[j].description': description,
-				'projects.$[i].issues.$[j].priorityType': priorityType,
-				'projects.$[i].issues.$[j].dueDate': dueDate,
-				'projects.$[i].issues.$[j].environment': environment,
-				'projects.$[i].issues.$[j].status': status,
-				'projects.$[i].issues.$[j].version': version
-			}
-		},
-		{
-			arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-		}
-	)
-		.then(() => {
-			return res.status(200).json({ message: 'Issue updated successfully' });
-		})
-		.catch((err) => {
-			console.log(err);
-			return res.status(500).json('Failed');
-		});
-};
-
-exports.updateIssueBoardColumn = (req, res) => {
-	let { teamId, projectId, issueId } = req.params;
-	let { column } = req.body;
-
-	if (column === 'column-3') {
-		Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$set: {
-					'projects.$[i].issues.$[j].boardColumn': column,
-					'projects.$[i].issues.$[j].status': 'Closed'
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		)
-			.then(() => {
-				res.status(200).json({ message: 'Issue updated successfully' });
-			})
-			.catch((err) => {
-				console.log(err);
-				res.status(500).json('Failed');
-			});
-	} else {
-		Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$set: {
-					'projects.$[i].issues.$[j].boardColumn': column,
-					'projects.$[i].issues.$[j].status': 'Open'
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		)
-			.then(() => {
-				res.status(200).json({ message: 'Issue updated successfully' });
-			})
-			.catch((err) => {
-				console.log(err);
-				res.status(500).json('Failed');
-			});
+	try {
+		await IssueRepository.update(req.params, req.body);
+		return res.status(200).json({ message: 'Issue updated successfully' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Failed' });
 	}
 };
 
-exports.toggleStatus = (req, res) => {
-	let { teamId, projectId, issueId } = req.params;
+exports.updateIssueBoardColumn = async (req, res) => {
+	const { column } = req.body;
+
+	if (column === 'column-3') {
+		try {
+			await IssueRepository.updateStatus(req.params, column, 'Closed');
+			return res.status(200).json({ message: 'Issue updated successfully' });
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ message: 'Failed' });
+		}
+	} else {
+		try {
+			await IssueRepository.updateStatus(req.params, column, 'Open');
+			return res.status(200).json({ message: 'Issue updated successfully' });
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ message: 'Failed' });
+		}
+	}
+};
+
+exports.toggleStatus = async (req, res) => {
 	const { prevStatus } = req.body;
 
 	if (prevStatus === 'Open') {
-		Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$set: {
-					'projects.$[i].issues.$[j].boardColumn': 'column-3',
-					'projects.$[i].issues.$[j].status': 'Closed'
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		)
-			.then(() => {
-				res.status(200).json({ message: 'Issue updated successfully' });
-			})
-			.catch((err) => {
-				console.log(err);
-				res.status(500).json('Failed');
-			});
+		try {
+			await IssueRepository.updateStatus(req.params, 'column-3', 'Closed');
+			res.status(200).json({ message: 'Issue updated successfully' });
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ message: 'Failed' });
+		}
 	} else if (prevStatus === 'Closed') {
-		Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$set: {
-					'projects.$[i].issues.$[j].boardColumn': 'column-1',
-					'projects.$[i].issues.$[j].status': 'Open'
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		)
-			.then(() => {
-				res.status(200).json({ message: 'Issue updated successfully' });
-			})
-			.catch((err) => {
-				console.log(err);
-				res.status(500).json('Failed');
-			});
+		try {
+			await IssueRepository.updateStatus(req.params, 'column-1', 'Open');
+			res.status(200).json({ message: 'Issue updated successfully' });
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ message: 'Failed' });
+		}
 	}
 };
 
-exports.deleteIssue = (req, res) => {
-	let { teamId, projectId, issueId } = req.params;
+exports.deleteIssue = async (req, res) => {
+	let { teamId, projectId, issueId, userId } = req.params;
 	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
 
-	Team.findOneAndUpdate(
-		{ _id: teamId, 'projects._id': projectId },
-		{
-			$pull: {
-				'projects.$.issues': { _id: issueId }
-			}
-		},
-		{ new: true },
-		(err) => {
-			if (err) return res.status(500).json({ err: err });
-			return res.status(200).json({ message: 'Issue deleted successfully' });
-		}
-	);
+	try {
+		await IssueRepository.delete(req.params);
+		return res.status(200).json({ message: 'Issue deleted successfully' });
+	} catch (err) {
+		winston.log('5', err);
+		console.log(err);
+		return res.status(500).json({ message: 'Failed' });
+	}
 };

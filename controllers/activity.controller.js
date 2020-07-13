@@ -19,7 +19,7 @@ exports.createActivity = (req, res) => {
 	Activity.discussion_id = issueId;
 	Acitivity.activityBy = username;
 	Activity.activity = activity;
-	Activity.activity_time = Date.now();
+	Activity.activity_time = new Date().toISOString();
 
 	Activity.save()
 		.then((resp) => {

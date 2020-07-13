@@ -25,7 +25,7 @@ const SideBarItemsList = ({
 							className={isDarkTheme ? 'sidebar-item dark' : 'sidebar-item light'}
 							onClick={() => {
 								setProjectId(item._id);
-								history.push('/user/issues');
+								history.push('/project/issues');
 							}}
 						>
 							<i className="fas fa-caret-right" />
@@ -36,7 +36,7 @@ const SideBarItemsList = ({
 							className={isDarkTheme ? 'sidebar-item dark' : 'sidebar-item light'}
 							onClick={() => {
 								setProjectId(item._id);
-								history.push('/kanban');
+								history.push('/project/kanban');
 							}}
 						>
 							<i className="fas fa-caret-right" />

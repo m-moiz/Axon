@@ -94,7 +94,7 @@ class EditIssue extends Component {
 									axios({
 										method: 'put',
 										url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props
-											.issueId}/update`,
+											.issueId}&${this.props.userId}/update`,
 										headers: {
 											'Content-Type': 'application/json',
 											Authorization: window.sessionStorage.getItem('token')
@@ -118,7 +118,7 @@ class EditIssue extends Component {
 											this.props.setMessageText('Issue edited successfully');
 											this.props.closingMessageAfterOpening();
 											this.props.history.push('/empty');
-											this.props.history.replace('/user/issues');
+											this.props.history.replace('/project/issues');
 										})
 										.catch((err) => console.log(err));
 								}}

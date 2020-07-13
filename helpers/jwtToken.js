@@ -1,33 +1,26 @@
 const jwt = require('jsonwebtoken');
+const redis = require('redis');
 const redisClient = require('../redis');
 
 const jwtToken = {
-	async putTokenInDb(token, username) {
-		redisClient.set(token, username, (err) => {
-			return new Promise((resolve, reject) => {
-				if (err) {
-					reject(err);
-				}
-
-				resolve(true);
-			});
-		});
+	putTokenInDb(token, username, db) {
+		db.set(token, username, redis.print);
 	},
 
-	async removeTokenFromDb(token) {
-		redisClient.del(token, (err) => {
+	removeTokenFromDb(token, db) {
+		db.del(token, (err) => {
 			if (err) console.log(err);
 		});
 	},
 
-	async createToken(username) {
+	createToken(username) {
 		const jwtPayload = { username };
 		return jwt.sign(jwtPayload, process.env.JWT_SECRET, { expiresIn: '1 days' });
 	},
 
-	checkTokenInDb(req, res) {
+	checkTokenInDb(req, res, db) {
 		const { token } = req.headers;
-		return redisClient.get(token, (err, reply) => {
+		return db.get(token, (err, reply) => {
 			if (err || !reply) {
 				return res.status(401).status({ message: 'Unauthorized!' });
 			} else {
@@ -36,26 +29,14 @@ const jwtToken = {
 		});
 	},
 
-	async createSession(user, res) {
+	createSession(user) {
 		const { username } = user;
-		const { _id, teams, isTeamAdmin } = user;
-		const token = await this.createToken(username);
-		return this.putTokenInDb(token, username)
-			.then(() =>
-				res.json({
-					success: 'true',
-					username: username,
-					userId: _id,
-					teams: teams,
-					token: token,
-					isTeamAdmin: isTeamAdmin
-				})
-			)
-			.catch((err) => console.log(err));
+		const token = this.createToken(username);
+		this.putTokenInDb(token, username, redisClient);
+		return token;
 	}
 };
 
 module.exports = {
-	jwtToken,
-	redisClient
+	jwtToken
 };

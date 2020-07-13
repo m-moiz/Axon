@@ -60,7 +60,7 @@ class CreateComment extends React.Component {
 			this.props.setMessageText('Comment created successfully');
 			this.props.closingMessageAfterOpening();
 			this.props.history.push('/empty');
-			this.props.history.replace('/user/issue');
+			this.props.history.replace(`/projects/issues/${this.props.match.params.issueId}`);
 		});
 	};
 

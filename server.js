@@ -6,8 +6,10 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const enforce = require('express-sslify');
 const app = express();
 const routes = require('./routes/routes');
+const redisClient = require('./redis');
 
 app.use(helmet());
 app.use(cors());
@@ -18,6 +20,7 @@ app.use('/api', routes);
 dotenv.config();
 
 if (process.env.NODE_ENV === 'production') {
+	app.use(enforce.HTTPS({ trustProtoHeader: true }));
 	app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 	app.get('*', (req, res) => {
@@ -30,6 +33,18 @@ let MONGODB_URI = process.env.MONGODB_URI;
 if (process.env.NODE_ENV === 'test') {
 	MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
+
+redisClient.monitor(function(err, res) {
+	console.log('Entering monitoring mode.');
+});
+
+redisClient.on('connect', function(err) {
+	console.log('Connected to Redis');
+});
+
+redisClient.on('monitor', function(time, args, rawReply) {
+	console.log(time + ': ' + args);
+});
 
 const mongodb = MONGODB_URI;
 mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true });

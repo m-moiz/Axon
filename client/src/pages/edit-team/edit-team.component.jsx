@@ -80,7 +80,7 @@ class EditTeam extends Component {
 						setSubmitting(true);
 						axios({
 							method: 'put',
-							url: `/api/team/create`,
+							url: `/api/team/edit`,
 							headers: {
 								'Content-Type': 'application/json',
 								Authorization: window.sessionStorage.getItem('token')
@@ -92,7 +92,7 @@ class EditTeam extends Component {
 							}
 						})
 							.then((resp) => {
-								this.props.setMessageText('Team created successfully');
+								this.props.setMessageText('Team edited successfully');
 								this.props.closingMessageAfterOpening();
 								setSubmitting(false);
 								this.props.history.push('/empty');

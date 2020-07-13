@@ -1,4 +1,4 @@
-const redisClient = require('../helpers/jwtToken').redisClient;
+const redisClient = require('../redis');
 
 exports.requireAuth = (req, res, next) => {
 	const { authorization } = req.headers;

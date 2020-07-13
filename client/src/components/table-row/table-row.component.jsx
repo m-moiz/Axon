@@ -19,10 +19,12 @@ const TableRow = ({
 	isShowingEditButton,
 	toggleDeleteIssueModal,
 	toggleEditIssueModal,
+	roles,
+	match,
 	isDarkTheme
 }) => {
 	const issue = data[index];
-	let itemId = issue._id;
+	let issueId = issue._id;
 	let summary = issue.summary;
 	let label = issue.issueType;
 	let createdBy = issue.createdBy;
@@ -31,16 +33,21 @@ const TableRow = ({
 
 	let [ day, month ] = getDate(date);
 	const handleClick = () => {
-		setIssueId(itemId);
+		setIssueId(issueId);
 		toggleEditIssueModal();
 	};
+
+	const canEditIssue = roles.find((role) => role.resourceId === issueId && role.role === 'ISSUE_CREATOR');
+
+	const canDeleteIssue = roles.find((role) => role.resourceId === issueId && role.role === 'ISSUE_CREATOR');
+
 	return (
 		<div style={{ ...style, display: 'flex', flexDirection: 'row' }}>
 			<div
 				className={isDarkTheme ? 'table__row dark' : 'table__row light'}
 				onClick={() => {
-					setIssueId(itemId);
-					history.push('/user/issue');
+					setIssueId(issueId);
+					history.push(`/projects/issues/${issueId}`);
 				}}
 			>
 				<div className="table__items">
@@ -76,12 +83,12 @@ const TableRow = ({
 					</div>
 				</div>
 			</div>
-			{isShowingDeleteButton ? (
+			{isShowingDeleteButton && canDeleteIssue ? (
 				<div className="table__row--delete">
 					<i
 						className="far fa-trash-alt"
 						onClick={() => {
-							setIssueId(itemId);
+							setIssueId(issueId);
 							toggleDeleteIssueModal();
 						}}
 					/>
@@ -90,7 +97,7 @@ const TableRow = ({
 				''
 			)}
 
-			{isShowingEditButton ? (
+			{isShowingEditButton && canEditIssue ? (
 				<div className="table__row--delete">
 					<EditButton handleClick={handleClick} />
 				</div>
@@ -113,6 +120,7 @@ const mapStateToProps = (state) => {
 	return {
 		isShowingDeleteButton: selectIsShowingDeleteButton(state),
 		isShowingEditButton: selectIsShowingEditButton(state),
+		roles: state.user.roles,
 		isDarkTheme: state.user.isDarkTheme
 	};
 };

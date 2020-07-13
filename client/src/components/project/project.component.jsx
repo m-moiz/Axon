@@ -16,8 +16,10 @@ const Project = ({
 	toggleEditProjectModal,
 	toggleDeleteProjectModal,
 	setProjectId,
+	roles,
 	history,
 	projectId,
+	teamId,
 	isDarkTheme
 }) => {
 	const handleClick = () => {
@@ -25,9 +27,15 @@ const Project = ({
 		toggleEditProjectModal();
 	};
 
+	const canEditProject = roles.find((role) => role.resourceId === projectId && role.role === 'PROJECT_MANAGER');
+
+	const canDeleteProject = roles.find((role) => role.resourceId === projectId && role.role === 'PROJECT_MANAGER');
+
+	console.log(canEditProject, canDeleteProject);
+
 	return (
 		<div className={isDarkTheme ? 'project-container dark' : 'project-container light'}>
-			{shouldDeleteProjects ? (
+			{shouldDeleteProjects && canDeleteProject ? (
 				<CloseButton
 					action={() => {
 						setProjectId(projectId);
@@ -41,7 +49,7 @@ const Project = ({
 				''
 			)}
 
-			{shouldEditProjects ? (
+			{shouldEditProjects && canEditProject ? (
 				<div className="project-edit">
 					{' '}
 					<EditButon handleClick={handleClick} />{' '}
@@ -56,7 +64,7 @@ const Project = ({
 					value={children}
 					onClick={(e) => {
 						setProjectId(projectId);
-						history.push('/user/issues');
+						history.push('/project/issues');
 					}}
 					className={isDarkTheme ? 'project-name dark' : 'project-name light'}
 				>
@@ -79,6 +87,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
 	return {
 		shouldDeleteProjects: selectShouldDeleteProjects(state),
+		roles: state.user.roles,
+		userId: state.user.userId,
+		teamId: state.team.teamId,
 		shouldEditProjects: selectShouldEditProjects(state),
 		isDarkTheme: state.user.isDarkTheme
 	};

@@ -67,7 +67,7 @@ class IssuesPage extends Component {
 	fetchIssues = () => {
 		axios({
 			method: 'get',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}`,
+			url: `/api/issues/${this.props.teamId}&${this.props.projectId}`,
 			headers: {
 				Authorization: window.sessionStorage.getItem('token')
 			}

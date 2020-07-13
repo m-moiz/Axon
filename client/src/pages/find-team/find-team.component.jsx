@@ -39,31 +39,15 @@ class FindTeam extends Component {
 
 	render() {
 		return (
-			<ModalPage width="100%" height="100%">
+			<ModalPage style="full">
 				<Formik
 					initialValues={{ teams: '' }}
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
-						axios({
-							method: 'post',
-							url: `/api/user/${this.props.userId}/addTeam`,
-							headers: {
-								'Content-Type': 'application/json',
-								Authorization: window.sessionStorage.getItem('token')
-							},
-							data: {
-								name: values.teams
-							}
-						})
-							.then((resp) => {
-								console.log(resp);
-								this.props.setTeamId(resp.data._teamId);
-								this.props.setTeamArray(resp.data.teams);
-								setSubmitting(false);
-								this.props.history.push('/empty');
-								this.props.history.replace('/projects');
-							})
-							.catch((err) => console.log(err));
+						this.props.setTeamId(values.teams.id);
+						setSubmitting(false);
+						this.props.history.push('/empty');
+						this.props.history.replace('/projects');
 					}}
 				>
 					{({ values, errors, handleSubmit, touched, setFieldValue, setFieldTouched, isSubmitting }) => (
@@ -95,7 +79,7 @@ class FindTeam extends Component {
 									top="20%"
 									left="25rem"
 								>
-									Create
+									Find
 								</CustomButton>
 							</div>
 						</form>

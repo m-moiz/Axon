@@ -1,53 +1,51 @@
 const Team = require('../models/team.model').Team;
-const User = require('../models/user.model').User;
+const RoleAssigner = require('../roles/RoleAssigner');
+const RoleRemover = require('../roles/RoleRemover');
 const mongoose = require('mongoose');
+const winston = require('winston');
+const TeamRepository = require('../repositories/team.repository');
+const UserRepository = require('../repositories/user.repository');
 
-exports.getTeam = (req, res) => {
-	let { teamId } = req.params;
-
-	Team.find({ _id: teamId }, (err, doc) => {
-		if (err) return res.status(500).json({ error: err });
-		return res.status(200).json({ team: doc });
-	});
+exports.getTeam = async (req, res) => {
+	const { teamId } = req.params;
+	try {
+		const team = await TeamRepository.get(teamId);
+		return res.status(200).json({ team: team });
+	} catch (err) {
+		res.status(500).json({ error: err });
+	}
 };
 
-exports.getTeams = (req, res) => {
-	Team.find({}, { _id: 0, name: 1 }, (err, doc) => {
-		if (err) return res.status(500).json({ error: err });
-		doc = doc.map((item) => ({ value: item.name, label: item.name.toUpperCase() }));
-		return res.status(200).json({ teams: doc });
-	});
+exports.getTeams = async (req, res) => {
+	try {
+		let teams = await TeamRepository.getAll();
+		console.log(teams);
+		teams = teams.map((item) => ({ value: item.name, label: item.name.toUpperCase(), id: item._id }));
+		return res.status(200).json({ teams: teams });
+	} catch (err) {
+		console.log(err);
+		winston.log(err);
+		return res.status(500).json({ error: 'Failed' });
+	}
 };
 
-exports.createTeam = (req, res) => {
-	const team = new Team();
+exports.createTeam = async (req, res) => {
+	let { name, username, usernames, userId } = req.body;
 
-	let { name, username, usernames } = req.body;
-	usernames = usernames.map((item) => item.value);
-	console.log(username, usernames);
 	let id = new mongoose.Types.ObjectId();
 	id = mongoose.Types.ObjectId(id);
-	let allUsernames = [ username, ...usernames ];
-	console.log(allUsernames);
 
-	team.users = allUsernames;
-	team._id = id;
-	team.name = name;
-	team.save((err, team) => {
-		if (err) {
-			return res.status(500).json({ message: 'Failed creating team', error: err });
-		}
-
-		User.updateMany(
-			{ username: { $in: allUsernames } },
-			{ $push: { 'teams.id': id, 'teams.name': name } },
-			(err, user) => {
-				if (err) return res.status(500).json({ message: "Couldn't update team members", error: err });
-			}
-		);
-
-		return res.status(200).json({ message: 'Team created successfully', doc: team });
-	});
+	try {
+		const team = await TeamRepository.add(id, req.body);
+		const [ teamManager, teamMember ] = await RoleAssigner.assignTeamManagerRole(userId, id);
+		return res
+			.status(200)
+			.json({ message: 'Team created successfully', doc: team, roles: [ teamManager, teamMember ] });
+	} catch (err) {
+		winston.log(err);
+		console.log(err);
+		return res.status(500).json({ error: 'Failed' });
+	}
 };
 
 exports.updateTeam = (req, res) => {
@@ -69,11 +67,12 @@ exports.findTeamWithTeamName = (req, res) => {
 	});
 };
 
-exports.deleteTeam = (req, res) => {
-	const { teamId } = req.params;
-	Team.deleteOne({ _id: teamId }, (err, doc) => {
-		if (err) return res.status(500).json({ message: "Couldn't delete team", error: err });
-
+exports.deleteTeam = async (req, res) => {
+	const { userId, teamId } = req.params;
+	try {
+		const team = await TeamRepository.delete(teamId);
 		return res.status(200).json({ message: 'Succesfully deleted team' });
-	});
+	} catch (err) {
+		return res.status(500).json({ message: "Couldn't delete team", error: err });
+	}
 };

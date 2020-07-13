@@ -18,7 +18,7 @@ export class SettingsPage extends Component {
 					isSidebarOpen={this.props.isSidebarOpen}
 				/>
 				<PageContentContainer>
-					<div> Yo there</div>
+					<div />
 				</PageContentContainer>
 			</PageContainer>
 		);
