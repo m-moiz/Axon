@@ -8,7 +8,7 @@ function CommentHeader({ username, date, isCreator, hasEdited }) {
 		<div className="comment-header">
 			<button className="button">{username}</button>
 			{isCreator ? '' : <div style={{ marginRight: '.4rem' }}>commented on </div>}
-			{isCreator ? '' : <div>{dayjs(date).format('d MMMM YYYY')}</div>}
+			{isCreator ? '' : <div>{dayjs(date).format('D MMMM YYYY')}</div>}
 			{isCreator ? '' : <div>{hasEdited}</div>}
 		</div>
 	);
