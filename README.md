@@ -1,6 +1,6 @@
 # Axon
 An issue tracker for teams
-[![codebeat badge](https://codebeat.co/badges/3ec227aa-6a8f-4024-bae8-84f69eb5be71)](https://codebeat.co/projects/github-com-m-moiz-axon-master)
+[![codebeat badge](https://codebeat.co/badges/24783615-481b-4211-aaad-35bac311e1e7)](https://codebeat.co/projects/github-com-m-moiz-axon-heroku)
 
 # Features
 1. Create and edit issues

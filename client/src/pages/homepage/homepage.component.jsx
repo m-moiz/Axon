@@ -19,9 +19,9 @@ class Hompepage extends Component {
 		let component;
 
 		if (this.props.isAdmin && !this.props.teamId) {
-			component = <FindTeam />;
+			component = <CreateTeam />;
 		} else if (!this.props.isAdmin && !this.props.teamId) {
-			component = <FindTeam />;
+			component = <CreateTeam />;
 		} else if (this.props.teamId) {
 			component = <ProjectsPage />;
 		}

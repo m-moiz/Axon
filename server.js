@@ -53,6 +53,10 @@ let db = mongoose.connection;
 db.once('open', () => console.log('Connected to MongoDB'));
 db.on('error', () => console.error.bind(console, 'MongoDB connection error'));
 
-app.listen(process.env.PORT || 4001, () => {
-	console.log(`Listening to port ${process.env.PORT || 4001}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+	app.listen(process.env.PORT || 4001, () => {
+		console.log(`Listening to port ${process.env.PORT || 4001}`);
+	});
+}
+
+module.exports = app;
