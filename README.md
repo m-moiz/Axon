@@ -1,6 +1,12 @@
 # Axon
-An issue tracker for teams
+A beautiful and elegant issue/ticket tracker which allows individuals and teams to track various software defects or blocking issues. 
 [![codebeat badge](https://codebeat.co/badges/24783615-481b-4211-aaad-35bac311e1e7)](https://codebeat.co/projects/github-com-m-moiz-axon-heroku)
+
+# Codebase
+- The codebase is organized into various sections
+- Frontend code is in the client folder while backend code is in the root folder
+- Frontend code is further divided into sections for presentational components residing in the components folder and container components residing in the container folder. State   logic is contained in the store folder and algorithms are grouped up in the utils folder.
+- Backend code is further divided into sections for middlewares, repositories, models, controllers and routes. The app enforces a permissions system to protect the backend from   malicious use, most of the code for this system resides in the roles folder.
 
 # Features
 1. Create and edit issues
