@@ -1,6 +1,6 @@
-# Axon
+# Axon [![codebeat badge](https://codebeat.co/badges/24783615-481b-4211-aaad-35bac311e1e7)](https://codebeat.co/projects/github-com-m-moiz-axon-heroku)
 A beautiful and elegant issue/ticket tracker which allows individuals and teams to track various software defects or blocking issues. 
-[![codebeat badge](https://codebeat.co/badges/24783615-481b-4211-aaad-35bac311e1e7)](https://codebeat.co/projects/github-com-m-moiz-axon-heroku)
+
 
 # Codebase
 - The codebase is organized into various sections
