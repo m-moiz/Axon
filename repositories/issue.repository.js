@@ -34,7 +34,7 @@ const IssueRepository = {
 
 	async getAll(ids) {
 		const { teamId, projectId } = ids;
-		return await Team.findOne({ _id: teamId, 'projects._id': projectId }, { 'projects.$.issues': 1 });
+		return await Team.findOne({ _id: teamId, 'projects._id': projectId }, {'projects.$': 1});
 	},
 
 	async get(ids) {
