@@ -19,7 +19,6 @@ exports.getTeam = async (req, res) => {
 exports.getTeams = async (req, res) => {
 	try {
 		let teams = await TeamRepository.getAll();
-		console.log(teams);
 		teams = teams.map((item) => ({ value: item.name, label: item.name.toUpperCase(), id: item._id }));
 		return res.status(200).json({ teams: teams });
 	} catch (err) {
