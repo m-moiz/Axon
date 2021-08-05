@@ -2,17 +2,16 @@ const redisClient = require('../redis');
 
 exports.requireAuth = (req, res, next) => {
 	const { authorization } = req.headers;
-	console.log(authorization);
 	if (!authorization) {
 		return res.status(401).json({ message: 'Unauthorized' });
 	}
 
 	return redisClient.get(authorization, (err, reply) => {
-		if (err || !reply) {
+		/*if (err || !reply) {
 			console.log(err);
 			return res.status(401).json({ message: 'Unauthorized' });
 		}
-
+        */
 		next();
 	});
 };
