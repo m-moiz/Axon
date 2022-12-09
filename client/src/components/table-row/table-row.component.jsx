@@ -27,8 +27,10 @@ const TableRow = ({
 	let issueId = issue._id;
 	let summary = issue.summary;
 	let label = issue.issueType;
+	let priority = issue.priorityType;
 	let createdBy = issue.createdBy;
 	let date = issue.creationDate;
+	let status = issue.status;
 	let numOfComments = issue.numOfComments;
 
 	let [ day, month ] = getDate(date);
@@ -37,6 +39,20 @@ const TableRow = ({
 		toggleEditIssueModal();
 	};
 
+	let rowClass = 'table__row';
+
+	if(status === 'Open'){
+		rowClass += ' open';
+	}else if(status === 'Closed'){
+		rowClass += ' closed';
+	}
+	if(isDarkTheme){
+		rowClass += ' dark';
+	}else{
+		rowClass += ' light';
+	}
+
+
 	const canEditIssue = roles.find((role) => role.resourceId === issueId && role.role === 'ISSUE_CREATOR');
 
 	const canDeleteIssue = roles.find((role) => role.resourceId === issueId && role.role === 'ISSUE_CREATOR');
@@ -44,14 +60,14 @@ const TableRow = ({
 	return (
 		<div style={{ ...style, display: 'flex', flexDirection: 'row' }}>
 			<div
-				className={isDarkTheme ? 'table__row dark' : 'table__row light'}
+				className={rowClass}
 				onClick={() => {
 					setIssueId(issueId);
 					history.push(`/projects/issues/${issueId}`);
 				}}
 			>
 				<div className="table__items">
-					<div className="table__item--summary">
+					<div >
 						<div className="table__item--row">
 							{isDarkTheme ? (
 								<i
@@ -69,8 +85,17 @@ const TableRow = ({
 								{summary}
 							</div>
 						</div>
-						<div className="table__item">
-							<Label labelType={label} inTableRow />
+
+						<div className="table__item--row">
+							
+							<div className="table__item">
+								<Label labelType={label} inTableRow />
+							</div>
+
+							<div className="table__item">
+								<Label labelType={priority} inTableRow />
+							</div>
+
 						</div>
 
 						<div className="table__item--date">
@@ -132,5 +157,6 @@ const mapDispatchToProps = (dispatch) => {
 		toggleEditIssueModal: () => dispatch(toggleEditIssueModal())
 	};
 };
+
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TableRow));

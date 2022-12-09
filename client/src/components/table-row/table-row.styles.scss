@@ -7,7 +7,14 @@
 	padding-top: .2rem;
 	padding-bottom: .2rem;
 	padding-left: 1rem;
-	border-left: 3px solid #26ff6e;
+
+	&.open {
+		border-left: 3px solid #26ff6e;
+	}
+
+	&.closed {
+		border-left: 3px solid #ff0000;
+	}
 
 	&.dark {
 		color: rgb(226, 226, 226);
@@ -39,11 +46,6 @@
 		width: 100%;
 	}
 
-	.table__item--summary {
-		font-size: 1rem;
-		letter-spacing: .01rem;
-		padding: .5rem;
-	}
 
 	.table__row--end {
 		display: flex;

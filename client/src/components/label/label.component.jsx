@@ -23,6 +23,18 @@ function Label({ labelType, marginLeft, position, bottom, fontSize, boxShadow, i
 	} else if (labelType === 'Review') {
 		content = 'Review';
 		className += ' review';
+	} else if (labelType === 'High') {
+		content = 'High';
+		className += ' high';
+	} else if (labelType === 'Medium') {
+		content = 'Medium';
+		className += ' medium';
+	} else if (labelType === 'Low') {
+		content = 'Low';
+		className += ' low';
+	} else if (labelType === 'lowest') {
+		content = 'Lowest';
+		className += ' lowest';
 	}
 
 	if (inTableRow) {

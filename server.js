@@ -10,6 +10,8 @@ const enforce = require('express-sslify');
 const app = express();
 const routes = require('./routes/routes');
 const redisClient = require('./redis');
+const Redis = require("redis");
+const redisMonitor = Redis.createClient();
 
 app.use(helmet());
 app.use(cors());
@@ -34,7 +36,8 @@ if (process.env.NODE_ENV === 'test') {
 	MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
 
-redisClient.monitor(function(err, res) {
+
+redisMonitor.monitor(function(err, res) {
 	console.log('Entering monitoring mode.');
 });
 
@@ -42,9 +45,10 @@ redisClient.on('connect', function(err) {
 	console.log('Connected to Redis');
 });
 
-redisClient.on('monitor', function(time, args, rawReply) {
+redisMonitor.on('monitor', function(time, args, rawReply) {
 	console.log(time + ': ' + args);
 });
+
 
 const mongodb = MONGODB_URI;
 mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true });

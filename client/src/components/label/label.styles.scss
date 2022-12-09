@@ -15,6 +15,7 @@
 		top: .65rem;
 	}
 
+	
 	&.row {
 		margin-left: 1.4rem;
 		margin-top: .1rem;
@@ -51,4 +52,25 @@
 		background-color: rgb(184, 62, 255);
 		color: white;
 	}
+
+	&.high {
+		background-color: rgb(255, 0, 0);
+		color: white;
+	}
+
+	&.medium {
+		background-color: rgb(255, 255, 0);
+		color: black;
+	}
+
+	&.low {
+		background-color: rgb(0, 255, 0);
+		color: black;
+	}
+
+	&.lowest {
+		background-color: rgb(0, 255, 225);
+		color: white;
+	}
+
 }
