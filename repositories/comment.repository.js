@@ -27,19 +27,11 @@ const CommentRepository = {
 		await Comment.findOneAndUpdate({ _id: id }, { text: text });
 	},
 
-	async updateNumOfComments(teamId, projectId, issueId) {
-		await Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$inc: {
-					'projects.$[i].issues.$[j].numOfComments': 1
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		);
-	}
+	async updateNumOfComments(issueId) {
+		await Issue.findByIdAndUpdate(issueId, {
+		  $inc: { numOfComments: 1 }
+		});
+	  }
 };
 
 module.exports = CommentRepository;

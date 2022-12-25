@@ -39,7 +39,7 @@ exports.getIssue = async (req, res) => {
 		return res.status(200).json({ issue: issue });
 	} catch (err) {
 		console.log(err);
-		res.status(500).json({ message: 'Error' });
+		res.status(500).json({ message: "Couldn't fetch issue" });
 	}
 };
 

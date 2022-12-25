@@ -19,34 +19,29 @@ router.get('/issue/:teamId&:projectId&:issueId', requireAuth, issueController.ge
 router.post(
 	'/issue/:teamId&:projectId&:userId/create',
 	requireAuth,
-	permissions.requireIssueCreationPermission,
 	issueController.createIssue
 );
 
 router.put(
 	'/issue/:teamId&:projectId&:issueId&:userId/updateBoardColumn',
-	permissions.requireIssueModificationPermission,
 	issueController.updateIssueBoardColumn
 );
 
 router.put(
 	'/issue/:teamId&:projectId&:issueId&:userId/toggleStatus',
 	requireAuth,
-	permissions.requireIssueModificationPermission,
 	issueController.toggleStatus
 );
 
 router.put(
 	'/issue/:teamId&:projectId&:issueId&:userId/update',
 	requireAuth,
-	permissions.requireIssueModificationPermission,
 	issueController.updateIssue
 );
 
 router.delete(
 	'/issue/:teamId&:projectId&:issueId&:userId/delete',
 	requireAuth,
-	permissions.requireIssueDeletionPermission,
 	issueController.deleteIssue
 );
 
@@ -75,7 +70,6 @@ router.post('/team/create', requireAuth, teamController.createTeam);
 router.delete(
 	'/team/:teamId&:userId/delete',
 	requireAuth,
-	permissions.requireTeamDeletionPermission,
 	teamController.deleteTeam
 );
 
@@ -86,21 +80,18 @@ router.get('/project/:teamId', requireAuth, projectController.getProject);
 router.post(
 	'/project/:teamId&:userId/create',
 	requireAuth,
-	permissions.requireProjectCreationPermission,
 	projectController.createProject
 );
 
 router.put(
 	'/project/:teamId&:projectId&:userId/update',
 	requireAuth,
-	permissions.requireProjectModificationPermission,
 	projectController.updateProject
 );
 
 router.delete(
 	'/project/:teamId&:projectId&:userId/delete',
 	requireAuth,
-	permissions.requireProjectDeletionPermission,
 	projectController.deleteProject
 );
 
@@ -109,7 +100,6 @@ router.get('/comment/:issueId', requireAuth, commentController.getComments);
 router.post(
 	'/comment/:issueId&:userId/create',
 	requireAuth,
-	permissions.requireCommentCreationPermission,
 	commentController.createComment
 );
 
@@ -118,7 +108,6 @@ router.put('/comment/:commentId/update', requireAuth, commentController.updateCo
 router.delete(
 	'/comment/:commentId&:userId/delete',
 	requireAuth,
-	permissions.requireCommentDeletionPermission,
 	commentController.deleteComment
 );
 

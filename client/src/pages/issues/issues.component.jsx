@@ -73,7 +73,7 @@ class IssuesPage extends Component {
 			}
 		})
 			.then((resp) => {
-				this.props.setIssuesArray(resp.data.result.projects[0].issues);
+				this.props.setIssuesArray(resp.data.result.issues);
 			})
 			.catch((err) => console.log(err));
 	};
@@ -142,7 +142,7 @@ class IssuesPage extends Component {
 							type="status"
 							headerTitle="Filter By"
 							right="20vw"
-							bottom="50vh"
+							bottom="57vh"
 						/>
 					) : (
 						''
@@ -153,7 +153,7 @@ class IssuesPage extends Component {
 							type="label"
 							headerTitle="Filter By"
 							right="10vw"
-							bottom="28vh"
+							bottom="37vh"
 						/>
 					) : (
 						''

@@ -10,6 +10,11 @@ export const setTeamArray = (array) => ({
 	payload: array
 });
 
+export const setTeamUsers = (array) => ({
+	type: teamActionTypes.SET_TEAM_USERS,
+	payload: array
+});
+
 export const toggleDeleteTeams = () => ({
 	type: teamActionTypes.TOGGLE_DELETE_TEAMS
 });

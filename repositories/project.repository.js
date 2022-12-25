@@ -3,39 +3,78 @@ const Team = require('../models/team.model').Team;
 const mongoose = require('mongoose');
 
 const ProjectRepository = {
-	async add(id, teamId, fields) {
-		const project = new Project();
-		project._id = id;
-		project.name = fields.projectName;
-		project.description = fields.projectDesc;
-		project.manager = fields.userId;
-		await Team.findOneAndUpdate({ _id: teamId }, { $push: { projects: project } });
-	},
+  async add(id, teamId, fields, userId) {
+	console.log(fields);
+    // Create a new project document
+    const project = new Project({
+      _id: id,
+      name: fields.projectName,
+      team: teamId,
+      manager: userId,
+      description: fields.projectDesc
+    });
 
-	async get(ids) {
-		const { teamId, projectId } = ids;
-		return await Team.findById({ _id, teamId, projects: { _id: projectId } });
-	},
+    // Save the project
+    await project.save();
 
-	async getByName(id, name) {
-		return await Team.findOne({ _id: id, 'projects.name': name });
-	},
+    // Update the team document to add the new project
+    await Team.findOneAndUpdate(
+      { _id: teamId },
+      { $push: { projects: project._id } }
+    );
+  },
 
-	async getAllByTeam(id) {
-		return await Team.find({ _id: id }, { 'projects._id': 1, 'projects.name': 1, 'projects.description': 1 });
-	},
+  async get(ids) {
+    const { teamId, projectId } = ids;
+    return await Project.findOne({
+      _id: projectId,
+      team: teamId
+    }).populate('users')
+      .populate('manager');
+  },
 
-	async delete(ids) {
-		const { teamId, projectId } = ids;
-		return await Team.findByIdAndUpdate({ _id: teamId }, { $pull: { projects: { _id: projectId } } });
-	},
+  async getByName(id, name) {
+    return await Team.findOne({
+      _id: id,
+      'projects.name': name
+    }).populate({
+      path: 'projects',
+      match: { name: name }
+    });
+  },
 
-	async update(ids, fields) {
-		await Team.updateOne(
-			{ _id: ids.teamId, 'projects._id': ids.projectId },
-			{ $set: { 'projects.$.name': fields.name, 'projects.$.description': fields.description } }
-		);
-	}
+  async getAllByTeam(id) {
+    return await Team.find({ _id: id })
+      .populate({
+        path: 'projects',
+        select: '_id name description'
+      });
+  },
+
+  async delete(ids) {
+    const { teamId, projectId } = ids;
+    // Delete the project
+    await Project.findByIdAndDelete(projectId);
+
+    // Update the team document to remove the deleted project
+    await Team.findOneAndUpdate(
+      { _id: teamId },
+      { $pull: { projects: projectId } }
+    );
+  },
+
+  async update(ids, fields) {
+    // Update the project document
+    await Project.findOneAndUpdate(
+      { _id: ids.projectId },
+      {
+        $set: {
+          name: fields.name,
+          description: fields.description
+        }
+      }
+    );
+  }
 };
 
 module.exports = ProjectRepository;

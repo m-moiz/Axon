@@ -11,8 +11,8 @@ const TeamSchema = mongoose.Schema({
 	users: [ { type: mongoose.Schema.Types.ObjectId, ref: 'User' } ],
 	manager: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 	members: { type: [ mongoose.Schema.Types.ObjectId ], default: undefined },
-	projects: { type: [ ProjectSchema ], default: undefined }
-});
+	projects: { type: [ mongoose.Schema.Types.ObjectId ], ref: 'Project', default: undefined }
+ });
 
 module.exports = {
 	Team: mongoose.model('Team', TeamSchema)

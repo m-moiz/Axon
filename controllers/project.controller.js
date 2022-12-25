@@ -15,7 +15,7 @@ exports.createProject = async (req, res) => {
 	const result = await Team.findOne({ _id: teamId, 'projects.name': projectName });
 	if (result === null) {
 		try {
-			await ProjectRepository.add(id, teamId, req.body);
+			await ProjectRepository.add(id, teamId, req.body, userId);
 			const ids = { teamId, id };
 			console.log(ids);
 			const [ projectManager, projectMember ] = await RoleAssigner.assignProjectManagerRole(userId, ids);

@@ -4,7 +4,7 @@ import MySelect from '../../components/my-select/my-select.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
-import { setTeamId, setTeamArray } from '../../store/team/team.actions';
+import { setTeamId, setTeamArray, setTeamUsers } from '../../store/team/team.actions';
 import { withRouter } from 'react-router-dom';
 import './find-team.styles.scss';
 import axios from 'axios';
@@ -45,6 +45,7 @@ class FindTeam extends Component {
 					onSubmit={(values, { setSubmitting }) => {
 						setSubmitting(true);
 						this.props.setTeamId(values.teams.id);
+						this.props.setTeamUsers(values.teams.users);
 						setSubmitting(false);
 						this.props.history.push('/empty');
 						this.props.history.replace('/projects');
@@ -93,7 +94,8 @@ class FindTeam extends Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setTeamId: (teamId) => dispatch(setTeamId(teamId)),
-		setTeamArray: (array) => dispatch(setTeamArray(array))
+		setTeamArray: (array) => dispatch(setTeamArray(array)),
+		setTeamUsers: (users) => dispatch(setTeamUsers(users))
 	};
 };
 

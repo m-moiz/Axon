@@ -89,7 +89,6 @@ class EditProject extends Component {
 						>
 							<CloseButton
 								fontSize="1.1rem"
-								fontSize="1.1rem"
 								bottom=".5rem"
 								color="grey"
 								action={this.props.toggleEditProjectModal}

@@ -1,104 +1,117 @@
-const Issue = require('../models/issue.model').Issue;
-const Team = require('../models/team.model').Team;
-const comment = require('../models/comment.model').Comment;
 const mongoose = require('mongoose');
+const { User } = require('../models/user.model');
+const { Project } = require('../models/project.model');
+const { Issue } = require('../models/issue.model');
 
 const IssueRepository = {
-	async add(ids, fields, id) {
-		const { teamId, projectId } = ids;
-		const issue = new Issue();
+  async add(ids, fields, id) {
+    const { projectId } = ids;
+    // Create a new issue document
+    const issue = new Issue({
+      _id: id,
+      createdBy: fields.createdBy,
+      creator: fields.creator,
+      summary: fields.summary,
+      issueType: fields.issueType,
+      assignee: fields.assignee,
+      version: fields.version,
+      status: fields.status,
+      reporter: fields.reporter,
+      description: fields.description,
+      priorityType: fields.priorityType,
+      dueDate: fields.dueDate,
+      environment: fields.environment
+    });
 
-		issue._id = id;
-		issue.createdBy = fields.createdBy;
-		issue.creator = fields.creator;
-		issue.summary = fields.summary;
-		issue.issueType = fields.issueType;
-		issue.assignee = fields.assignee;
-		issue.version = fields.version;
-		issue.status = fields.status;
-		issue.reporter = fields.reporter;
-		issue.description = fields.description;
-		issue.priorityType = fields.priorityType;
-		issue.dueDate = fields.dueDate;
-		issue.environment = fields.environment;
+    // Save the issue
+    await issue.save();
 
-		await Team.findOneAndUpdate(
-			{ _id: teamId, 'projects._id': projectId },
-			{
-				$push: {
-					'projects.$.issues': issue
-				}
-			}
-		);
-	},
+    // Update the users document to add the assigned issue to a user
+    await User.findOneAndUpdate(
+      { _id: fields.assignee },
+      { $push: { assigned: issue._id } }
+    );
 
-	async getAll(ids) {
-		const { teamId, projectId } = ids;
-		return await Team.findOne({ _id: teamId, 'projects._id': projectId }, {'projects.$': 1});
-	},
 
-	async get(ids) {
-		const { teamId, projectId, issueId } = ids;
-		return await Team.findOne({ _id: teamId, 'projects._id': projectId }, { 'projects.$.issues': issueId });
-	},
+    // Update the project document to add the new issue
+    await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $push: { issues: issue._id } }
+    );
+  },
 
-	async delete(ids) {
-		const { teamId, projectId, issueId } = ids;
+  async getAll(ids) {
+    const {projectId } = ids;
+    return await Project.findOne({ _id: projectId })
+      .populate('issues');
+  },
 
-		await Team.findOneAndUpdate(
-			{ _id: teamId, 'projects._id': projectId },
-			{
-				$pull: {
-					'projects.$.issues': { _id: issueId }
-				}
-			},
-			{ new: true }
-		);
+  async get(ids) {
+    const { issueId } = ids;
+    const issue = await Issue.findById(issueId)
+      .populate('users')
+      .populate('reporter', 'username -_id')
+      .populate('assignee', 'username -_id')
+      .lean()
+      .exec();
 
-		//All the referenced comments also need to be deleted
-		await comment.deleteMany({ discussion_id: issueId });
-	},
+    const reporterUsername = issue.reporter.username;
+    const assigneeUsername = issue.assignee.username;
+    
+    return {
+      ...issue,
+      reporter: reporterUsername,
+      assignee: assigneeUsername,
+    };
+  },
 
-	async update(ids, updates) {
-		const { teamId, projectId, issueId } = ids;
+  async delete(ids) {
+    const { projectId, issueId } = ids;
 
-		await Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$set: {
-					'projects.$[i].issues.$[j].issueType': updates.issueType,
-					'projects.$[i].issues.$[j].summary': updates.summary,
-					'projects.$[i].issues.$[j].reporter': updates.reporter,
-					'projects.$[i].issues.$[j].assignee': updates.assignee,
-					'projects.$[i].issues.$[j].description': updates.description,
-					'projects.$[i].issues.$[j].priorityType': updates.priorityType,
-					'projects.$[i].issues.$[j].dueDate': updates.dueDate,
-					'projects.$[i].issues.$[j].environment': updates.environment,
-					'projects.$[i].issues.$[j].status': updates.status,
-					'projects.$[i].issues.$[j].version': updates.version
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		);
-	},
+    // Delete the issue document
+    const issue = await Issue.findByIdAndDelete(issueId);
 
-	async updateStatus(ids, column, state) {
-		const { teamId, projectId, issueId } = ids;
-		await Team.findOneAndUpdate(
-			{ _id: teamId },
-			{
-				$set: {
-					'projects.$[i].issues.$[j].boardColumn': column,
-					'projects.$[i].issues.$[j].status': state
-				}
-			},
-			{
-				arrayFilters: [ { 'i._id': projectId }, { 'j._id': issueId } ]
-			}
-		);
-	}
+    // Remove the issue from the project document
+    await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $pull: { issues: issueId } }
+    );
+
+    //Remove the issue from the user document
+    await User.findOneAndUpdate(
+      { _id: issue.assignee },
+      { $pull: { assigned: issueId } }
+    );
+
+    // All the referenced comments also need to be deleted
+    await comment.deleteMany({ discussion_id: issueId });
+  },
+
+  async update(ids, updates) {
+    const { issueId } = ids;
+
+    // Update the issue document
+    await Issue.findByIdAndUpdate(issueId, {
+      issueType: updates.issueType,
+      summary: updates.summary,
+      reporter: updates.reporter,
+      assignee: updates.assignee,
+      description: updates.description,
+      priorityType: updates.priorityType,
+      dueDate: updates.dueDate,
+      environment: updates.environment,
+      status: updates.status,
+      version: updates.version
+    });
+  },
+
+  async updateStatus(ids, column, state) {
+    const { issueId } = ids;
+    await Issue.findByIdAndUpdate(issueId, {
+      boardColumn: column,
+      status: state
+    });
+  }
 };
 
 module.exports = IssueRepository;

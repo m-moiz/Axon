@@ -7,7 +7,8 @@ const INITIAL_STATE = {
 	shouldEditTeams: false,
 	isDeleteTeamModalOpen: false,
 	isCreateTeamModalOpen: false,
-	isEditTeamModalOpen: false
+	isEditTeamModalOpen: false,
+	allUsersInTeam: ''
 };
 
 export const teamReducer = (state = INITIAL_STATE, action = {}) => {
@@ -16,6 +17,8 @@ export const teamReducer = (state = INITIAL_STATE, action = {}) => {
 			return { ...state, teamId: action.payload };
 		case teamActionTypes.SET_TEAMS_ARRAY:
 			return { ...state, allTeamsOfUser: action.payload };
+		case teamActionTypes.SET_TEAM_USERS:
+			return { ...state, allUsersInTeam: action.payload };
 		case teamActionTypes.TOGGLE_CREATE_TEAM_MODAL:
 			return { ...state, isCreateTeamModalOpen: !state.isCreateTeamModalOpen };
 		case teamActionTypes.TOGGLE_DELETE_TEAM_MODAL:

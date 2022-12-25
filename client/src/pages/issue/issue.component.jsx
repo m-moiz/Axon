@@ -22,6 +22,7 @@ import { selectUsername } from '../../store/user/user.selectors';
 import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../store/message/message.selectors';
 import { setCommentsArray } from '../../store/comment/comment.actions';
+import { isIssueCreator } from '../../permissions';
 import { connect } from 'react-redux';
 
 const Title = styled.h3`
@@ -106,9 +107,9 @@ class IssuePage extends Component {
 			}
 		});
 
-		this.props.setCurrentIssue(
-			rep.data.issue.projects[0].issues.find((issue) => issue._id === this.props.match.params.issueId)
-		);
+		console.log(rep);
+
+		this.props.setCurrentIssue(rep.data.issue);
 
 		const resp = await axios({
 			method: 'get',
@@ -122,9 +123,9 @@ class IssuePage extends Component {
 	}
 
 	render() {
-		const { username, comments, projectName } = this.props;
+		const { username, comments, projectName, userId, currentIssue } = this.props;
 
-		const isCreator = this.props.userId === this.props.currentIssue.creator;
+		const isCreator = isIssueCreator(userId, currentIssue.creator);
 
 		return (
 			<PageContainer>

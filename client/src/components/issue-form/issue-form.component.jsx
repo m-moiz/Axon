@@ -30,6 +30,7 @@ function IssueForm({
 	type,
 	handleSubmit,
 	modalAction,
+	users,
 	errors,
 	touched,
 	values,
@@ -67,20 +68,24 @@ function IssueForm({
 				isSelectInput
 				border
 				small
+				placeholder="Issue type"
 				error={errors.issueType}
 				touched={touched.issueType}
 			>
 				{issueTypes.map((item, index) => <option key={index}>{item}</option>)}
 			</Field>
 
-			<Field
-				inputName="Reporter"
+			<MySelect
+				label="Reporter"
 				name="reporter"
-				small
-				as={FormInput}
-				placeholder="Reporter name"
+				value={values.reporter}
+				onChange={setFieldValue}
+				onBlur={setFieldTouched}
 				error={errors.reporter}
 				touched={touched.reporter}
+				options={users.map((user, index) => ({ value: user._id, label: user.username }))}
+				styles={customStyles}
+				width="50%"
 			/>
 
 			<MySelect
@@ -91,7 +96,7 @@ function IssueForm({
 				onBlur={setFieldTouched}
 				error={errors.assignee}
 				touched={touched.assignee}
-				options={projectMembers}
+				options={users.map((user, index) => ({ value: user._id , label: user.username }))}
 				styles={customStyles}
 				width="50%"
 			/>

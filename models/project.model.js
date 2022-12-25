@@ -5,13 +5,13 @@ const { IssueSchema } = require('./issue.model');
 const ProjectSchema = mongoose.Schema({
 	_id: { type: mongoose.Schema.Types.ObjectId, required: true },
 	name: { type: String, required: true },
-	teamId: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
+	team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team' },
 	users: [ { type: mongoose.Schema.Types.ObjectId, ref: 'User' } ],
 	manager: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
 	projectMembers: { type: [ UserSchema ], default: undefined },
 	description: { type: String },
 	numOfIssues: { type: Number, default: 0 },
-	issues: { type: [ IssueSchema ], default: undefined }
+	issues: { type: [ mongoose.Schema.Types.ObjectId ], ref: 'Issue', default: undefined }
 });
 
 module.exports = {

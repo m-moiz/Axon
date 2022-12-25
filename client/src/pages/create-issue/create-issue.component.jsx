@@ -31,6 +31,7 @@ const CreateIssue = ({
 	username,
 	projectId,
 	teamId,
+	users,
 	toggleCreateIssueModal,
 	setMessageText,
 	addRoles,
@@ -87,8 +88,8 @@ const CreateIssue = ({
 										createdBy: values.username,
 										creator: userId,
 										issueType: values.issueType,
-										reporter: values.reporter,
-										assignee: values.assignee,
+										reporter: values.reporter.value,
+										assignee: values.assignee.value,
 										status: values.status,
 										summary: values.summary,
 										description: convertedData,
@@ -114,6 +115,7 @@ const CreateIssue = ({
 									type="create"
 									modalAction={toggleCreateIssueModal}
 									values={values}
+									users={users}
 									errors={errors}
 									projectMembers={projectMembers}
 									handleSubmit={handleSubmit}
@@ -144,7 +146,8 @@ const mapStateToProps = (state) => {
 		isCreateIssueModalOpen: state.issue.isCreateIssueModalOpen,
 		username: state.user.username,
 		projectId: state.project.projectId,
-		teamId: selectTeamId(state)
+		teamId: selectTeamId(state),
+		users: state.team.allUsersInTeam,
 	};
 };
 

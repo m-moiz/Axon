@@ -13,7 +13,7 @@ const IssueSchema = mongoose.Schema({
 	boardColumn: { type: String, required: false },
 	createdBy: { type: String, required: true },
 	creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-	creationDate: { type: mongoose.Schema.Types.Date, default: new Date().toISOString(), required: true },
+	creationDate: { type: mongoose.Schema.Types.Date, default: new Date().toISOString(), required: true},
 	resolutionDate: { type: mongoose.Schema.Types.Date, default: undefined, required: false },
 	dueDate: { type: Date, default: new Date().toISOString(), required: true },
 	version: { type: String, default: undefined, required: true },

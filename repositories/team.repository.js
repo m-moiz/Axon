@@ -1,3 +1,5 @@
+const { User } = require('../models/user.model');
+
 const Team = require('../models/team.model').Team;
 
 const TeamRepository = {
@@ -16,7 +18,13 @@ const TeamRepository = {
 	},
 
 	async getAll() {
-		return await Team.find({}, { _id: 1, name: 1 });
+		return await Team.find({})
+			.populate({
+				path: 'users',
+				select: 'username',
+				model: User
+			})
+			.select({ _id: 1, name: 1, users: 1 });
 	},
 
 	async delete(id) {

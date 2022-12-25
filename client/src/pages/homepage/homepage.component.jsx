@@ -18,13 +18,14 @@ class Hompepage extends Component {
 	render() {
 		let component;
 
-		if (this.props.isAdmin && !this.props.teamId) {
-			component = <CreateTeam />;
-		} else if (!this.props.isAdmin && !this.props.teamId) {
+		// Authenticating user
+		//if (this.props.isAdmin && !this.props.teamId) {
+		//	component = <CreateTeam />;
+		//} else if (!this.props.isAdmin && !this.props.teamId) {
 			component = <FindTeam />;
-		} else if (this.props.teamId) {
-			component = <ProjectsPage />;
-		}
+		//} else if (this.props.teamId) {
+		//	component = <ProjectsPage />;
+		//}
 
 		return <React.Fragment>{component}</React.Fragment>;
 	}
