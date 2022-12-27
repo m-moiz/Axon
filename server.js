@@ -10,7 +10,7 @@ const enforce = require('express-sslify');
 const app = express();
 const routes = require('./routes/routes');
 const redisClient = require('./redis');
-const Redis = require("redis");
+const Redis = require("ioredis");
 const redisMonitor = Redis.createClient();
 
 app.use(helmet());

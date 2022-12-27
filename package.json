@@ -27,12 +27,12 @@
 		"express-sslify": "^1.2.0",
 		"forever": "^2.0.0",
 		"helmet": "^3.21.2",
+		"ioredis": "^5.2.4",
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^5.7.6",
 		"node-redis-retry-strategy": "^1.0.10",
 		"passport": "^0.4.1",
 		"passport-github2": "^0.1.11",
-		"redis": "2.8.0",
 		"uuid": "^7.0.2",
 		"winston": "^3.2.1"
 	},

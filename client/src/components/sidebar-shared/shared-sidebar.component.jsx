@@ -53,7 +53,7 @@ const SharedSidebar = ({
 			<SideBarItemsList isSidebarSubcategoryOpen={isProjectsSubcategoryOpen} items={projects} />
 		</SideBarSubCategory>
 
-		<SideBarSubCategory  subcategoryName="issues" > <li>View Assigned </li></SideBarSubCategory>
+		<SideBarSubCategory  subcategoryName="issues" ></SideBarSubCategory>
 
 		<SideBarSubCategory toggleSidebarSubcategory={toggleToolsSubcategory} subcategoryName="tools">
 			<SideBarTools isSidebarSubcategoryOpen={isToolsSubcategoryOpen}>
