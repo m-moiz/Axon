@@ -28,7 +28,7 @@
 		"forever": "^2.0.0",
 		"helmet": "^3.21.2",
 		"ioredis": "^5.2.4",
-		"jsonwebtoken": "^8.5.1",
+		"jsonwebtoken": "^9.0.0",
 		"mongoose": "^5.7.6",
 		"node-redis-retry-strategy": "^1.0.10",
 		"passport": "^0.4.1",
