@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
-const redis = require('redis');
 const redisClient = require('../redis');
 
 const jwtToken = {
 	putTokenInDb(token, username, db) {
-		db.set(token, username, redis.print);
+		db.set(token, username);
 	},
 
 	removeTokenFromDb(token, db) {
