@@ -5,6 +5,7 @@ const projectController = require('../controllers/project.controller');
 const commentController = require('../controllers/comment.controller');
 const teamController = require('../controllers/team.controller');
 const imageController = require('../controllers/image.controller');
+const {getIssue, getIssues, createIssue, createProject, createTeam, createUser, getProject, getProjects, getTeam, getTeams, getUser, getUsers, updateIssue, updateIssueBoardColumn, updateProject, updateUser, toggleStatus, deleteIssue, deleteProject, deleteTeam, deleteUser, findTeamWithTeamName, handleSignOut, findUserWithUsername, getComments, createComment, updateComment, deleteComment} = require('../routes/urls');
 const permissions = require('../middleware/permissions');
 const requireAuth = require('../middleware/authorization').requireAuth;
 
@@ -12,103 +13,104 @@ const router = new Router();
 
 router.get('/image/:userId', requireAuth, imageController.upload);
 
-router.get('/issues/:teamId&:projectId', requireAuth, issueController.getIssues);
+router.get(getIssues, requireAuth, issueController.getIssues);
 
-router.get('/issue/:teamId&:projectId&:issueId', requireAuth, issueController.getIssue);
+router.get(getIssue, requireAuth, issueController.getIssue);
 
 router.post(
-	'/issue/:teamId&:projectId&:userId/create',
+	createIssue,
 	requireAuth,
 	issueController.createIssue
 );
 
 router.put(
-	'/issue/:teamId&:projectId&:issueId&:userId/updateBoardColumn',
+	updateIssueBoardColumn,
 	issueController.updateIssueBoardColumn
 );
 
 router.put(
-	'/issue/:teamId&:projectId&:issueId&:userId/toggleStatus',
+	toggleStatus,
 	requireAuth,
 	issueController.toggleStatus
 );
 
 router.put(
-	'/issue/:teamId&:projectId&:issueId&:userId/update',
+	updateIssue,
 	requireAuth,
 	issueController.updateIssue
 );
 
 router.delete(
-	'/issue/:teamId&:projectId&:issueId&:userId/delete',
+	deleteIssue,
 	requireAuth,
 	issueController.deleteIssue
 );
 
-router.post('/user/findUser', UserController.findUserWithUsername);
+router.post(findUserWithUsername, UserController.findUserWithUsername);
 
-router.post('/user', UserController.getUser);
+router.post(getUser, UserController.getUser);
 
-router.post('/user/signout', UserController.handleSignOut);
+router.post(handleSignOut, UserController.handleSignOut);
 
-router.get('/users', requireAuth, UserController.getUsers);
+router.get(getUsers, requireAuth, UserController.getUsers);
 
-router.post('/user/create', UserController.createUser);
+router.post(createUser, UserController.createUser);
 
-router.put('/user/:id/update', requireAuth, UserController.updateUser);
+router.put(updateUser, requireAuth, UserController.updateUser);
 
-router.delete('/user/:id/delete', requireAuth, UserController.deleteUser);
+router.delete(deleteUser, requireAuth, UserController.deleteUser);
 
-router.get('/team', requireAuth, teamController.getTeam);
+router.get(getTeam, requireAuth, teamController.getTeam);
 
-router.get('/teams', requireAuth, teamController.getTeams);
+router.get(getTeams, requireAuth, teamController.getTeams);
 
-router.post('/team/find', requireAuth, teamController.findTeamWithTeamName);
+router.post(findTeamWithTeamName, requireAuth, teamController.findTeamWithTeamName);
 
-router.post('/team/create', requireAuth, teamController.createTeam);
+router.post(createTeam, requireAuth, teamController.createTeam);
 
 router.delete(
-	'/team/:teamId&:userId/delete',
+	deleteTeam,
 	requireAuth,
 	teamController.deleteTeam
 );
 
-router.get('/projects/:teamId', requireAuth, projectController.getProjects);
+router.get(getProjects, requireAuth, projectController.getProjects);
 
-router.get('/project/:teamId', requireAuth, projectController.getProject);
+router.get(getProject, requireAuth, projectController.getProject);
 
 router.post(
-	'/project/:teamId&:userId/create',
+	createProject,
 	requireAuth,
 	projectController.createProject
 );
 
 router.put(
-	'/project/:teamId&:projectId&:userId/update',
+	updateProject,
 	requireAuth,
 	projectController.updateProject
 );
 
 router.delete(
-	'/project/:teamId&:projectId&:userId/delete',
+	deleteProject,
 	requireAuth,
 	projectController.deleteProject
 );
 
-router.get('/comment/:issueId', requireAuth, commentController.getComments);
+router.get(getComments, requireAuth, commentController.getComments);
 
 router.post(
-	'/comment/:issueId&:userId/create',
+	createComment,
 	requireAuth,
 	commentController.createComment
 );
 
-router.put('/comment/:commentId/update', requireAuth, commentController.updateComment);
+router.put(updateComment, requireAuth, commentController.updateComment);
 
 router.delete(
-	'/comment/:commentId&:userId/delete',
+	deleteComment,
 	requireAuth,
 	commentController.deleteComment
 );
+
 
 module.exports = router;

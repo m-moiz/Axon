@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { User } = require('../models/user.model');
 const { Project } = require('../models/project.model');
 const { Issue } = require('../models/issue.model');
+const comment = require('../models/comment.model').Comment;
 
 const IssueRepository = {
   async add(ids, fields, id) {
@@ -69,7 +70,7 @@ const IssueRepository = {
     const { projectId, issueId } = ids;
 
     // Delete the issue document
-    const issue = await Issue.findByIdAndDelete(issueId);
+    const issue = await Issue.findById(issueId);
 
     // Remove the issue from the project document
     await Project.findOneAndUpdate(
@@ -85,6 +86,10 @@ const IssueRepository = {
 
     // All the referenced comments also need to be deleted
     await comment.deleteMany({ discussion_id: issueId });
+
+    await Issue.findByIdAndDelete(issueId);
+
+    
   },
 
   async update(ids, updates) {

@@ -60,8 +60,7 @@ class EditProject extends Component {
 						setSubmitting(true);
 						axios({
 							method: 'put',
-							url: `/api/project/${this.props.teamId}&${this.props.projectId}&
-							${this.props.userId}/update`,
+							url: `/api/project/${this.props.projectId}/update`,
 							headers: {
 								'Content-Type': 'application/json',
 								Authorization: window.sessionStorage.getItem('token')

@@ -36,7 +36,6 @@ function IssueForm({
 	values,
 	setFieldValue,
 	setFieldTouched,
-	projectMembers
 }) {
 	let title = '';
 	let buttonText = '';
@@ -83,7 +82,7 @@ function IssueForm({
 				onBlur={setFieldTouched}
 				error={errors.reporter}
 				touched={touched.reporter}
-				options={users.map((user, index) => ({ value: user._id, label: user.username }))}
+				options={users.map((user) => ({ value: user._id, label: user.username }))}
 				styles={customStyles}
 				width="50%"
 			/>
@@ -96,7 +95,7 @@ function IssueForm({
 				onBlur={setFieldTouched}
 				error={errors.assignee}
 				touched={touched.assignee}
-				options={users.map((user, index) => ({ value: user._id , label: user.username }))}
+				options={users.map((user) => ({ value: user._id , label: user.username }))}
 				styles={customStyles}
 				width="50%"
 			/>
@@ -171,11 +170,11 @@ function IssueForm({
 			/>
 
 			<ModalFooter>
-				<CustomButton isSecondary width="100%">
+				<CustomButton handleClick={modalAction} isSecondary width="100%">
 					Cancel
 				</CustomButton>
 
-				<CustomButton type="submit" width="100%">
+				<CustomButton id="custom-button" type="submit" width="100%">
 					{buttonText}
 				</CustomButton>
 			</ModalFooter>

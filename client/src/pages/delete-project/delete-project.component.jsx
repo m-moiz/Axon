@@ -23,8 +23,7 @@ class DeleteProject extends Component {
 					onSubmit={() => {
 						axios({
 							method: 'delete',
-							url: `/api/project/${this.props.teamId}&${this.props.projectId}&
-							${this.props.userId}/delete`,
+							url: `/api/project/${this.props.teamId}&${this.props.projectId}/delete`,
 							headers: {
 								Authorization: window.sessionStorage.getItem('token')
 							}

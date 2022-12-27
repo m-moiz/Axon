@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import './notification-modal.styles.scss';
 
 function NotificationModal({ isNotificationModalOpen }) {
-	console.log(isNotificationModalOpen);
 	return (
 		<React.Fragment>
 			{isNotificationModalOpen ? (

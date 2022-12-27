@@ -112,7 +112,7 @@ export class BoardManager {
 	dropToDifferentColumn() {
 		axios({
 			method: 'put',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${draggableId}/updateBoardColumn`,
+			url: `/api/issue/${draggableId}/updateBoardColumn`,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: window.sessionStorage.getItem('token')

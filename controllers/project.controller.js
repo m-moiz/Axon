@@ -56,7 +56,6 @@ exports.updateProject = async (req, res) => {
 };
 
 exports.deleteProject = async (req, res) => {
-	const { userId, projectId } = req.params;
 
 	const team = await ProjectRepository.delete(req.params);
 	if (!team) return res.status(500).json({ message: "Couldn't delete project" });

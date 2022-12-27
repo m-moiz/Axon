@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { sortByKey } from '../../utils/sort';
+const sortByKey = require('../../utils/sort');
 
 const selectIssue = (state) => state.issue;
 
@@ -71,6 +71,7 @@ export const selectFilteredAndSortedIssues = createSelector(
 	[ selectSearchFilteredIssues, selectSortType ],
 	(issues, sortType) => {
 		if (Array.isArray(issues) && issues.length > 0 && sortType) {
+			console.log(sortType);
 			issues = sortByKey(issues, sortType);
 			return issues;
 		} else if (Array.isArray(issues) && issues.length > 0 && !sortType) {

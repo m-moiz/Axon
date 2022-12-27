@@ -38,7 +38,6 @@ const CreateIssue = ({
 	closingMessageAfterOpening,
 	history
 }) => {
-	const [ projectMembers, setProjectMembers ] = useState([]);
 
 	return (
 		<Transition
@@ -79,7 +78,7 @@ const CreateIssue = ({
 								setSubmitting(true);
 								axios({
 									method: 'post',
-									url: `/api/issue/${teamId}&${projectId}&${userId}/create`,
+									url: `/api/issue/${projectId}&${userId}/create`,
 									headers: {
 										'Content-Type': 'application/json',
 										Authorization: window.sessionStorage.getItem('token')
@@ -117,7 +116,6 @@ const CreateIssue = ({
 									values={values}
 									users={users}
 									errors={errors}
-									projectMembers={projectMembers}
 									handleSubmit={handleSubmit}
 									touched={touched}
 									setFieldValue={setFieldValue}

@@ -86,8 +86,7 @@ class IssuePage extends Component {
 
 		axios({
 			method: 'put',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}&
-			${this.props.userId}/toggleStatus`,
+			url: `/api/issue/${this.props.issueId}/toggleStatus`,
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: window.sessionStorage.getItem('token')
@@ -101,7 +100,7 @@ class IssuePage extends Component {
 	async componentDidMount() {
 		const rep = await axios({
 			method: 'get',
-			url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.match.params.issueId}`,
+			url: `/api/issue/${this.props.match.params.issueId}`,
 			headers: {
 				Authorization: window.sessionStorage.getItem('token')
 			}

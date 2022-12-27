@@ -30,12 +30,12 @@ import {
 	selectIsStatusOptionsBoxOpen,
 	selectIsShowingDeleteButton,
 	selectIsShowingEditButton,
-	selectSearchFilteredIssues
+	selectFilteredAndSortedIssues
 } from '../../store/issue/issue.selectors';
 import { selectProjectName, selectProjectId } from '../../store/project/project.selectors';
 import { selectIsSidebarOpen } from '../../store/sidebar/sidebar.selectors';
 import { selectMessageText } from '../../store/message/message.selectors';
-import { issueTypes, statusTypes } from '../../types/types';
+import { issueTypes, sortTypes, statusTypes } from '../../types/types';
 import { connect } from 'react-redux';
 import './issues.styles.scss';
 
@@ -60,14 +60,15 @@ class IssuesPage extends Component {
 		super(props);
 		this.state = {
 			statusOptions: statusTypes,
-			labelOptions: issueTypes
+			labelOptions: issueTypes,
+			sortOptions: sortTypes
 		};
 	}
 
 	fetchIssues = () => {
 		axios({
 			method: 'get',
-			url: `/api/issues/${this.props.teamId}&${this.props.projectId}`,
+			url: `/api/issues/${this.props.projectId}`,
 			headers: {
 				Authorization: window.sessionStorage.getItem('token')
 			}
@@ -136,6 +137,17 @@ class IssuesPage extends Component {
 				<PageContentContainer>
 					<Title isDarkTheme={this.props.isDarkTheme}>{this.props.projectName}</Title>
 					<SearchBar />
+					{this.props.isSortOptionsBoxOpen ? (
+						<OptionsBox
+							listItems={this.state.sortOptions}
+							type="sort"
+							headerTitle="Sort By"
+							right="20vw"
+							bottom="45vh"
+						/>
+					) : (
+						''
+					)}
 					{this.props.isStatusOptionsBoxOpen ? (
 						<OptionsBox
 							listItems={this.state.statusOptions}
@@ -185,7 +197,7 @@ const mapStateToProps = (state) => {
 		userId: selectUserId(state),
 		teamId: selectTeamId(state),
 		projectId: selectProjectId(state),
-		issues: selectSearchFilteredIssues(state),
+		issues: selectFilteredAndSortedIssues(state),
 		projectName: selectProjectName(state),
 		isSidebarOpen: selectIsSidebarOpen(state),
 		messageText: selectMessageText(state),

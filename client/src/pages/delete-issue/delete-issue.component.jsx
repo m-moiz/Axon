@@ -22,8 +22,8 @@ class DeleteIssue extends Component {
 					onSubmit={() => {
 						axios({
 							method: 'delete',
-							url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props.issueId}&
-							${this.props.issueId}/delete`,
+							url: `/api/issue/${this.props.projectId}&${this.props.issueId}&
+							${this.props.userId}/delete`,
 							headers: {
 								Authorization: window.sessionStorage.getItem('token')
 							}

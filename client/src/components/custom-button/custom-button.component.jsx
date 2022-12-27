@@ -49,6 +49,7 @@ const CustomButton = ({
 	isSubmitting,
 	width,
 	left,
+	id,
 	bottom,
 	top,
 	marginRight,
@@ -60,6 +61,7 @@ const CustomButton = ({
 }) => (
 	<div className="custom-button">
 		<Button
+		    id={id}
 			type={type}
 			onClick={handleClick}
 			disabled={isSubmitting}

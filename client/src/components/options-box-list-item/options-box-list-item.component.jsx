@@ -52,13 +52,17 @@ function OptionsBoxListItem({
 				toggleStatusOptionsBox();
 			}
 		} else if (type === 'sort') {
-			if (sortType === item) {
+			console.log(`Sort Type: ${sortType}, Item: ${item}`);
+			if (sortType === 'Highest Priority' && item === 'Priority') {
 				setSortType('');
 				toggleSortOptionsBoxItem();
 				toggleSortOptionsBox();
 			} else {
-				console.log('hello');
-				setSortType(item);
+				if(item === 'Priority'){
+					setSortType('Highest Priority');
+				}else{
+					setSortType(item);
+				}
 				toggleSortOptionsBoxItem();
 				toggleSortOptionsBox();
 			}

@@ -1,4 +1,4 @@
-export function sortByKey(array, key) {
+function sortByKey(array, key) {
 	quickSort(array, 0, array.length - 1, key);
 	return array;
 }
@@ -61,3 +61,5 @@ function partition(array, left, right, key) {
 	array = swapItems(array, right, pIndex);
 	return pIndex;
 }
+
+module.exports = sortByKey;

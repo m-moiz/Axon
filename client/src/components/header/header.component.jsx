@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 import { selectIsUserSignedIn } from '../../store/user/user.selectors';
 import logo from './PixelArt.png';
 import './header.styles.scss';
+import NotificationModalComponent from '../notification-modal/notification-modal.component';
 
 const Header = ({ isSignedIn, signOut, toggleAppTheme, isDarkTheme }) => (
 	<div className="header">
@@ -52,6 +53,7 @@ const Header = ({ isSignedIn, signOut, toggleAppTheme, isDarkTheme }) => (
 					''
 				)}
 				{isSignedIn ? <Notification /> : ''}
+				<NotificationModalComponent />
 				<Form inline>
 					{isSignedIn ? (
 						<React.Fragment>

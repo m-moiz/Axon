@@ -7,9 +7,8 @@ const UserRepository = require('../repositories/user.repository');
 const validateIssue = require('../validators/validators').validateIssue;
 
 exports.createIssue = async (req, res) => {
-	let { teamId, projectId, userId } = req.params;
+	let { projectId, userId } = req.params;
 	const issueId = new mongoose.Types.ObjectId();
-	teamId = mongoose.Types.ObjectId(teamId);
 	projectId = mongoose.Types.ObjectId(projectId);
 
 	try {
@@ -43,13 +42,10 @@ exports.getIssue = async (req, res) => {
 	}
 };
 
-//Use findOneAndUpdate for arrayFilters feature in mongoose?
 exports.updateIssue = async (req, res) => {
-	let { teamId, projectId, issueId } = req.params;
+	let { issueId } = req.params;
 
 	//validateIssue(validationObject);
-	teamId = mongoose.Types.ObjectId(teamId);
-	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
 
 	try {
@@ -106,8 +102,7 @@ exports.toggleStatus = async (req, res) => {
 };
 
 exports.deleteIssue = async (req, res) => {
-	let { teamId, projectId, issueId, userId } = req.params;
-	teamId = mongoose.Types.ObjectId(teamId);
+	let { projectId, issueId, userId } = req.params;
 	projectId = mongoose.Types.ObjectId(projectId);
 	issueId = mongoose.Types.ObjectId(issueId);
 

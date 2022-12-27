@@ -93,8 +93,7 @@ class EditIssue extends Component {
 									);
 									axios({
 										method: 'put',
-										url: `/api/issue/${this.props.teamId}&${this.props.projectId}&${this.props
-											.issueId}&${this.props.userId}/update`,
+										url: `/api/issue/${this.props.issueId}/update`,
 										headers: {
 											'Content-Type': 'application/json',
 											Authorization: window.sessionStorage.getItem('token')
@@ -102,8 +101,8 @@ class EditIssue extends Component {
 										data: {
 											createdBy: values.username,
 											issueType: values.issueType,
-											reporter: values.reporter,
-											assignee: values.assignee,
+											reporter: values.reporter.value,
+											assignee: values.assignee.value,
 											status: values.status,
 											summary: values.summary,
 											description: convertedData,
@@ -129,10 +128,11 @@ class EditIssue extends Component {
 										values={values}
 										errors={errors}
 										handleSubmit={handleSubmit}
+										users={this.props.users}
 										touched={touched}
 										setFieldValue={setFieldValue}
 										setFieldTouched={setFieldTouched}
-										modalAction={toggleEditIssueModal}
+										modalAction={this.props.toggleEditIssueModal}
 									/>
 								)}
 							</Formik>
@@ -159,7 +159,8 @@ const mapStateToProps = (state) => {
 		issueId: state.issue.issueId,
 		currentIssue: selectCurrentIssue(state),
 		teamId: selectTeamId(state),
-		username: state.user.username
+		username: state.user.username,
+		users: state.team.allUsersInTeam
 	};
 };
 
