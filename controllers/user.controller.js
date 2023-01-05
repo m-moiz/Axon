@@ -32,13 +32,13 @@ const handleSignIn = async (req, res) => {
 	const passwordsMatch = await bcrypt.compare(password, user.password);
 
 	if (passwordsMatch) {
-		const token = jwtToken.createSession(user);
+		//const token = jwtToken.createSession(user);
 		return res.status(200).json({
 			success: 'true',
 			username: user.username,
 			userId: user._id,
 			roles: user.roles,
-			token: token
+			//token: token
 		});
 	} else {
 		return res.status(500).json({ message: 'Failed ' });
@@ -80,14 +80,14 @@ const userController = {
 	},
 
 	handleSignOut(req, res) {
-		jwtToken.removeTokenFromDb(req.body.token, redisClient);
+		//jwtToken.removeTokenFromDb(req.body.token, redisClient);
 		return res.status(200).json({ message: 'success' });
 	},
 
 	//for handling sign in/up taking username, email etc
 	getUser(req, res) {
-		const { token } = req.headers;
-		token ? jwtToken.checkTokenInDb(req, res, redisClient) : handleSignIn(req, res);
+		//const { token } = req.headers;
+		handleSignIn(req, res);
 	},
 
 	//only takes username

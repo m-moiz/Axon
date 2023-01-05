@@ -9,9 +9,6 @@ const cors = require('cors');
 const enforce = require('express-sslify');
 const app = express();
 const routes = require('./routes/routes');
-const redisClient = require('./redis');
-const Redis = require("ioredis");
-const redisMonitor = Redis.createClient();
 
 app.use(helmet());
 app.use(cors());
@@ -35,19 +32,6 @@ let MONGODB_URI = process.env.MONGODB_URI;
 if (process.env.NODE_ENV === 'test') {
 	MONGODB_URI = process.env.TEST_MONGODB_URI;
 }
-
-
-redisMonitor.monitor(function(err, res) {
-	console.log('Entering monitoring mode.');
-});
-
-redisClient.on('connect', function(err) {
-	console.log('Connected to Redis');
-});
-
-redisMonitor.on('monitor', function(time, args, rawReply) {
-	console.log(time + ': ' + args);
-});
 
 
 const mongodb = MONGODB_URI;
